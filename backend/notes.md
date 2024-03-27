@@ -1,0 +1,1 @@
+npm start will run the /bin/www in nodemon when started in the development environment with the environment variables in the .env file loaded, or in node when started in production.
