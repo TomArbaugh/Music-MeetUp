@@ -9,14 +9,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
 
-  // Log out
-  router.delete(
-    '/',
-    (_req, res) => {
-      res.clearCookie('token');
-      return res.json({ message: 'success' });
-    }
-  );
+
 
   const validateLogin = [
     check('credential')
@@ -89,7 +82,14 @@ router.get(
     }
   );
   
-
+  // Log out
+  router.delete(
+    '/',
+    (_req, res) => {
+      res.clearCookie('token');
+      return res.json({ message: 'success' });
+    }
+  );
   // ...
 
 
