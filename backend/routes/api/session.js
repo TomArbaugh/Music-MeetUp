@@ -7,6 +7,15 @@ const { User } = require('../../db/models');
 
 const router = express.Router();
 
+  // Log out
+  router.delete(
+    '/',
+    (_req, res) => {
+      res.clearCookie('token');
+      return res.json({ message: 'success' });
+    }
+  );
+
 // Log in
 router.post(
     '/',
@@ -44,5 +53,7 @@ router.post(
     }
   );
 
-  
+
+
+
 module.exports = router;
