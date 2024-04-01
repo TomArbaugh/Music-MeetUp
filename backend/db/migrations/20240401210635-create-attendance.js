@@ -5,9 +5,10 @@ let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
+
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('EventImages', {
+    await queryInterface.createTable('Attendances', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -18,11 +19,12 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {model: 'Events'}
       },
-      url: {
-        type: Sequelize.STRING
+      userId: {
+        type: Sequelize.INTEGER,
+        references: {model: 'Users'}
       },
-      preview: {
-        type: Sequelize.BOOLEAN
+      status: {
+        type: Sequelize.ENUM
       },
       createdAt: {
         allowNull: false,
@@ -37,7 +39,7 @@ module.exports = {
     }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = 'EventImages';
+    options.tableName = 'Attendances';
     await queryInterface.dropTable(options);
   }
 };
