@@ -1,4 +1,7 @@
 'use strict';
+const { Attendance } = require('../models');
+const bcrypt = require("bcryptjs");
+
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
@@ -15,7 +18,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   await attendance.bulkCreate([
+   await Attendance.bulkCreate([
     {
       eventId: 1,
       userId: 1,

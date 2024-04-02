@@ -66,6 +66,7 @@ router.post(
 router.get(
     '/',
     (req, res) => {
+      console.log('hello')
       const { user } = req;
       if (user) {
         const safeUser = {
@@ -91,6 +92,7 @@ router.get(
     }
   );
   // ...
+
 
 
 module.exports = router;
