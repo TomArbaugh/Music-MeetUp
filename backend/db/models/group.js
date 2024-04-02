@@ -39,7 +39,12 @@ module.exports = (sequelize, DataTypes) => {
     organizerId: DataTypes.INTEGER,
     name: DataTypes.STRING,
     about: DataTypes.STRING,
-    type: DataTypes.ENUM,
+    type: {
+      type: DataTypes.ENUM({
+        values: ['Social', 'Work']
+      })
+      
+    },
     private: DataTypes.BOOLEAN,
     city: DataTypes.STRING,
     state: DataTypes.STRING
