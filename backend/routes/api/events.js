@@ -40,10 +40,35 @@ router.get('/:eventId', async (req, res) => {
 
 
 router.get('/', async (req, res) => {
+
+    let { page, size, name, type, startDate } = req.query
+
+    page = parseInt(page);
+    size = parseInt(size);
+
+    if (isNaN(page)) page = 1
+    if (page > 10) throw new Error()
+    if (isNaN(size)) size = 20
+    if (size > 20) throw new Error()
+
+    const pagination = {}
+    pagination.limit = size
+    pagination.offset = size * (page -1)
+
+    const where = {}
+    if (name) where.name = name
+    if (type) where.type = type
+    if (startDate) where.startDate = startDate
+    if(name === undefined && type === undefined && startDate === undefined) delete where
+
     const events = await Event.findAll({
-        include: [Group, Venue, Attendance]
+        where,
+        include: [Group, Venue, Attendance],
+        ...pagination
     })
-    res.json({events})
+    res.json({
+        events
+    })
 });
 
 router.post('/:eventId/attendance', requireAuth, async (req, res) => {
