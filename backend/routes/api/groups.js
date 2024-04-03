@@ -2,14 +2,26 @@ const express = require('express');
 const { Op } = require('sequelize');
 // const bcrypt = require('bcryptjs');
 // const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const { Group, GroupImage } = require('../../db/models');
+const { Group, GroupImage, Venue } = require('../../db/models');
 // const { check } = require('express-validator');
 // const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
 
 const { requireAuth } = require('../../utils/auth.js');
 
+router.get('/:groupId/venues', requireAuth, async (req, res) => {
+    const group = await Group.findByPk(req.params.groupId, {
+        include: Venue
+    });
 
+    if (!group) {
+        res.status(404);
+        res.json({
+            "message": "Group couldn't be found"
+          })
+    }
+    res.json(group.Venues)
+})
 
 router.get('/current', requireAuth, async (req, res) => {
     
@@ -87,6 +99,27 @@ router.post('/:groupId/images', requireAuth, async (req, res) => {
     res.json(newGroupImg)
 });
 
+router.post('/:groupId/venues', requireAuth, async (req, res) => {
+    const groupId = req.params.groupId
+    const group = await Group.findByPk(groupId)
+    if (!group) {
+        res.status(404);
+        res.json({
+            "message": "Group couldn't be found"
+          })
+    }
+    const {address, city, state, lat, lng} = req.body
+
+    const newVenue = await Venue.create({
+        groupId,
+        address,
+        city,
+        state,
+        lat,
+        lng
+    });
+    res.json(newVenue)
+})
 
 router.post('/', requireAuth, async (req, res) => {
     const { name, about, type, private, city, state } = req.body
