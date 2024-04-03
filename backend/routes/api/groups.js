@@ -2,12 +2,40 @@ const express = require('express');
 const { Op } = require('sequelize');
 // const bcrypt = require('bcryptjs');
 // const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const { Group, GroupImage, Venue } = require('../../db/models');
+const { Group, GroupImage, Venue, Event, Attendance, Membership, User } = require('../../db/models');
 // const { check } = require('express-validator');
 // const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
 
 const { requireAuth } = require('../../utils/auth.js');
+
+
+router.get('/:groupId/members', async (req, res) => {
+
+    const members = await Group.findAll({
+       include: [User, Membership],
+       where: {
+        Id: req.params.groupId
+       }
+    });
+
+    res.json(members)
+});
+
+
+
+router.get('/:groupId/events', async (req, res) => {
+
+    const Events = await Event.findAll({
+        where: {
+            groupId: req.params.groupId
+        },
+        include: [Attendance, Venue]
+    })
+
+    res.json({Events})
+});
+
 
 router.get('/:groupId/venues', requireAuth, async (req, res) => {
     const group = await Group.findByPk(req.params.groupId, {
@@ -68,6 +96,40 @@ router.get('/', async (req, res) => {
     res.json({groups})
 });
 
+
+router.post('/:groupId/membership', requireAuth, async (req, res) => {
+
+    const groupMembership = await Group.findByPk(req.params.groupId, {
+        include: Membership
+    });
+    
+    res.json({
+        
+        memberId: groupMembership.Memberships[0].userId,
+        status: groupMembership.Memberships[0].status
+    })
+});
+
+
+router.post('/:groupId/events', requireAuth, async (req, res) => {
+
+    const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body
+
+    const newEvent = await Event.create({
+        groupId: req.params.groupId,
+        venueId,
+        name,
+        type,
+        capacity,
+        price,
+        description,
+        startDate,
+        endDate
+    })
+
+    res.json(newEvent)
+});
+
 router.post('/:groupId/images', requireAuth, async (req, res) => {
 
     const group = await Group.findByPk(req.params.groupId)
@@ -106,8 +168,9 @@ router.post('/:groupId/venues', requireAuth, async (req, res) => {
         res.status(404);
         res.json({
             "message": "Group couldn't be found"
-          })
+          });
     }
+
     const {address, city, state, lat, lng} = req.body
 
     const newVenue = await Venue.create({
@@ -147,6 +210,29 @@ router.post('/', requireAuth, async (req, res) => {
     res.json(newGroup)
 });
 
+
+router.put('/:groupId/membership', requireAuth, async (req, res) => {
+
+    const { memberId, status } = req.body
+
+    const group = await Group.findByPk(req.params.groupId, {
+        include: Membership
+    });
+
+    const membership = await Membership.findOne({
+        where: {
+            userId: group.Memberships[0].userId
+        }
+    });
+
+    if (status !== undefined) membership.status = status
+    
+    await membership.save()
+
+    res.json(membership)
+});
+
+
 router.put('/:groupId', requireAuth, async (req, res) => {
 
     const {organizerId, name, about, type, private, city, state} = req.body
@@ -177,6 +263,23 @@ router.put('/:groupId', requireAuth, async (req, res) => {
     res.json(group)
 });
 
+router.delete('/:groupId/membership/:memberId', requireAuth, async (req, res) => {
+    const group = await Group.findByPk(req.params.groupId, {
+        include: Membership
+    });
+
+    const toDelete = group.Memberships.find((membership) =>
+        membership.userId === parseInt(req.params.memberId))
+
+        await toDelete.destroy()
+
+        res.json({
+  "message": "Successfully deleted membership from group"
+})
+    
+});
+
+
 router.delete('/:groupId', requireAuth, async (req, res) => {
 
     const toDelete = await Group.findByPk(req.params.groupId)
@@ -186,5 +289,7 @@ router.delete('/:groupId', requireAuth, async (req, res) => {
         "message": "Successfully deleted"
       })
 });
+
+
 
 module.exports = router;
