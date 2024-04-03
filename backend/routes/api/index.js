@@ -4,6 +4,7 @@ const usersRouter = require('./users.js');
 const groupsRouter = require('./groups.js')
 const venuesRouter = require('./venues.js')
 const eventsRouter = require('./events.js')
+const groupImagesRouter = require('./group-images.js')
 // GET /api/restore-user
 const { restoreUser } = require('../../utils/auth.js');
 
@@ -14,6 +15,7 @@ router.use('/users', usersRouter);
 router.use('/groups', groupsRouter);
 router.use('/venues', venuesRouter);
 router.use('/events', eventsRouter);
+router.use('/group-images', groupImagesRouter);
 // // GET /api/require-auth
 // const { requireAuth } = require('../../utils/auth.js');
 // router.get(
