@@ -33,6 +33,19 @@ const validate = [
     handleValidationErrors
   ];
 
+  const validateVenues = [
+    check('address')
+        .exists()
+        .withMessage("Street address is required"),
+    check('city')
+        .exists()
+        .withMessage("City is required"),
+    check('state')
+        .exists()
+        .withMessage("State is required"),
+        handleValidationErrors
+  ]
+
 router.get('/:groupId/members', async (req, res) => {
 
     const members = await Group.findAll({
@@ -61,34 +74,19 @@ router.get('/:groupId/events', async (req, res) => {
 
 
 router.get('/:groupId/venues', requireAuth, async (req, res) => {
-    const groupId = req.params.groupId
-    const group = await Group.findByPk(groupId)
+    const group = await Group.findByPk(req.params.groupId, {
+        include: Venue
+    });
+
     if (!group) {
         res.status(404);
         res.json({
             "message": "Group couldn't be found"
           })
     }
-    const {address, city, state, lat, lng} = req.body
-
-    const newVenue = await Venue.create({
-        groupId,
-        address,
-        city,
-        state,
-        lat,
-        lng
-    });
-
-    const returnVenue = {
-        groupId: newVenue.groupId,
-        address: newVenue.address,
-        city: newVenue.city,
-        state: newVenue.state,
-        lat: newVenue.lat,
-        lng: newVenue.lng,
-    }
-    res.json(returnVenue)
+    const Venues = group.Venues
+    res.json({Venues})
+   
 })
 
 router.get('/current', requireAuth, async (req, res) => {
@@ -302,7 +300,7 @@ router.post('/:groupId/images', requireAuth, async (req, res) => {
     })
 });
 
-router.post('/:groupId/venues', requireAuth, async (req, res) => {
+router.post('/:groupId/venues', validateVenues, requireAuth, async (req, res) => {
     const groupId = req.params.groupId
     const group = await Group.findByPk(groupId)
     if (!group) {
@@ -314,6 +312,21 @@ router.post('/:groupId/venues', requireAuth, async (req, res) => {
 
     const {address, city, state, lat, lng} = req.body
 
+    if(lat < -90 || lat > 90) {
+        res.status(400);
+        return res.json({
+            message: "Bad Request",
+            errors: {"lat": "Latitude must be within -90 and 90"}
+        })
+    }
+
+    if(lng < -180 || lng > 180) {
+        res.status(400);
+        return res.json({
+            message: "Bad Request",
+            errors: {"lng": "Longitude must be within -180 and 180"}
+    })
+}
     const newVenue = await Venue.create({
         groupId,
         address,
@@ -324,6 +337,7 @@ router.post('/:groupId/venues', requireAuth, async (req, res) => {
     });
 
     const returnVenue = {
+        id: newVenue.id,
         groupId: newVenue.groupId,
         address: newVenue.address,
         city: newVenue.city,
