@@ -24,7 +24,7 @@ module.exports = {
         references: {model: 'Users'}
       },
       status: {
-        type: Sequelize.ENUM('Attending', 'Not Attending')
+        type: Sequelize.ENUM('attending', 'pending', 'waitlist')
       },
       createdAt: {
         allowNull: false,

@@ -38,15 +38,22 @@ module.exports = (sequelize, DataTypes) => {
     venueId: DataTypes.INTEGER,
     groupId: DataTypes.INTEGER,
     name: DataTypes.STRING,
-    description: DataTypes.STRING,
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     type: {
       type: DataTypes.ENUM,
-      values: ['Fun', 'Business']
+      values: ['Online', 'In person']
     },
     capacity: DataTypes.INTEGER,
-    price: DataTypes.INTEGER,
-    startDate: DataTypes.DATE,
-    endDate: DataTypes.DATE
+    price: DataTypes.DECIMAL,
+    startDate: {
+      type: DataTypes.DATE,
+    },
+    endDate: {
+      type: DataTypes.DATE,
+    }
   }, {
     sequelize,
     modelName: 'Event',

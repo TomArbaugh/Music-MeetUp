@@ -19,7 +19,7 @@ const validate = [
       .isLength({ min: 50 })
       .withMessage("About must be 50 characters or more"),
     check('type')
-      .isIn(['Online', 'In person', 'Work'])
+      .isIn(['Online', 'In person'])
       .withMessage("Type must be 'Online' or 'In person'"),
     check('private')
       .isBoolean()

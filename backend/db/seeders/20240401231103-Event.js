@@ -24,33 +24,33 @@ module.exports = {
         groupId: 1,
         name: 'EventNameOne',
         description: 'eventOneDescrip',
-        type: 'Fun',
+        type: 'Online',
         capacity: 100,
         price: 12,
-        startDate: '2024-01-01',
-        endDate: '2024-01-01'
+        startDate: '2025-01-01',
+        endDate: '2026-01-01'
       },
       {
         venueId: 2,
         groupId: 2,
         name: 'EventNameTwo',
         description: 'eventTWODescrip',
-        type: 'Fun',
+        type: 'In person',
         capacity: 10,
         price: 90,
-        startDate: '2024-01-01',
-        endDate: '2024-01-01'
+        startDate: '2025-01-01',
+        endDate: '2026-01-01'
       },
       {
         venueId: 3,
         groupId: 3,
         name: 'EventNameThree',
         description: 'eventtHREEDescrip',
-        type: 'Business',
+        type: 'Online',
         capacity: 900,
         price: 212,
-        startDate: '2024-01-01',
-        endDate: '2024-01-01'
+        startDate: '2025-01-01',
+        endDate: '2026-01-01'
       }
     ], { validate: true });
   },

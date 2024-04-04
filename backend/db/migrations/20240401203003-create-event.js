@@ -27,16 +27,17 @@ module.exports = {
         type: Sequelize.STRING
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       type: {
-        type: Sequelize.ENUM('Fun', 'Business')
+        type: Sequelize.ENUM('Online', 'In person')
       },
       capacity: {
         type: Sequelize.INTEGER
       },
       price: {
-        type: Sequelize.INTEGER
+        type: Sequelize.DECIMAL
       },
       startDate: {
         type: Sequelize.DATE

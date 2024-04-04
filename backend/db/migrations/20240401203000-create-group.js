@@ -26,16 +26,18 @@ module.exports = {
         type: Sequelize.STRING
       },
       type: {
-        type: Sequelize.ENUM('Social', 'Work')
+        type: Sequelize.ENUM('Online', 'In person')
       },
       private: {
         type: Sequelize.BOOLEAN
       },
       city: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       state: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
