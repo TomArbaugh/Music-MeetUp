@@ -20,7 +20,8 @@ router.get('/:groupId/venues', requireAuth, async (req, res) => {
             "message": "Group couldn't be found"
           })
     }
-    res.json(group.Venues)
+    const Venues = group.Venues
+    res.json({Venues})
 })
 
 router.get('/current', requireAuth, async (req, res) => {
@@ -118,7 +119,16 @@ router.post('/:groupId/venues', requireAuth, async (req, res) => {
         lat,
         lng
     });
-    res.json(newVenue)
+
+    const returnVenue = {
+        groupId: newVenue.groupId,
+        address: newVenue.address,
+        city: newVenue.city,
+        state: newVenue.state,
+        lat: newVenue.lat,
+        lng: newVenue.lng,
+    }
+    res.json(returnVenue)
 })
 
 router.post('/', requireAuth, async (req, res) => {
