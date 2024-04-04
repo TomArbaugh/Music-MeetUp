@@ -61,18 +61,34 @@ router.get('/:groupId/events', async (req, res) => {
 
 
 router.get('/:groupId/venues', requireAuth, async (req, res) => {
-    const group = await Group.findByPk(req.params.groupId, {
-        include: Venue
-    });
-
+    const groupId = req.params.groupId
+    const group = await Group.findByPk(groupId)
     if (!group) {
         res.status(404);
         res.json({
             "message": "Group couldn't be found"
           })
     }
-    const Venues = group.Venues
-    res.json({Venues})
+    const {address, city, state, lat, lng} = req.body
+
+    const newVenue = await Venue.create({
+        groupId,
+        address,
+        city,
+        state,
+        lat,
+        lng
+    });
+
+    const returnVenue = {
+        groupId: newVenue.groupId,
+        address: newVenue.address,
+        city: newVenue.city,
+        state: newVenue.state,
+        lat: newVenue.lat,
+        lng: newVenue.lng,
+    }
+    res.json(returnVenue)
 })
 
 router.get('/current', requireAuth, async (req, res) => {
