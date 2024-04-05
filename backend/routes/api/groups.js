@@ -378,12 +378,12 @@ router.post('/:groupId/events', validateEvents, requireAuth, async (req, res) =>
         name,
         type,
         capacity,
-        price: Number(price),
+        price,
         description,
         startDate,
         endDate
     });
-    
+
     const returnObj = {
         id: newEvent.id,
         groupId: newEvent.groupId,
