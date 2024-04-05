@@ -141,10 +141,10 @@ router.get('/', async (req, res) => {
         include: [Group, Venue, Attendance, EventImage],
         ...pagination
     })
-
+   
     const Events = []
-    events.forEach((event) => {
-        
+    events.forEach(async (event) => {
+     
         const obj = {}
             obj.id = event.id,
             obj.groupId = event.groupId,
@@ -167,7 +167,7 @@ router.get('/', async (req, res) => {
                 state: event.Venue.state
             }
 
-            if (!event.EventImage) obj.previewImage = null
+            if (!event.EventImages) obj.previewImage = null
             if (!event.Group) obj.Group = null
             if (!event.Venue) obj.Venue = null
             Events.push(obj)
