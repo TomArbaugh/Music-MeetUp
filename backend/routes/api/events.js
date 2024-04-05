@@ -246,18 +246,52 @@ router.post('/:eventId/attendance', requireAuth, async (req, res) => {
       }
     }
     const event = await Event.findByPk(req.params.eventId, {
-        include: Attendance
+        include: [Attendance, Group]
     });
+
+    if (!event) {
+        res.status(404);
+        res.json({
+            "message": "Event couldn't be found"
+          })
+    };
+
+    event.Attendances.forEach((attendee) => {
+        if (attendee.userId === safeUser.id) {
+            if (attendee.status === 'pending') {
+                res.status(400);
+                res.json({
+                    "message": "Attendance has already been requested"
+                  })
+            } else {
+                res.status(400);
+                res.json({
+                    "message": "User is already an attendee of the event"
+                  })
+            }
+            
+        }
+    })
+    const group = await Group.findByPk(event.Group.id, {
+        include: Membership
+    })
+
+    const isMember = group.Memberships.find((member) => member.userId === safeUser.id)
+
+    if (!isMember) {
+        res.status(403);
+        res.json({'Require Authorization': 'Current User must be a member of the group'})
+    }
 
     const newAttendance = await Attendance.create({
         eventId: req.params.eventId,
         userId: safeUser.id,
-        status: 'Attending'
+        status: 'pending'
     })
 
     res.json({
         "userId": safeUser.id,
-        "status": "Attending"
+        "status": "pending"
       })
 });
 
