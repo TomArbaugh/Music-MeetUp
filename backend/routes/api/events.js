@@ -3,11 +3,34 @@ const { Op } = require('sequelize');
 // const bcrypt = require('bcryptjs');
 // const { setTokenCookie, restoreUser } = require('../../utils/auth');
 const { Event, Group, Venue, Attendance, EventImage, User, Membership } = require('../../db/models');
-// const { check } = require('express-validator');
-// const { handleValidationErrors } = require('../../utils/validation');
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
-
 const { requireAuth } = require('../../utils/auth.js');
+
+const validateEvents = [
+    check('name')
+        .isLength({min: 5})
+        .withMessage("Name must be at least 5 characters"),
+    check('type')
+        .isIn(['Online', 'In person'])
+        .withMessage("Type must be 'Online' or 'In person'"),
+    check('capacity')
+        .isInt()
+        .withMessage("Capacity must be an integer"),
+    check('price')
+        .isNumeric()
+        .withMessage("Price is invalid"),
+    check('description')
+        .exists()
+        .withMessage("Description is required"),
+    check('startDate')
+        .isAfter(JSON.stringify(new Date()).slice(0, 11) + ' ' + JSON.stringify(new Date()).slice(13, 20))
+        .withMessage("Start date must be in the future"),
+        handleValidationErrors
+    
+  ]
+
 
 router.get('/:eventId/attendees', async (req, res) => {
 
@@ -242,7 +265,7 @@ router.put('/:eventId/attendance', requireAuth, async (req, res) => {
     res.json(statusChange)
 })
 
-router.put('/:eventId', requireAuth, async (req, res) => {
+router.put('/:eventId', validateEvents, requireAuth, async (req, res) => {
 
     const { user } = req;
     let safeUser;
@@ -258,6 +281,33 @@ router.put('/:eventId', requireAuth, async (req, res) => {
 
     const {venueId, name, type, capacity, price, description, startDate, endDate} = req.body
     
+    const venue = await Venue.findByPk(venueId)
+    if(!venue) {
+        res.status(404);
+        res.json({
+            "message": "Venue couldn't be found"
+          })
+        }
+    if (endDate < startDate) {
+        res.status(400);
+        res.json({
+            message: "Bad Request",
+            endDate: "End date is less than start date"
+        })
+    }
+    const priceArray = JSON.stringify(price).split('.')
+    const length = priceArray[1].length
+
+    if (length > 2) {
+        res.status(400);
+        res.json({
+            message: "Bad Request",
+            errors: {
+                price: "Price is invalid"
+            }
+        })
+    }
+
     const event = await Event.findByPk(req.params.eventId, {
         include: Group
     });
@@ -322,7 +372,40 @@ router.delete('/:eventId/attendance/:userId', requireAuth, async (req, res) => {
 
 router.delete('/:eventId', requireAuth, async (req, res) => {
 
-    const toDelete = await Event.findByPk(req.params.eventId)
+    const { user } = req;
+    let safeUser;
+    if (user) {
+        safeUser = {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username,
+      }
+    }
+
+    const toDelete = await Event.findByPk(req.params.eventId, {
+        include: Group
+    })
+
+    if (!toDelete) {
+        res.status(404);
+        res.json({
+            "message": "Event couldn't be found"
+          })
+    }
+    const group = await Group.findByPk(toDelete.Group.id, {
+        include: Membership
+    })
+
+    const authorized = group.Memberships.find((member) => (member.userId === safeUser.id && member.status === 'co-host') || safeUser.id == group.organizerId)
+
+    if (!authorized) {
+        res.status(403);
+        res.json({
+            message: 'Require Authorization: Current User must be the organizer of the group or a member of the group with a status of "co-host"'
+        })
+    }
     await toDelete.destroy()
     res.json({
         "message": "Successfully deleted"
