@@ -2,7 +2,7 @@ const express = require('express');
 const { Op } = require('sequelize');
 // const bcrypt = require('bcryptjs');
 // const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const { Event, Group, Venue, Attendance, EventImage, User } = require('../../db/models');
+const { Event, Group, Venue, Attendance, EventImage, User, Membership } = require('../../db/models');
 // const { check } = require('express-validator');
 // const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
@@ -35,7 +35,59 @@ router.get('/:eventId', async (req, res) => {
     const event = await Event.findByPk(req.params.eventId, {
         include: [Attendance, Group, Venue, EventImage]
     })
-    res.json(event)
+
+    if (!event) {
+        res.status(404);
+        return res.json({
+            "message": "Event couldn't be found"
+          })
+    }
+    const imgArray = []
+    event.EventImages.forEach((img) => {
+        const imgObj = {
+            id: img.id,
+            url: img.url,
+            preview: img.preview
+        }
+        imgArray.push(imgObj)
+})
+    const obj = {}
+    
+            obj.id = event.id,
+            obj.groupId = event.groupId,
+            obj.venueId = event.venueId,
+            obj.name = event.name,
+            obj.description = event.description,
+            obj.type = event.type,
+            obj.capacity = event.capacity,
+            obj.price = event.price,
+            obj.startDate = event.startDate,
+            obj.endDate = event.endDate,
+            obj.numAttending = event.Attendances.length,
+            obj.Group = {
+              id: event.Group.id,
+              name: event.Group.name,
+              private: event.Group.private,
+              city: event.Group.city,
+              state: event.Group.state
+            },
+            obj.Venue = {
+                id: event.Venue.id,
+                address: event.Venue.address,
+                city: event.Venue.city,
+                state: event.Venue.state,
+                lat: event.Venue.lat,
+                lng: event.Venue.lng
+            }
+            obj.EventImages = imgArray
+
+            if (!event.EventImages) obj.EventImages = null
+            if (!event.Group) obj.Group = null
+            if (!event.Venue) obj.Venue = null
+        
+
+    res.json(obj)
+    
 });
 
 
@@ -63,11 +115,43 @@ router.get('/', async (req, res) => {
 
     const events = await Event.findAll({
         where,
-        include: [Group, Venue, Attendance],
+        include: [Group, Venue, Attendance, EventImage],
         ...pagination
     })
+
+    const Events = []
+    events.forEach((event) => {
+        
+        const obj = {}
+            obj.id = event.id,
+            obj.groupId = event.groupId,
+            obj.venueId = event.venueId,
+            obj.name = event.name,
+            obj.type = event.type,
+            obj.startDate = event.startDate,
+            obj.endDate = event.endDate,
+            obj.numAttending = event.Attendances.length,
+            obj.previewImage = event.EventImages[0].url,
+            obj.Group = {
+              id: event.Group.id,
+              name: event.Group.name,
+              city: event.Group.city,
+              state: event.Group.state
+            },
+            obj.Venue = {
+                id: event.Venue.id,
+                city: event.Venue.city,
+                state: event.Venue.state
+            }
+
+            if (!event.EventImage) obj.previewImage = null
+            if (!event.Group) obj.Group = null
+            if (!event.Venue) obj.Venue = null
+            Events.push(obj)
+        });
+
     res.json({
-        events
+        Events
     })
 });
 
@@ -103,13 +187,47 @@ router.post('/:eventId/attendance', requireAuth, async (req, res) => {
 
 router.post('/:eventId/images', requireAuth, async (req, res) => {
     const {url, preview} = req.body
+
+    const { user } = req;
+    let safeUser;
+    if (user) {
+        safeUser = {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username,
+      }
+    }
+    const eventAttendance = await Event.findByPk(req.params.eventId, {
+        include: Attendance
+    })
+
+    if (!eventAttendance){
+        res.status(404);
+        return res.json({
+            "message": "Event couldn't be found"
+          })
+    }
+    const statusAttending = eventAttendance.Attendances.find((attendee) => attendee.userId === safeUser.id && (attendee.status.toLowerCase() === 'attending' || attendee.status.toLowerCase() === 'host' || attendee.status.toLowerCase() === 'co-host'))
+
+    if (!statusAttending) {
+        res.status(403);
+        res.json({
+            message: "Require proper authorization: Current User must be an attendee, host, or co-host of the event",
+        })
+    }
     const newImage = await EventImage.create({
         eventId: req.params.eventId,
         url,
         preview
     });
-
-    res.json(newImage)
+    const returnObj = {
+        id: newImage.id,
+        url: newImage.url,
+        preview: newImage.preview
+    }
+    res.json(returnObj)
 });
 
 
@@ -125,9 +243,44 @@ router.put('/:eventId/attendance', requireAuth, async (req, res) => {
 })
 
 router.put('/:eventId', requireAuth, async (req, res) => {
+
+    const { user } = req;
+    let safeUser;
+    if (user) {
+        safeUser = {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username,
+      }
+    }
+
     const {venueId, name, type, capacity, price, description, startDate, endDate} = req.body
     
-    const event = await Event.findByPk(req.params.eventId)
+    const event = await Event.findByPk(req.params.eventId, {
+        include: Group
+    });
+
+    if (!event) {
+        res.status(404);
+        res.json({
+            "message": "Event couldn't be found"
+          })
+    }
+    const group = await Group.findByPk(event.Group.id, {
+        include: Membership
+    });
+
+    
+    const autherized = group.Memberships.find((member) => safeUser.id === event.Group.organizerId || (safeUser.id === member.userId && member.status === 'co-host'))
+
+    if (!autherized) {
+        res.status(403);
+        res.json({
+            message: 'Require Authorization: Current User must be the organizer of the group or a member of the group with a status of "co-host"'
+        })
+    }
 
     if (venueId !== undefined) event.venueId = venueId;
     if (name !== undefined) event.name = name;
@@ -140,7 +293,19 @@ router.put('/:eventId', requireAuth, async (req, res) => {
 
     await event.save()
 
-    res.json(event)
+    const payLoad = {
+        id: event.id,
+        groupId: event.groupId,
+        venueId: event.venueId,
+        name: event.name,
+        type: event.type,
+        capacity: event.capacity,
+        price: event.price,
+        description: event.description,
+        startDate: event.startDate,
+        endDate: event.endDate
+    }
+    res.json(payLoad)
 });
 
 router.delete('/:eventId/attendance/:userId', requireAuth, async (req, res) => {

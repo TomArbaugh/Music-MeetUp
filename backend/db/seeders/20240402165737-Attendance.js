@@ -33,6 +33,16 @@ module.exports = {
       eventId: 3,
       userId: 3,
       status: 'pending'
+    },
+    {
+      eventId: 4,
+      userId: 4,
+      status: 'host'
+    },
+    {
+      eventId: 5,
+      userId: 5,
+      status: 'co-host'
     }
    ])
   },

@@ -3,7 +3,7 @@ const { Op } = require('sequelize');
 const { sequelize } = require('sequelize');
 // const bcrypt = require('bcryptjs');
 // const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const { Group, GroupImage, Venue, Event, Attendance, Membership, User } = require('../../db/models');
+const { Group, GroupImage, Venue, Event, Attendance, Membership, User, EventImage } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
@@ -46,6 +46,30 @@ const validate = [
         handleValidationErrors
   ]
 
+  const validateEvents = [
+    check('name')
+        .isLength({min: 5})
+        .withMessage("Name must be at least 5 characters"),
+    check('type')
+        .isIn(['Online', 'In person'])
+        .withMessage("Type must be 'Online' or 'In person'"),
+    check('capacity')
+        .isInt()
+        .withMessage("Capacity must be an integer"),
+    check('price')
+        .isNumeric()
+        .withMessage("Price is invalid"),
+    check('description')
+        .exists()
+        .withMessage("Description is required"),
+    check('startDate')
+        .isAfter(JSON.stringify(new Date()).slice(0, 11) + ' ' + JSON.stringify(new Date()).slice(13, 20))
+        .withMessage("Start date must be in the future"),
+        handleValidationErrors
+    
+  ]
+
+
 router.get('/:groupId/members', async (req, res) => {
 
     const members = await Group.findAll({
@@ -62,14 +86,55 @@ router.get('/:groupId/members', async (req, res) => {
 
 router.get('/:groupId/events', async (req, res) => {
 
-    const Events = await Event.findAll({
+    const events = await Event.findAll({
         where: {
             groupId: req.params.groupId
         },
-        include: [Attendance, Venue]
+        include: [Attendance, Venue, Group, EventImage]
     })
+    
+    const group = await Group.findByPk(req.params.groupId)
+    if (!group) {
+        res.status(404);
+        return res.json({
+            "message": "Group couldn't be found"
+          })
+    }
+    const Events = []
+    events.forEach((event) => {
+        
+        const obj = {}
+            obj.id = event.id,
+            obj.groupId = event.groupId,
+            obj.venueId = event.venueId,
+            obj.name = event.name,
+            obj.type = event.type,
+            obj.startDate = event.startDate,
+            obj.endDate = event.endDate,
+            obj.numAttending = event.Attendances.length,
+            obj.previewImage = event.EventImages[0].url,
+            obj.Group = {
+              id: event.Group.id,
+              name: event.Group.name,
+              city: event.Group.city,
+              state: event.Group.state
+            },
+            obj.Venue = {
+                id: event.Venue.id,
+                city: event.Venue.city,
+                state: event.Venue.state
+            }
 
-    res.json({Events})
+            if (!event.EventImage) obj.previewImage = null
+            if (!event.Group) obj.Group = null
+            if (!event.Venue) obj.Venue = null
+            Events.push(obj)
+        });
+
+    res.json({
+        Events
+    })
+    
 });
 
 
@@ -243,10 +308,70 @@ router.post('/:groupId/membership', requireAuth, async (req, res) => {
 });
 
 
-router.post('/:groupId/events', requireAuth, async (req, res) => {
+router.post('/:groupId/events', validateEvents, requireAuth, async (req, res) => {
 
-    const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body
+    let { venueId, name, type, capacity, price, description, startDate, endDate } = req.body
 
+    const venue = await Venue.findByPk(parseInt(venueId))
+    if(!venue) {
+        res.status(404);
+        res.json({
+            "message": "Venue couldn't be found"
+          })
+    }
+
+    if (endDate < startDate) {
+        res.status(400);
+        res.json({
+            message: "Bad Request",
+            endDate: "End date is less than start date"
+        })
+    }
+
+    const priceArray = JSON.stringify(price).split('.')
+    const length = priceArray[1].length
+
+    if (length > 2) {
+        res.status(400);
+        res.json({
+            message: "Bad Request",
+            errors: {
+                price: "Price is invalid"
+            }
+        })
+    }
+
+    const { user } = req;
+    let safeUser;
+    if (user) {
+        safeUser = {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username,
+      }
+    }
+    const group = await Group.findByPk(req.params.groupId, {
+        include: Membership
+    })
+
+    if(!group){
+        res.status(404);
+        res.json({
+            "message": "Group couldn't be found"
+          })
+    }
+    const memberWithStatus = group.Memberships.find((member) => 
+        member.userId === safeUser.id && member.status === 'co-host'
+    )
+    if (safeUser.id !== group.organizerId && !memberWithStatus) {
+        res.status(403);
+        res.json({
+            message: 'Require Authorization: Current User must be the organizer of the group or a member of the group with a status of "co-host"'
+        })
+    }
+    
     const newEvent = await Event.create({
         groupId: req.params.groupId,
         venueId,
@@ -258,8 +383,21 @@ router.post('/:groupId/events', requireAuth, async (req, res) => {
         startDate,
         endDate
     })
+    const returnObj = {
+        id: newEvent.id,
+        groupId: newEvent.groupId,
+        venueId: newEvent.venueId,
+        name: newEvent.name,
+        type: newEvent.type,
+        capacity: newEvent.capacity,
+        price: newEvent.price,
+        description: newEvent.description,
+        startDate: newEvent.startDate,
+        endDate: newEvent.endDate
+    }
 
-    res.json(newEvent)
+    res.json(returnObj)
+   
 });
 
 router.post('/:groupId/images', requireAuth, async (req, res) => {
