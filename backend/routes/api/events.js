@@ -513,11 +513,56 @@ router.put('/:eventId', validateEvents, requireAuth, async (req, res) => {
 });
 
 router.delete('/:eventId/attendance/:userId', requireAuth, async (req, res) => {
+
+    const { user } = req;
+    let safeUser;
+    if (user) {
+        safeUser = {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username,
+      }
+    }
+
+    const isUser = await User.findByPk(req.params.userId)
+    if (!isUser) {
+        res.status(404);
+        res.json({
+            "message": "User couldn't be found"
+          })
+    }
+    
     const userAttending = await Event.findByPk(req.params.eventId, {
         include: Attendance
     });
+
+    if (!userAttending) {
+        res.status(404);
+        res.json({
+            "message": "Event couldn't be found"
+          })
+    };
+
+    const isHost = userAttending.Attendances.find((host) => host.status === 'host' && safeUser.id === host.userId)
+
+    if (parseInt(req.params.userId) !== safeUser.id && !isHost){
+        res.status(403);
+        res.json({
+            'Require proper authorization': 'Current User must be the host of the group, or the user whose attendance is being deleted'
+        })
+    }
+
     const attendanceToDelete = userAttending.Attendances.find((attendee) => parseInt(req.params.userId) === attendee.userId)
 
+    if (!attendanceToDelete) {
+        res.status(404);
+        res.json({
+            "message": "Attendance does not exist for this User"
+          })
+    };
+    
     await attendanceToDelete.destroy()
     res.json({
         "message": "Successfully deleted attendance from event"
