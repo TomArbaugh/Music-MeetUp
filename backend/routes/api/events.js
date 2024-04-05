@@ -308,7 +308,7 @@ router.put('/:eventId', validateEvents, requireAuth, async (req, res) => {
         })
     }
 
-    // price = Number(price)
+  
 
     const event = await Event.findByPk(req.params.eventId, {
         include: Group
@@ -338,7 +338,7 @@ router.put('/:eventId', validateEvents, requireAuth, async (req, res) => {
     if (name !== undefined) event.name = name;
     if (type !== undefined) event.type = type;
     if (capacity !== undefined) event.capacity = capacity;
-    if (price !== undefined) event.price = Number(price);
+    if (price !== undefined) event.price = price;
     if (description !== undefined) event.description = description;
     if (startDate !== undefined) event.startDate = startDate;
     if (endDate !== undefined) event.endDate = endDate;
