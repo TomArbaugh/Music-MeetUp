@@ -35,13 +35,13 @@ module.exports = {
       status: 'pending'
     },
     {
-      eventId: 4,
-      userId: 4,
+      eventId: 1,
+      userId: 2,
       status: 'host'
     },
     {
-      eventId: 5,
-      userId: 5,
+      eventId: 2,
+      userId: 3,
       status: 'co-host'
     }
    ])

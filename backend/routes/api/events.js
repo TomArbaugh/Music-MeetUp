@@ -308,6 +308,8 @@ router.put('/:eventId', validateEvents, requireAuth, async (req, res) => {
         })
     }
 
+    // price = Number(price)
+
     const event = await Event.findByPk(req.params.eventId, {
         include: Group
     });
