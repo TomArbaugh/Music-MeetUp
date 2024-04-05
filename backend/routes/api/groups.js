@@ -101,7 +101,7 @@ router.get('/:groupId/events', async (req, res) => {
           })
     }
     const Events = []
-    events.forEach((event) => {
+    events.forEach(async (event) => {
         
         const obj = {}
             obj.id = event.id,
