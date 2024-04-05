@@ -72,14 +72,69 @@ const validate = [
 
 router.get('/:groupId/members', async (req, res) => {
 
-    const members = await Group.findAll({
+    const { user } = req;
+    let safeUser;
+    if (user) {
+        safeUser = {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username,
+      }
+    }
+
+    const members = await Group.findByPk(req.params.groupId, {
        include: [User, Membership],
-       where: {
-        Id: req.params.groupId
-       }
+ 
     });
 
-    res.json(members)
+    if (!members) {
+        res.status(404);
+        res.json({
+            "message": "Group couldn't be found"
+          });
+    };
+
+    let authorized = false;
+
+
+    const Members =  []
+
+    members.Memberships.forEach((member) => {
+
+        if(safeUser.id === member.userId && member.status === 'co-host') authorized = true
+
+        const user = members.Users.find((user) => member.userId === user.id)
+        if (safeUser.id === members.organizerId || authorized === true){
+            const memberObj = {
+                id: member.userId,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                Membership: {
+                    status: member.status
+                }
+            }
+            Members.push(memberObj)
+        } else {
+            if (member.status !== 'pending'){
+                const memberObj = {
+                    id: member.userId,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    Membership: {
+                        status: member.status
+                    }
+                }
+                Members.push(memberObj)
+            }
+        }
+  
+    })
+
+
+    return  res.json({Members})
+  
 });
 
 
@@ -296,14 +351,55 @@ router.get('/', async (req, res) => {
 
 router.post('/:groupId/membership', requireAuth, async (req, res) => {
 
+    const { user } = req;
+    let safeUser;
+    if (user) {
+        safeUser = {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username,
+      }
+    }
+
     const groupMembership = await Group.findByPk(req.params.groupId, {
         include: Membership
     });
+    if(!groupMembership) {
+        res.status(404);
+        res.json({
+            "message": "Group couldn't be found"
+          })
+    }
+    const currentMembership = groupMembership.Memberships.find((member) => safeUser.id === member.userId)
     
+    if (currentMembership.status === 'pending') {
+        res.status(400);
+        return res.json({
+            "message": "Membership has already been requested"
+          })
+    }
+
+    if (currentMembership) {
+        res.status(400);
+        res.json({
+            "message": "User is already a member of the group"
+          })
+    }
+
+  
+
+    const newMembership = await Membership.create({
+        userId: safeUser.id,
+        groupId: groupMembership.id,
+        status: "pending"
+    });
+
     res.json({
         
-        memberId: groupMembership.Memberships[0].userId,
-        status: groupMembership.Memberships[0].status
+        memberId: newMembership.userId,
+        status: newMembership.status
     })
 });
 
@@ -520,6 +616,16 @@ router.post('/', validate, requireAuth, async (req, res) => {
 router.put('/:groupId/membership', requireAuth, async (req, res) => {
 
     const { memberId, status } = req.body
+
+    if (status === 'pending') {
+        res.status(400);
+        res.json({
+            "message": "Bad Request", 
+            "errors": {
+              "status" : "Cannot change a membership status to pending"
+            }
+          })
+    }
     const { user } = req;
     let safeUser;
     if (user) {
@@ -532,27 +638,61 @@ router.put('/:groupId/membership', requireAuth, async (req, res) => {
       }
     }
     const group = await Group.findByPk(req.params.groupId, {
-        include: Membership
+        include: [Membership, User]
     });
 
-    // const member = group.Memberships.find((member) => member.userId === safeUser.id)
+    if(!group) {
+        res.status(404);
+        res.json({
+            "message": "Group couldn't be found"
+          })
+    }
 
-    // if (!member){
-    //     res.status(403);
-    //     return res.json({message: "Require proper authorization: Group must belong to the current user"})
-    // }
+    const userWithMemId = group.Users.find((user) => user.id === memberId)
 
-    const membership = await Membership.findOne({
-        where: {
-            userId: group.Memberships[0].userId
+    const hasMemberShip = group.Memberships.find((member) => safeUser.id === member.userId)
+
+    const alterMemberShip = group.Memberships.find((member) => memberId === member.userId)
+
+  
+
+    if (!userWithMemId) {
+        res.status(404);
+        res.json({
+            "message": "User couldn't be found"
+          })
+    };
+
+    if (!hasMemberShip) {
+        res.status(404);
+        res.json({
+            "message": "Membership between the user and the group does not exist"
+          })
+    }
+  
+    if (safeUser.id === group.organizerId) {
+        if (alterMemberShip.status === 'member' && status === 'co-host') alterMemberShip.status = status
+    } else if(safeUser.id === group.organizerId || hasMemberShip.status === 
+        'co-host') {
+            if (alterMemberShip.status === 'pending' && status === 'member') alterMemberShip.status = status
+        } else {
+            res.status(403);
+            res.json({
+                "Require proper authorization": {
+                    'To change the status from "pending" to "member"': 'Current User must already be the organizer or have a membership to the group with the status of "co-host"',
+                    'To change the status from "member" to "co-host"': 'Current User must already be the organizer'
+                }
+            })
         }
-    });
 
-    if (status !== undefined) membership.status = status
+ 
     
-    await membership.save()
 
-    res.json(membership)
+
+    
+    await alterMemberShip.save()
+
+    res.json(alterMemberShip)
 });
 
 
@@ -605,18 +745,54 @@ router.put('/:groupId', validate, requireAuth, async (req, res) => {
 });
 
 router.delete('/:groupId/membership/:memberId', requireAuth, async (req, res) => {
+    const { user } = req;
+    let safeUser;
+    if (user) {
+        safeUser = {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username,
+      }
+    }
+
     const group = await Group.findByPk(req.params.groupId, {
         include: Membership
     });
 
-    const toDelete = group.Memberships.find((membership) =>
+  
+    if (!group) {
+        res.status(404);
+        res.json({
+            "message": "Group couldn't be found"
+          })
+    };
+
+    if (safeUser.id === parseInt(req.params.memberId) || safeUser.id === organizer.id) {
+        const toDelete = group.Memberships.find((membership) =>
         membership.userId === parseInt(req.params.memberId))
 
+        if (!toDelete) {
+            res.status(404);
+            res.json(
+                {
+                    "message": "Membership does not exist for this User"
+                  }
+            )
+        }
         await toDelete.destroy()
 
+            res.json({
+            "message": "Successfully deleted membership from group"
+        })
+    } else {
+        res.status(403);
         res.json({
-  "message": "Successfully deleted membership from group"
-})
+            'Require proper authorization': 'Current User must be the host of the group, or the user whose membership is being deleted'
+        })
+    }
+   
     
 });
 
