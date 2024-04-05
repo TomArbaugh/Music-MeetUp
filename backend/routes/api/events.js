@@ -343,14 +343,80 @@ router.post('/:eventId/images', requireAuth, async (req, res) => {
 
 
 router.put('/:eventId/attendance', requireAuth, async (req, res) => {
+    const { user } = req;
+    let safeUser;
+    if (user) {
+        safeUser = {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username,
+      }
+    }
+
     const {userId, status} = req.body
+
+    if (status === 'pending') {
+        res.status(400);
+        res.json({
+            "message": "Bad Request", 
+            "errors": {
+              "status" : "Cannot change an attendance status to pending"
+            }
+          })
+    };
+
+
+    const userExists = await User.findByPk(parseInt(userId))
+    if (!userExists) {
+        res.status(404);
+        res.json({
+            "message": "User couldn't be found"
+          })
+    };
+
+
     const event = await Event.findByPk(req.params.eventId, {
-        include: Attendance
+        include: [Attendance, Group]
     })
+
+    if(!event) {
+        res.status(404);
+        res.json({
+            "message": "Event couldn't be found"
+          })
+    }
+    const group = await Group.findByPk(event.Group.id, {
+        include: Membership
+    })
+    
+    const isMember = group.Memberships.find((member) => safeUser.id === member.userId)
+
+    if (safeUser.id !== group.organizerId && isMember.status !== 'co-host') {
+        res.status(403);
+        res.json({
+            'Require proper authorization': 'Current User must already be the organizer or have a membership to the group with the status of "co-host"'
+        })
+    };
+
     const statusChange = event.Attendances.find((attend) => parseInt(userId) === attend.userId)
 
+    if (!statusChange) {
+        res.status(404);
+        res.json({
+            "message": "Attendance between the user and the event does not exist"
+          })
+    };
+
     statusChange.status = status
-    res.json(statusChange)
+    res.json({
+       
+        id: statusChange.id,
+        eventId: statusChange.eventId,
+        userId: statusChange.userId,
+        status: statusChange.status
+})
 })
 
 router.put('/:eventId', validateEvents, requireAuth, async (req, res) => {
