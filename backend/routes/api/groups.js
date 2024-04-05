@@ -328,18 +328,6 @@ router.post('/:groupId/events', validateEvents, requireAuth, async (req, res) =>
         })
     }
 
-    const priceArray = JSON.stringify(price).split('.')
-    const length = priceArray[1].length
-
-    if (length > 2) {
-        res.status(400);
-        res.json({
-            message: "Bad Request",
-            errors: {
-                price: "Price is invalid"
-            }
-        })
-    }
 
     const { user } = req;
     let safeUser;
@@ -372,7 +360,7 @@ router.post('/:groupId/events', validateEvents, requireAuth, async (req, res) =>
         })
     }
     
-    const newEvent = await Event.create({
+    const newEvent = await Event.build({
         groupId: req.params.groupId,
         venueId,
         name,
@@ -383,6 +371,21 @@ router.post('/:groupId/events', validateEvents, requireAuth, async (req, res) =>
         startDate,
         endDate
     });
+
+    const priceArray = JSON.stringify(price).split('.')
+    const length = priceArray[1].length
+
+    if (length > 2) {
+        res.status(400);
+        res.json({
+            message: "Bad Request",
+            errors: {
+                price: "Price is invalid"
+            }
+        })
+    }
+    
+    await newEvent.save()
 
     const returnObj = {
         id: newEvent.id,

@@ -295,20 +295,7 @@ router.put('/:eventId', validateEvents, requireAuth, async (req, res) => {
             endDate: "End date is less than start date"
         })
     }
-    const priceArray = JSON.stringify(price).split('.')
-    const length = priceArray[1].length
 
-    if (length > 2) {
-        res.status(400);
-        res.json({
-            message: "Bad Request",
-            errors: {
-                price: "Price is invalid"
-            }
-        })
-    }
-
-  
 
     const event = await Event.findByPk(req.params.eventId, {
         include: Group
@@ -343,6 +330,19 @@ router.put('/:eventId', validateEvents, requireAuth, async (req, res) => {
     if (startDate !== undefined) event.startDate = startDate;
     if (endDate !== undefined) event.endDate = endDate;
 
+    const priceArray = JSON.stringify(price).split('.')
+    const length = priceArray[1].length
+
+    if (length > 2) {
+        res.status(400);
+        res.json({
+            message: "Bad Request",
+            errors: {
+                price: "Price is invalid"
+            }
+        })
+    }
+    
     await event.save()
 
     const payLoad = {
