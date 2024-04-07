@@ -20,7 +20,7 @@ const validateVenues = [
         .withMessage("State is required"),
         handleValidationErrors
   ]
-router.put('/:venueId', validateVenues, requireAuth, async (req, res) => {
+router.put('/:venueId', requireAuth, validateVenues, async (req, res) => {
 
     const venue = await Venue.findByPk(req.params.venueId)
 
