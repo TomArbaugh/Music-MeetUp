@@ -30,24 +30,36 @@ const validate = [
       .withMessage("City is required"),
     check('state')
       .exists()
-      .isLength({ min: 4 })
+      .isLength({ min: 1})
       .withMessage("State is required"),
     handleValidationErrors
   ];
 
   const validateVenues = [
     check('address')
-        .exists()
+        .isLength({min: 1})
         .withMessage("Street address is required"),
     check('city')
-        .exists()
+        .isLength({min: 1})
         .withMessage("City is required"),
     check('state')
-        .exists()
+        .isLength({min: 1})
         .withMessage("State is required"),
+    check('lat')
+        .isFloat({
+            min: -90,
+            max: 90
+        })
+        .withMessage("Latitude must be within -90 and 90"),
+    check('lng')
+        .isFloat({
+            min: -180,
+            max: 180
+        })
+        .withMessage("Longitude must be within -180 and 180"),
         handleValidationErrors
   ]
-
+ 
   const validateEvents = [
     check('name')
         .isLength({min: 5})
@@ -399,13 +411,13 @@ router.post('/:groupId/membership', requireAuth, async (req, res) => {
     }
 
   
-
+    const GroupId = parseInt(req.params.groupId)
     const newMembership = await Membership.create({
         userId: safeUser.id,
-        groupId: groupMembership.id,
+        groupId: GroupId,
         status: "pending"
     });
-
+    
     res.json({
         
         memberId: newMembership.userId,
@@ -465,8 +477,9 @@ router.post('/:groupId/events', requireAuth, validateEvents, async (req, res) =>
             message: 'Require Authorization: Current User must be the organizer of the group or a member of the group with a status of "co-host"'
         })
     }
-    
+    req.params.groupId = parseInt(req.params.groupId)
     const newEvent = await Event.build({
+        
         groupId: req.params.groupId,
         venueId,
         name,
@@ -477,6 +490,14 @@ router.post('/:groupId/events', requireAuth, validateEvents, async (req, res) =>
         startDate,
         endDate
     });
+
+    const attendance = await Attendance.create({
+        eventId: newEvent.id,
+        userId: safeUser.id,
+        status: 'host'
+    });
+
+
 
     const priceArray = JSON.stringify(price).split('.')
     const length = priceArray[1].length
@@ -561,21 +582,7 @@ router.post('/:groupId/venues', requireAuth, validateVenues, async (req, res) =>
 groupId = parseInt(groupId)
     const {address, city, state, lat, lng} = req.body
 
-    if(lat < -90 || lat > 90) {
-        res.status(400);
-        res.json({
-            message: "Bad Request",
-            errors: {"lat": "Latitude must be within -90 and 90"}
-        })
-    }
 
-    if(lng < -180 || lng > 180) {
-        res.status(400);
-        res.json({
-            message: "Bad Request",
-            errors: {"lng": "Longitude must be within -180 and 180"}
-    })
-}
     const newVenue = await Venue.create({
         groupId,
         address,
@@ -584,7 +591,7 @@ groupId = parseInt(groupId)
         lat,
         lng
     });
-res.json(newVenue)
+
     const returnVenue = {
         id: newVenue.id,
         groupId: newVenue.groupId,
@@ -661,7 +668,7 @@ router.put('/:groupId/membership', requireAuth, async (req, res) => {
 
     const userWithMemId = group.Users.find((user) => user.id === memberId)
 
-    const hasMemberShip = group.Memberships.find((member) => safeUser.id === member.userId)
+    // const hasMemberShip = group.Memberships.find((member) => safeUser.id === member.userId)
 
     const alterMemberShip = group.Memberships.find((member) => memberId === member.userId)
 
@@ -674,12 +681,12 @@ router.put('/:groupId/membership', requireAuth, async (req, res) => {
           })
     };
 
-    if (!hasMemberShip) {
-        res.status(404);
-        res.json({
-            "message": "Membership between the user and the group does not exist"
-          })
-    }
+    // if (!hasMemberShip) {
+    //     res.status(404);
+    //     res.json({
+    //         "message": "Membership between the user and the group does not exist"
+    //       })
+    // }
   
     if (safeUser.id === group.organizerId) {
         if (alterMemberShip.status === 'member' && status === 'co-host') alterMemberShip.status = status

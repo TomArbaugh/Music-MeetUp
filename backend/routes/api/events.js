@@ -456,7 +456,7 @@ router.post('/:eventId/images', requireAuth, async (req, res) => {
       }
     }
     const eventAttendance = await Event.findByPk(req.params.eventId, {
-        include: Attendance
+        include: [Attendance, Group]
     })
 
     if (!eventAttendance){
@@ -465,7 +465,9 @@ router.post('/:eventId/images', requireAuth, async (req, res) => {
             "message": "Event couldn't be found"
           })
     }
-    const statusAttending = eventAttendance.Attendances.find((attendee) => attendee.userId === safeUser.id && (attendee.status.toLowerCase() === 'attending' || attendee.status.toLowerCase() === 'host' || attendee.status.toLowerCase() === 'co-host'))
+    
+
+    const statusAttending = eventAttendance.Attendances.find((attendee) => attendee.userId === safeUser.id || safeUser.id === eventAttendance.Group.organizerId)
 
     if (!statusAttending) {
         res.status(403);
@@ -620,11 +622,11 @@ router.put('/:eventId', requireAuth, validateEvents, async (req, res) => {
     });
 
     
-    const autherized = group.Memberships.find((member) => safeUser.id === event.Group.organizerId || (safeUser.id === member.userId && member.status === 'co-host'))
+    const autherized = group.Memberships.find((member) => safeUser.id === group.organizerId || (safeUser.id === member.userId && member.status === 'co-host'))
 
     if (!autherized) {
         res.status(403);
-        res.json({
+        return res.json({
             message: 'Require Authorization: Current User must be the organizer of the group or a member of the group with a status of "co-host"'
         })
     }

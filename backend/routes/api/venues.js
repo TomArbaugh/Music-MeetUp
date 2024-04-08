@@ -10,14 +10,26 @@ const router = express.Router();
 const { requireAuth } = require('../../utils/auth.js');
 const validateVenues = [
     check('address')
-        .exists()
+        .isLength({min: 1})
         .withMessage("Street address is required"),
     check('city')
-        .exists()
+        .isLength({min: 1})
         .withMessage("City is required"),
     check('state')
-        .exists()
+        .isLength({min: 1})
         .withMessage("State is required"),
+    check('lat')
+        .isFloat({
+            min: -90,
+            max: 90
+        })
+        .withMessage("Latitude must be within -90 and 90"),
+    check('lng')
+        .isFloat({
+            min: -180,
+            max: 180
+        })
+        .withMessage("Longitude must be within -180 and 180"),
         handleValidationErrors
   ]
 router.put('/:venueId', requireAuth, validateVenues, async (req, res) => {
@@ -33,21 +45,7 @@ router.put('/:venueId', requireAuth, validateVenues, async (req, res) => {
     
     const { address, city, state, lat, lng } = req.body
 
-    if(lat < -90 || lat > 90) {
-        res.status(400);
-        return res.json({
-            message: "Bad Request",
-            errors: {"lat": "Latitude must be within -90 and 90"}
-        })
-    }
 
-    if(lng < -180 || lng > 180) {
-        res.status(400);
-        return res.json({
-            message: "Bad Request",
-            errors: {"lng": "Longitude must be within -180 and 180"}
-    })
-    }
     if (address !== undefined) venue.address = address
     if (city !== undefined) venue.city = city
     if (state !== undefined) venue.state = state
