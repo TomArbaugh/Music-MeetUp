@@ -340,7 +340,8 @@ router.get('/', async (req, res) => {
     events.forEach(async (event) => {
         let firstImage;
         if (event.EventImages.length !== 0) {
-            firstImage = event.EventImages[0].url
+            firstImage = event.EventImages[event.EventImages.length -1 ]
+            firstImage = firstImage.url
         } else {
             firstImage = 'none'
         }
@@ -467,7 +468,7 @@ router.post('/:eventId/images', requireAuth, async (req, res) => {
     }
     
 
-    const statusAttending = eventAttendance.Attendances.find((attendee) => attendee.userId === safeUser.id || safeUser.id === eventAttendance.Group.organizerId)
+    const statusAttending = eventAttendance.Group.organizerId
 
     if (!statusAttending) {
         res.status(403);
@@ -622,7 +623,7 @@ router.put('/:eventId', requireAuth, validateEvents, async (req, res) => {
     });
 
     
-    const autherized = group.Memberships.find((member) => safeUser.id === group.organizerId || (safeUser.id === member.userId && member.status === 'co-host'))
+    const autherized = group.organizerId
 
     if (!autherized) {
         res.status(403);
