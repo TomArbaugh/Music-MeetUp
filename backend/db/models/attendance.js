@@ -17,9 +17,16 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Attendance.init({
-    eventId: DataTypes.INTEGER,
-    userId: DataTypes.INTEGER,
+    eventId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     status: {
+      allowNull: false,
       type: DataTypes.ENUM({
         values: ['attending', 'pending', 'waitlist']
       })

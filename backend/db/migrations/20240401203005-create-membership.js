@@ -16,14 +16,17 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       userId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         reverences: {model: 'Users'}
       },
       groupId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {model: 'Groups'}
       },
       status: {
+        allowNull: false,
         type: Sequelize.ENUM('host','co-host', 'member', 'pending')
       },
       createdAt: {
