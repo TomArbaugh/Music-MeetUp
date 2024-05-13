@@ -101,7 +101,7 @@ router.get('/:groupId/members', async (req, res) => {
 
     const members = await Group.findByPk(req.params.groupId, {
        include: [User, Membership],
- 
+        
     });
 
     if (!members) {
