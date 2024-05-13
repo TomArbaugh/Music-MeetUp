@@ -27,24 +27,99 @@ module.exports = {
     {
       eventId: 2,
       userId: 2,
-      status: 'waitlist'
+      status: 'attending'
     },
     {
       eventId: 3,
       userId: 3,
-      status: 'pending'
+      status: 'attending'
     },
     {
-      eventId: 1,
-      userId: 2,
-      status: 'host'
+      eventId: 4,
+      userId: 13,
+      status: 'attending'
     },
     {
-      eventId: 2,
-      userId: 3,
-      status: 'co-host'
+      eventId: 5,
+      userId: 11,
+      status: 'attending'
+    },
+    {
+      eventId: 6,
+      userId: 20,
+      status: 'attending'
+    },
+    {
+      eventId: 7,
+      userId: 16,
+      status: 'attending'
+    },
+    {
+      eventId: 8,
+      userId: 10,
+      status: 'attending'
+    },
+    {
+      eventId: 9,
+      userId: 9,
+      status: 'attending'
+    },
+    {
+      eventId: 10,
+      userId: 18,
+      status: 'attending'
+    },  
+    {
+      eventId: 11,
+      userId: 19,
+      status: 'attending'
+    },
+    {
+      eventId: 12,
+      userId: 17,
+      status: 'attending'
+    },
+    {
+      eventId: 13,
+      userId: 15,
+      status: 'attending'
+    },
+    {
+      eventId: 14,
+      userId: 14,
+      status: 'attending'
+    },
+    {
+      eventId: 15,
+      userId: 4,
+      status: 'attending'
+    },
+    {
+      eventId: 16,
+      userId: 6,
+      status: 'attending'
+    },
+    {
+      eventId: 17,
+      userId: 7,
+      status: 'attending'
+    },
+    {
+      eventId: 18,
+      userId: 5,
+      status: 'attending'
+    },
+    {
+      eventId: 19,
+      userId: 8,
+      status: 'attending'
+    },
+    {
+      eventId: 20,
+      userId: 12,
+      status: 'attending'
     }
-   ])
+   ], { validate: true });
   },
 
   async down (queryInterface, Sequelize) {
@@ -57,7 +132,7 @@ module.exports = {
     options.tableName = 'Attendances';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      userId: { [Op.in]: [1, 2] }
+      userId: { [Op.between]: [1, 20] }
     }, {});
   }
 };
