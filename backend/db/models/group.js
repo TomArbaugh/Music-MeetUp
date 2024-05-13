@@ -12,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Group.hasMany(models.Event, {
-        foreignKey: 'groupId'
+        foreignKey: 'groupId',
+        onDelete: 'CASCADE'
       });
 
       // Group.hasMany(models.Membership, {
@@ -35,14 +36,15 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       Group.hasMany(models.GroupImage, {
-        foreignKey: 'groupId'
+        foreignKey: 'groupId',
+        onDelete: 'CASCADE'
       });
     }
   }
   Group.init({
     organizerId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+      type: DataTypes.INTEGER
+      
     },
     name: {
       type: DataTypes.STRING(30),
