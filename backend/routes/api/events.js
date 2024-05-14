@@ -111,7 +111,7 @@ router.get('/:eventId/attendees', async (req, res) => {
 router.get('/:eventId', async (req, res) => {
 
     const event = await Event.findByPk(req.params.eventId, {
-        include: [Attendance, Group, Venue, EventImage]
+        include: [User, Group, Venue, EventImage]
     })
 
     if (!event) {
@@ -141,7 +141,7 @@ router.get('/:eventId', async (req, res) => {
             obj.price = event.price,
             obj.startDate = event.startDate,
             obj.endDate = event.endDate,
-            obj.numAttending = event.Attendances.length,
+            obj.numAttending = event.Users.length,
             obj.Group = {
               id: event.Group.id,
               name: event.Group.name,
@@ -190,7 +190,7 @@ router.get('/', async (req, res) => {
             where: {
                 startDate,
             },
-            include: [Group, Venue, Attendance, EventImage]
+            include: [Group, Venue, User, EventImage]
         })
 
         eventByDate.forEach(async (event) => {
@@ -209,7 +209,7 @@ router.get('/', async (req, res) => {
                 obj.type = event.type,
                 obj.startDate = event.startDate,
                 obj.endDate = event.endDate,
-                obj.numAttending = event.Attendances.length,
+                obj.numAttending = event.Users.length,
                 obj.previewImage = firstImage,
                 obj.Group = {
                   id: event.Group.id,
@@ -317,8 +317,8 @@ router.get('/', async (req, res) => {
 
     if (isNaN(page)) page = 1
     if (page > 10) throw new Error()
-    if (isNaN(size)) size = 20
-    if (size > 20) throw new Error()
+    if (isNaN(size)) size = 50
+    if (size > 50) throw new Error()
 
     const pagination = {}
     pagination.limit = size
@@ -332,7 +332,7 @@ router.get('/', async (req, res) => {
 
     const events = await Event.findAll({
         where,
-        include: [Group, Venue, Attendance, EventImage],
+        include: [Group, Venue, User, EventImage],
         ...pagination
     })
    
@@ -353,7 +353,7 @@ router.get('/', async (req, res) => {
             obj.type = event.type,
             obj.startDate = event.startDate,
             obj.endDate = event.endDate,
-            obj.numAttending = event.Attendances.length,
+            obj.numAttending = event.Users.length,
             obj.previewImage = firstImage,
             obj.Group = {
               id: event.Group.id,
@@ -392,7 +392,7 @@ router.post('/:eventId/attendance', requireAuth, async (req, res) => {
       }
     }
     const event = await Event.findByPk(req.params.eventId, {
-        include: [Attendance, Group]
+        include: [User, Group]
     });
 
     if (!event) {
@@ -402,9 +402,10 @@ router.post('/:eventId/attendance', requireAuth, async (req, res) => {
           })
     };
 
-    event.Attendances.forEach((attendee) => {
-        if (attendee.userId === safeUser.id) {
-            if (attendee.status === 'pending') {
+    event.Users.forEach((attendee) => {
+        
+        if (attendee.Attendance.userId === safeUser.id) {
+            if (attendee.Attendance.status === 'pending') {
                 res.status(400);
                 res.json({
                     "message": "Attendance has already been requested"
@@ -419,10 +420,10 @@ router.post('/:eventId/attendance', requireAuth, async (req, res) => {
         }
     })
     const group = await Group.findByPk(event.Group.id, {
-        include: Membership
+        include: User
     })
 
-    const isMember = group.Memberships.find((member) => member.userId === safeUser.id)
+    const isMember = group.Users.find((member) => member.Membership.userId === safeUser.id)
 
     if (!isMember) {
         res.status(403);
@@ -457,7 +458,7 @@ router.post('/:eventId/images', requireAuth, async (req, res) => {
       }
     }
     const eventAttendance = await Event.findByPk(req.params.eventId, {
-        include: [Attendance, Group]
+        include: [User, Group]
     })
 
     if (!eventAttendance){
@@ -619,7 +620,7 @@ router.put('/:eventId', requireAuth, validateEvents, async (req, res) => {
           })
     }
     const group = await Group.findByPk(event.Group.id, {
-        include: Membership
+        include: User
     });
 
     

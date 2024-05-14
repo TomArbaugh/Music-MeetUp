@@ -102,6 +102,11 @@ router.get('/:groupId/members', async (req, res) => {
     const members = await Group.findByPk(req.params.groupId, {
        include: [User, Membership],
         
+        // include: {
+        //     model: User,
+        //     through: Membership
+        // }
+        
     });
 
     if (!members) {
@@ -160,7 +165,7 @@ router.get('/:groupId/events', async (req, res) => {
         where: {
             groupId: req.params.groupId
         },
-        include: [Attendance, Venue, Group, EventImage]
+        include: [User, Venue, Group, EventImage]
     })
     
     const group = await Group.findByPk(req.params.groupId)
@@ -186,7 +191,7 @@ router.get('/:groupId/events', async (req, res) => {
             obj.type = event.type,
             obj.startDate = event.startDate,
             obj.endDate = event.endDate,
-            obj.numAttending = event.Attendances.length,
+            obj.numAttending = event.Users.length,
             obj.previewImage = firstImage,
             obj.Group = {
               id: event.Group.id,
@@ -244,7 +249,7 @@ router.get('/current', requireAuth, async (req, res) => {
         const Groups = []
 
         const groups = await Group.findAll({
-            include: [Membership, GroupImage]
+            include: [User, GroupImage]
         })
     
         await groups.forEach((group) => {
@@ -271,7 +276,7 @@ router.get('/current', requireAuth, async (req, res) => {
                             state: group.state,
                             createdAt: group.createdAt,
                             updatedAt: group.updatedAt,
-                            numMembers: group.Memberships.length,
+                            numMembers: group.Users.length,
                             previewImg: firstImage
                         }
                         
@@ -290,7 +295,7 @@ router.get('/current', requireAuth, async (req, res) => {
 router.get('/:groupId/', async (req, res) => {
     
     const groups = await Group.findByPk(req.params.groupId, {
-        include: [Membership, GroupImage, Venue, User]
+        include: [GroupImage, Venue, User]
     })
 
     if (!groups) {
@@ -313,7 +318,7 @@ router.get('/:groupId/', async (req, res) => {
             state: groups.state,
             createdAt: groups.createdAt,
             updatedAt: groups.updatedAt,
-            numMembers: groups.Memberships.length,
+            numMembers: groups.Users.length,
             GroupImages: groups.GroupImages,
             Organizer: {
                 id: organizer.id,
@@ -336,8 +341,8 @@ router.get('/', async (req, res) => {
     const Groups = []
 
     const groups = await Group.findAll({
-        include: [Membership, GroupImage]
-    })
+        include: [User, GroupImage]
+    });
 
     await groups.forEach((group) => {
        
@@ -358,7 +363,7 @@ router.get('/', async (req, res) => {
             state: group.state,
             createdAt: group.createdAt,
             updatedAt: group.updatedAt,
-            numMembers: group.Memberships.length,
+            numMembers: group.Users.length,
             previewImg: firstImage
         }
         
@@ -384,7 +389,7 @@ router.post('/:groupId/membership', requireAuth, async (req, res) => {
     }
 
     const groupMembership = await Group.findByPk(req.params.groupId, {
-        include: Membership
+        include: User
     });
 
     if(!groupMembership) {
@@ -394,7 +399,8 @@ router.post('/:groupId/membership', requireAuth, async (req, res) => {
           })
     };
 
-    const currentMembership = groupMembership.Memberships.find((member) => safeUser.id === member.userId)
+    const currentMembership = groupMembership.Users.find((member) => safeUser.id === member.Membership.userId)
+   
     if (currentMembership){
         if (currentMembership.status === 'pending') {
             res.status(400);
@@ -462,7 +468,7 @@ router.post('/:groupId/events', requireAuth, validateEvents, async (req, res) =>
       }
     }
     const group = await Group.findByPk(req.params.groupId, {
-        include: Membership
+        include: User
     })
 
     if(!group){
@@ -471,8 +477,8 @@ router.post('/:groupId/events', requireAuth, validateEvents, async (req, res) =>
             "message": "Group couldn't be found"
           })
     }
-    const memberWithStatus = group.Memberships.find((member) => 
-        member.userId === safeUser.id && member.status === 'co-host'
+    const memberWithStatus = group.Users.find((member) => 
+        member.userId === safeUser.id && member.Membership.status === 'co-host'
     )
     if (safeUser.id !== group.organizerId) {
         res.status(403);
@@ -481,7 +487,7 @@ router.post('/:groupId/events', requireAuth, validateEvents, async (req, res) =>
         })
     }
     req.params.groupId = parseInt(req.params.groupId)
-    const newEvent = await Event.build({
+    const newEvent = await Event.create({
         
         groupId: req.params.groupId,
         venueId,
@@ -493,11 +499,12 @@ router.post('/:groupId/events', requireAuth, validateEvents, async (req, res) =>
         startDate,
         endDate
     });
+    
 
     const attendance = await Attendance.create({
         eventId: newEvent.id,
         userId: safeUser.id,
-        status: 'host'
+        status: 'attending'
     });
 
 
@@ -629,6 +636,13 @@ router.post('/', requireAuth, validate, async (req, res) => {
         city,
         state
     });
+
+    const newMembership = await Membership.create({
+        userId: safeUser.id,
+        groupId: newGroup.id,
+        status: 'host'
+    })
+
     res.status(201)
     res.json(newGroup)
 });
@@ -661,7 +675,7 @@ router.put('/:groupId/membership', requireAuth, async (req, res) => {
     };
     
     const group = await Group.findByPk(req.params.groupId, {
-        include: [Membership, User]
+        include: User
     });
 
     if(!group) {
@@ -679,11 +693,11 @@ if (!userWithMemId) {
 
     // const hasMemberShip = group.Memberships.find((member) => safeUser.id === member.userId)
 
-    const alterMemberShip = group.Memberships.find((member) => safeUser.id === member.userId)
+    const alterMemberShip = group.Users.find((member) => safeUser.id === member.Membership.userId)
 
-  res.json(alterMemberShip)
+ 
 
-    if (!userWithMemId) {
+    if (!alterMemberShip) {
         res.status(404);
         return res.json({
             "message": "User couldn't be found"
@@ -748,7 +762,7 @@ router.put('/:groupId', requireAuth, validate, async (req, res) => {
     }
     
     const group = await Group.findByPk(req.params.groupId, {
-        include: Membership
+        include: User
     })
 
     if (!group) {
@@ -757,7 +771,7 @@ router.put('/:groupId', requireAuth, validate, async (req, res) => {
             "message": "Group couldn't be found"
           })
     }
-    const member = group.Memberships.find((member) => member.userId === safeUser.id)
+    const member = group.Users.find((member) => member.userId === safeUser.id)
 
     if (!member && safeUser.id !== group.organizerId){
         res.status(403);
@@ -793,7 +807,7 @@ router.delete('/:groupId/membership/:memberId', requireAuth, async (req, res) =>
     }
 
     const group = await Group.findByPk(req.params.groupId, {
-        include: Membership
+        include: User
     });
 
   
@@ -805,8 +819,8 @@ router.delete('/:groupId/membership/:memberId', requireAuth, async (req, res) =>
     };
 
     if (safeUser.id === parseInt(req.params.memberId) || safeUser.id === group.organizerId) {
-        const toDelete = group.Memberships.find((membership) =>
-        membership.userId === parseInt(req.params.memberId))
+        const toDelete = group.Users.find((membership) =>
+        membership.Memberhship.userId === parseInt(req.params.memberId))
 
         if (!toDelete) {
             res.status(404);
@@ -849,7 +863,7 @@ router.delete('/:groupId', requireAuth, async (req, res) => {
         where: {
             id: req.params.groupId
         },
-        include: Membership
+        include: User
        
     })
 
@@ -859,7 +873,7 @@ router.delete('/:groupId', requireAuth, async (req, res) => {
             "message": "Group couldn't be found"
           })
     }
-    const member = group.Memberships.find((member) => member.userId === safeUser.id)
+    const member = group.Users.find((member) => member.Membership.userId === safeUser.id)
 
     
     if (!member && safeUser.id !== group.organizerId){
