@@ -754,10 +754,10 @@ router.delete('/:eventId', requireAuth, async (req, res) => {
           })
     }
     const group = await Group.findByPk(toDelete.Group.id, {
-        include: Membership
+        include: User
     })
 
-    const authorized = group.Memberships.find((member) => (member.userId === safeUser.id && member.status === 'co-host') || safeUser.id == group.organizerId)
+    const authorized = group.Users.find((member) => (member.Membership.userId === safeUser.id && member.Membership.status === 'co-host') || safeUser.id == group.organizerId)
 
     if (!authorized) {
         res.status(403);
@@ -765,7 +765,10 @@ router.delete('/:eventId', requireAuth, async (req, res) => {
             message: 'Require Authorization: Current User must be the organizer of the group or a member of the group with a status of "co-host"'
         })
     }
-    await toDelete.destroy()
+    const deleted = await Event.findByPk(req.params.eventId)
+   
+    await deleted.destroy()
+    
     res.json({
         "message": "Successfully deleted"
       })

@@ -23,8 +23,11 @@ module.exports = {
       groupId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {model: 'Groups'},
-        onDelete: 'CASCADE'
+        references: {
+          model: 'Groups',
+          onDelete: 'CASCADE'
+        },
+        
       },
       name: {
         type: Sequelize.STRING(50),

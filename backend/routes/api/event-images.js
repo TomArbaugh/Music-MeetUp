@@ -2,7 +2,7 @@ const express = require('express');
 const { Op } = require('sequelize');
 // const bcrypt = require('bcryptjs');
 // const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const { EventImage, Event, Membership, Group} = require('../../db/models');
+const { EventImage, Event, User, Group} = require('../../db/models');
 // const { check } = require('express-validator');
 // const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
@@ -39,10 +39,10 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
     })
 
     const members = await Group.findByPk(event.Group.id, {
-      include: Membership
+      include: User
     })
 
-    const isCoHost = members.Memberships.find((member) => member.userId === safeUser.id && member.status === 'co-host')
+    const isCoHost = members.Users.find((member) => member.Membership.userId === safeUser.id && member.Membership.status === 'co-host')
 
 
     if (members.organizerId !== safeUser.id && !isCoHost) {

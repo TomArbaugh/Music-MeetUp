@@ -219,8 +219,20 @@ router.get('/:groupId/events', async (req, res) => {
 
 
 router.get('/:groupId/venues', requireAuth, async (req, res) => {
+
+    const { user } = req;
+    let safeUser;
+    if (user) {
+        safeUser = {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username,
+      }
+    }
     const group = await Group.findByPk(req.params.groupId, {
-        include: Venue
+        include: [Venue, User]
     });
 
     if (!group) {
@@ -230,15 +242,27 @@ router.get('/:groupId/venues', requireAuth, async (req, res) => {
           })
     }
     const Venues = group.Venues
-    res.json({Venues})
+
+    const isCoHost = group.Users.find((coHost) => safeUser.id === coHost && coHost.Memberhship.status === 'co-host')
+
+    if (safeUser.id === group.organizerId || isCoHost) {
+        res.json({Venues})
+    } else {
+        res.status(403);
+        return res.json({
+            message: 'Require Authentication: Current User must be the organizer of the group or a member of the group with a status of "co-host"'
+        })
+    }
+
    
 })
 
 router.get('/current', requireAuth, async (req, res) => {
     
     const { user } = req;
+    let safeUser;
       if (user) {
-        const safeUser = {
+        safeUser = {
           id: user.id,
           firstName: user.firstName,
           lastName: user.lastName,
@@ -477,10 +501,11 @@ router.post('/:groupId/events', requireAuth, validateEvents, async (req, res) =>
             "message": "Group couldn't be found"
           })
     }
-    const memberWithStatus = group.Users.find((member) => 
-        member.userId === safeUser.id && member.Membership.status === 'co-host'
-    )
-    if (safeUser.id !== group.organizerId) {
+    const memberWithStatus = group.Users.find((member) => member.Membership.status === 'co-host')
+    
+    
+    
+    if (safeUser.id !== group.organizerId && !memberWithStatus) {
         res.status(403);
         res.json({
             message: 'Require Authorization: Current User must be the organizer of the group or a member of the group with a status of "co-host"'
@@ -640,7 +665,7 @@ router.post('/', requireAuth, validate, async (req, res) => {
     const newMembership = await Membership.create({
         userId: safeUser.id,
         groupId: newGroup.id,
-        status: 'host'
+        status: 'member'
     })
 
     res.status(201)
@@ -712,16 +737,18 @@ if (!userWithMemId) {
     // }
   
     if (safeUser.id === group.organizerId) {
+           
+            userWithMemId.Membership.status = status
 
-        if (alterMemberShip.status === 'member' && status === 'co-host') {
-
-            alterMemberShip.status = status
-
-    } else if (safeUser.id === group.organizerId) {
-
-            if (alterMemberShip.status === 'pending' && status === 'member') 
+        const membershipChanged = await Membership.findOne({
+            where: {
+                userId: memberId
+            }
             
-            alterMemberShip.status = status
+        });
+        membershipChanged.status = status
+        await membershipChanged.save()
+       
 
         } else {
             res.status(403);
@@ -732,16 +759,19 @@ if (!userWithMemId) {
                 }
             })
         }
-    }
+    
 
  
     
-
-
     
-    await alterMemberShip.save()
+    await userWithMemId.save()
 
-    res.json(alterMemberShip)
+    res.json({
+        id: memberId,
+        groupId: parseInt(req.params.groupId),
+        memberId: memberId,
+        status: userWithMemId.Membership.status
+    })
 });
 
 
@@ -873,7 +903,8 @@ router.delete('/:groupId', requireAuth, async (req, res) => {
             "message": "Group couldn't be found"
           })
     }
-    const member = group.Users.find((member) => member.Membership.userId === safeUser.id)
+   
+    const member = group.Users.find((member) => member.userId === safeUser.id)
 
     
     if (!member && safeUser.id !== group.organizerId){
