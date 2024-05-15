@@ -20,7 +20,7 @@ module.exports = {
         allowNull: false,
         references: {
           model: 'Groups',
-          onDelete: 'CASCADE'
+          
         }
       },
       url: {

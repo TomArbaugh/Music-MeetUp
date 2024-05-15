@@ -18,12 +18,14 @@ module.exports = {
       userId: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        reverences: {model: 'Users'}
+        reverences: {model: 'Users'},
+        onDelete: 'cascade'
       },
       groupId: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references: {model: 'Groups'}
+        references: {model: 'Groups'},
+        onDelete: 'cascade'
       },
       status: {
         allowNull: false,

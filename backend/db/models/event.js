@@ -13,8 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Event.hasMany(models.EventImage, {
         foreignKey: 'eventId',
-        onDelete: 'CASCADE',
-        hooks: true
+
       });
 
       // Event.hasMany(models.Attendance, {

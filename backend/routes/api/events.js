@@ -571,7 +571,7 @@ if (isMember) {
 
 
     const statusChange = event.Users.find((attend) => parseInt(userId) === attend.Attendance.userId)
-res.json(statusChange)
+
     if (!statusChange) {
         res.status(404);
         res.json({

@@ -11,7 +11,8 @@ const { requireAuth } = require('../../utils/auth.js');
 
 
 router.delete('/:imageId', requireAuth, async (req, res) => {
-
+const allImg = await GroupImage.findAll()
+res.json(allImg)
   const { user } = req;
   let safeUser;
   if (user) {
