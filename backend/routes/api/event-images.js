@@ -23,6 +23,7 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
     }
   }
 
+
     const image = await EventImage.findByPk(req.params.imageId, {
       include: Event
     })

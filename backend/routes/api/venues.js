@@ -2,7 +2,7 @@ const express = require('express');
 const { Op } = require('sequelize');
 // const bcrypt = require('bcryptjs');
 // const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const { Venue } = require('../../db/models');
+const { Venue, Group, User } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
@@ -34,7 +34,21 @@ const validateVenues = [
   ]
 router.put('/:venueId', requireAuth, validateVenues, async (req, res) => {
 
-    const venue = await Venue.findByPk(req.params.venueId)
+    const { user } = req;
+    let safeUser;
+    if (user) {
+        safeUser = {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username,
+      }
+    }
+
+    const venue = await Venue.findByPk(req.params.venueId, {
+        include: Group
+    })
 
     if (!venue) {
         res.status(404);
@@ -43,27 +57,46 @@ router.put('/:venueId', requireAuth, validateVenues, async (req, res) => {
           })
     }
     
+    const group = await Group.findByPk(venue.Group.id, {
+        include: User
+    })
+
+    const isCoHost = group.Users.find((coHost) => safeUser.id === coHost.id && coHost.Membership.status === 'co-host')
+    
+
+    
     const { address, city, state, lat, lng } = req.body
 
 
-    if (address !== undefined) venue.address = address
-    if (city !== undefined) venue.city = city
-    if (state !== undefined) venue.state = state
-    if (lat !== undefined) venue.lat = lat
-    if (lng !== undefined) venue.lng = lng
+    if (isCoHost || safeUser.id === group.organizerId) {
 
-    await venue.save()
+        if (address !== undefined) venue.address = address
+        if (city !== undefined) venue.city = city
+        if (state !== undefined) venue.state = state
+        if (lat !== undefined) venue.lat = lat
+        if (lng !== undefined) venue.lng = lng
+    
+        await venue.save()
+    
+        const newVenue = {
+            id: venue.id,
+            groupId: venue.groupId,
+            address: venue.address,   
+            city: venue.city,
+            state: venue.state,  
+            lat: venue.lat,   
+            lng: venue.lng
+        }
+        res.json(newVenue)
 
-    const newVenue = {
-        id: venue.id,
-        groupId: venue.groupId,
-        address: venue.address,   
-        city: venue.city,
-        state: venue.state,  
-        lat: venue.lat,   
-        lng: venue.lng
+    } else {
+
+        res.status(403);
+        return res.json({
+            message: 'Require Authentication: Current User must be the organizer of the group or a member of the group with a status of "co-host"'
+        })
     }
-    res.json(newVenue)
+ 
 
 })
 

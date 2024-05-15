@@ -48,7 +48,7 @@ router.get('/:eventId/attendees', async (req, res) => {
     }
 
     const attendees = await Event.findByPk(req.params.eventId, {
-        include: [Attendance, User, Group]
+        include: [User, Group]
     });
      
     if (!attendees) {
@@ -58,48 +58,45 @@ router.get('/:eventId/attendees', async (req, res) => {
           })
     }
     const members = await Group.findByPk(attendees.Group.id, {
-        include: Membership
+        include: User
     })
     
-    const authorizedMember = members.Memberships.find((member) => member.stauts === 'co-host' && safeUser.id === member.userId)
+    const authorizedMember = members.Users.find((member) => member.Membership.stauts === 'co-host' && safeUser.id === member.Membership.userId)
 
     if (safeUser.id === members.organizerId || authorizedMember ) {
 
         let Attendees = []
 
-        attendees.Attendances.forEach((attendee) => {
-           const user = attendees.Users.find((user) => user.id === attendee.userId);
+      
+           const user = attendees.Users.find((user) => user.id === user.Attendance.userId);
     
           let newAttendee = {}
             newAttendee.id = user.id
             newAttendee.firstName = user.firstName
             newAttendee.lastName = user.lastName
-            newAttendee.Attendance = {status: attendee.status}
+            newAttendee.Attendance = {status: user.Attendance.status}
     
             Attendees.push(newAttendee)
             
-        })
+    
         res.json({Attendees})
 
     } else {
          
             let Attendees = []
 
-            attendees.Attendances.forEach((attendee) => {
-                if (attendee.status !== 'pending') {
-                    const user = attendees.Users.find((user) => user.id === attendee.userId);
+                    const user = attendees.Users.find((user) => user.Attendance.status !== 'pending' && user.id === user.Attendance.userId);
         
                     let newAttendee = {}
                       newAttendee.id = user.id
                       newAttendee.firstName = user.firstName
                       newAttendee.lastName = user.lastName
-                      newAttendee.Attendance = {status: attendee.status}
+                      newAttendee.Attendance = {status: user.Attendance.status}
               
                       Attendees.push(newAttendee)
-                }
+                
               
                 
-            })
             res.json({Attendees})
         
 
@@ -402,6 +399,17 @@ router.post('/:eventId/attendance', requireAuth, async (req, res) => {
           })
     };
 
+    const group = await Group.findByPk(event.Group.id, {
+        include: User
+    })
+
+    const isMember = group.Users.find((member) => member.Membership.userId === safeUser.id && member.Membership.status !== 'pending')
+
+    if (!isMember) {
+        res.status(403);
+        res.json({'Require Authorization': 'Current User must be a member of the group'})
+    }
+
     event.Users.forEach((attendee) => {
         
         if (attendee.Attendance.userId === safeUser.id) {
@@ -419,16 +427,7 @@ router.post('/:eventId/attendance', requireAuth, async (req, res) => {
             
         }
     })
-    const group = await Group.findByPk(event.Group.id, {
-        include: User
-    })
 
-    const isMember = group.Users.find((member) => member.Membership.userId === safeUser.id)
-
-    if (!isMember) {
-        res.status(403);
-        res.json({'Require Authorization': 'Current User must be a member of the group'})
-    }
 
     const newAttendance = await Attendance.create({
         eventId: req.params.eventId,
@@ -469,9 +468,15 @@ router.post('/:eventId/images', requireAuth, async (req, res) => {
     }
     
 
-    const statusAttending = eventAttendance.Group.organizerId
+    const statusAttending = eventAttendance.Users.find((attendee) => safeUser.id === attendee.id && attendee.Attendance.status === 'attending')
 
-    if (!statusAttending) {
+    const group = await Group.findByPk(eventAttendance.Group.id, {
+        include: User
+    })
+
+    const hostOrCoHost = group.Users.find((hostOrCoHost) => safeUser.id === hostOrCoHost.id && (hostOrCoHost.Membership.status === 'host' || hostOrCoHost.Membership.status === 'co-host'))
+
+    if (!statusAttending && !hostOrCoHost) {
         res.status(403);
         res.json({
             message: "Require proper authorization: Current User must be an attendee, host, or co-host of the event",
@@ -482,11 +487,15 @@ router.post('/:eventId/images', requireAuth, async (req, res) => {
         url,
         preview
     });
+
+    const allImages = await EventImage.findAll()
+    
     const returnObj = {
         id: newImage.id,
         url: newImage.url,
         preview: newImage.preview
     }
+
     res.json(returnObj)
 });
 
@@ -527,7 +536,7 @@ router.put('/:eventId/attendance', requireAuth, async (req, res) => {
 
 
     const event = await Event.findByPk(req.params.eventId, {
-        include: [Attendance, Group]
+        include: [User, Group]
     })
 
     if(!event) {
@@ -537,18 +546,21 @@ router.put('/:eventId/attendance', requireAuth, async (req, res) => {
           })
     }
     const group = await Group.findByPk(event.Group.id, {
-        include: Membership
+        include: User
     })
     
-    const isMember = group.Memberships.find((member) => safeUser.id === member.userId)
+    const isMember = group.Users.find((member) => safeUser.id === member.Membership.userId)
+
 if (isMember) {
-    if (safeUser.id !== group.organizerId && isMember.status !== 'co-host') {
+    
+    if (safeUser.id !== group.organizerId && isMember.Membership.status !== 'co-host') {
         res.status(403);
         res.json({
             'Require proper authorization': 'Current User must already be the organizer or have a membership to the group with the status of "co-host"'
         })
     };
 } else {
+
     if (safeUser.id !== group.organizerId) {
         res.status(403);
         res.json({
@@ -558,8 +570,8 @@ if (isMember) {
 }
 
 
-    const statusChange = event.Attendances.find((attend) => parseInt(userId) === attend.userId)
-
+    const statusChange = event.Users.find((attend) => parseInt(userId) === attend.Attendance.userId)
+res.json(statusChange)
     if (!statusChange) {
         res.status(404);
         res.json({
@@ -567,14 +579,23 @@ if (isMember) {
           })
     };
 
-    statusChange.status = status
+    const changeAttendance = await Attendance.findOne({
+        where: {
+            eventId: statusChange.Attendance.eventId,
+            userId: statusChange.Attendance.userId
+        }
+    })
+
+    changeAttendance.status = status
+
+    await changeAttendance.save()
     res.json({
        
-        id: statusChange.id,
-        eventId: statusChange.eventId,
-        userId: statusChange.userId,
-        status: statusChange.status
-})
+        id: changeAttendance.id,
+        eventId: changeAttendance.eventId,
+        userId: changeAttendance.userId,
+        status: changeAttendance.status
+    })
 })
 
 router.put('/:eventId', requireAuth, validateEvents, async (req, res) => {
@@ -623,10 +644,10 @@ router.put('/:eventId', requireAuth, validateEvents, async (req, res) => {
         include: User
     });
 
-    
-    const autherized = group.organizerId
+   
+    const autherized = group.Users.find((coHost) => safeUser.id === coHost.id && coHost.Membership.status == 'co-host')
 
-    if (!autherized) {
+    if (!autherized && !(safeUser.id === group.organizerId)) {
         res.status(403);
         return res.json({
             message: 'Require Authorization: Current User must be the organizer of the group or a member of the group with a status of "co-host"'
@@ -695,7 +716,7 @@ router.delete('/:eventId/attendance/:userId', requireAuth, async (req, res) => {
     }
     
     const userAttending = await Event.findByPk(req.params.eventId, {
-        include: Attendance
+        include: User
     });
 
     if (!userAttending) {
@@ -705,7 +726,7 @@ router.delete('/:eventId/attendance/:userId', requireAuth, async (req, res) => {
           })
     };
 
-    const isHost = userAttending.Attendances.find((host) => host.status === 'host' && safeUser.id === host.userId)
+    const isHost = userAttending.Users.find((host) => host.Attendance.status === 'host' && safeUser.id === host.Attendance.userId)
 
     if (parseInt(req.params.userId) !== safeUser.id && !isHost){
         res.status(403);
@@ -714,7 +735,7 @@ router.delete('/:eventId/attendance/:userId', requireAuth, async (req, res) => {
         })
     }
 
-    const attendanceToDelete = userAttending.Attendances.find((attendee) => parseInt(req.params.userId) === attendee.userId)
+    const attendanceToDelete = userAttending.Users.find((attendee) => parseInt(req.params.userId) === attendee.Attendance.userId)
 
     if (!attendanceToDelete) {
         res.status(404);

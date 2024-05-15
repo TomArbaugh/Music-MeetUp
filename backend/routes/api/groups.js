@@ -100,7 +100,7 @@ router.get('/:groupId/members', async (req, res) => {
     }
 
     const members = await Group.findByPk(req.params.groupId, {
-       include: [User, Membership],
+       include: [User],
         
         // include: {
         //     model: User,
@@ -121,29 +121,33 @@ router.get('/:groupId/members', async (req, res) => {
 
     const Members =  []
 
-    members.Memberships.forEach((member) => {
+    members.Users.forEach((member) => {
 
-        if(safeUser.id === member.userId && member.status === 'co-host') authorized = true
+        if (safeUser.id === member.Membership.userId && member.Membership.status === 'co-host') authorized = true
 
-        const user = members.Users.find((user) => member.userId === user.id)
+        const user = members.Users.find((user) => member.Membership.userId === user.id)
+
         if (safeUser.id === members.organizerId || authorized === true){
+
             const memberObj = {
-                id: member.userId,
+                id: member.Membership.userId,
                 firstName: user.firstName,
                 lastName: user.lastName,
                 Membership: {
-                    status: member.status
+                    status: member.Membership.status
                 }
             }
             Members.push(memberObj)
+
         } else {
-            if (member.status !== 'pending'){
+
+            if (member.Membership.status !== 'pending'){
                 const memberObj = {
-                    id: member.userId,
+                    id: member.Membership.userId,
                     firstName: user.firstName,
                     lastName: user.lastName,
                     Membership: {
-                        status: member.status
+                        status: member.Membership.status
                     }
                 }
                 Members.push(memberObj)
@@ -243,7 +247,7 @@ router.get('/:groupId/venues', requireAuth, async (req, res) => {
     }
     const Venues = group.Venues
 
-    const isCoHost = group.Users.find((coHost) => safeUser.id === coHost && coHost.Memberhship.status === 'co-host')
+    const isCoHost = group.Users.find((coHost) => safeUser.id === coHost.id && coHost.Membership.status === 'co-host')
 
     if (safeUser.id === group.organizerId || isCoHost) {
         res.json({Venues})
@@ -501,13 +505,13 @@ router.post('/:groupId/events', requireAuth, validateEvents, async (req, res) =>
             "message": "Group couldn't be found"
           })
     }
-    const memberWithStatus = group.Users.find((member) => member.Membership.status === 'co-host')
+    const memberWithStatus = group.Users.find((member) => safeUser.id === member.id && member.Membership.status === 'co-host')
     
     
     
     if (safeUser.id !== group.organizerId && !memberWithStatus) {
         res.status(403);
-        res.json({
+        return res.json({
             message: 'Require Authorization: Current User must be the organizer of the group or a member of the group with a status of "co-host"'
         })
     }
@@ -606,37 +610,62 @@ router.post('/:groupId/images', requireAuth, async (req, res) => {
 });
 
 router.post('/:groupId/venues', requireAuth, validateVenues, async (req, res) => {
+
+    const { user } = req;
+    let safeUser;
+    if (user) {
+        safeUser = {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        username: user.username,
+      }
+    }
+
     let groupId = req.params.groupId
-    const group = await Group.findByPk(groupId)
+    const group = await Group.findByPk(groupId, {
+        include: User
+    })
     if (!group) {
         res.status(404);
         res.json({
             "message": "Group couldn't be found"
           });
     }
-groupId = parseInt(groupId)
+    groupId = parseInt(groupId)
+
     const {address, city, state, lat, lng} = req.body
 
+    const isCoHost = group.Users.find((coHost) => coHost.id === safeUser.id && coHost.Membership.status === 'co-host')
 
-    const newVenue = await Venue.create({
-        groupId,
-        address,
-        city,
-        state,
-        lat,
-        lng
-    });
-
-    const returnVenue = {
-        id: newVenue.id,
-        groupId: newVenue.groupId,
-        address: newVenue.address,
-        city: newVenue.city,
-        state: newVenue.state,
-        lat: newVenue.lat,
-        lng: newVenue.lng,
+    if (isCoHost || safeUser.id === group.organizerId) {
+        const newVenue = await Venue.create({
+            groupId,
+            address,
+            city,
+            state,
+            lat,
+            lng
+        });
+    
+        const returnVenue = {
+            id: newVenue.id,
+            groupId: newVenue.groupId,
+            address: newVenue.address,
+            city: newVenue.city,
+            state: newVenue.state,
+            lat: newVenue.lat,
+            lng: newVenue.lng,
+        }
+        res.json(returnVenue)
+    } else {
+        res.status(403);
+        return res.json({
+            message: 'Require Authentication: Current User must be the organizer of the group or a member of the group with a status of "co-host"'
+        })
     }
-    res.json(returnVenue)
+
 })
 
 router.post('/', requireAuth, validate, async (req, res) => {
@@ -713,7 +742,7 @@ router.put('/:groupId/membership', requireAuth, async (req, res) => {
     const userWithMemId = group.Users.find((user) => user.id === memberId)
 if (!userWithMemId) {
     res.status(400);
-    return res.json('no such user')
+    return res.json({message: 'no such user'})
 }
 
     // const hasMemberShip = group.Memberships.find((member) => safeUser.id === member.userId)
@@ -722,12 +751,7 @@ if (!userWithMemId) {
 
  
 
-    if (!alterMemberShip) {
-        res.status(404);
-        return res.json({
-            "message": "User couldn't be found"
-          })
-    };
+
 
     // if (!hasMemberShip) {
     //     res.status(404);
@@ -760,7 +784,12 @@ if (!userWithMemId) {
             })
         }
     
-
+        if (!alterMemberShip) {
+            res.status(404);
+            return res.json({
+                "message": "User couldn't be found"
+              })
+        };
  
     
     
@@ -850,7 +879,7 @@ router.delete('/:groupId/membership/:memberId', requireAuth, async (req, res) =>
 
     if (safeUser.id === parseInt(req.params.memberId) || safeUser.id === group.organizerId) {
         const toDelete = group.Users.find((membership) =>
-        membership.Memberhship.userId === parseInt(req.params.memberId))
+        membership.Membership.userId === parseInt(req.params.memberId))
 
         if (!toDelete) {
             res.status(404);
@@ -912,7 +941,7 @@ router.delete('/:groupId', requireAuth, async (req, res) => {
         return res.json({message: "Require proper authorization: Group must belong to the current user"})
     }
    
-    // await group.destroy()
+    await group.destroy()
 
     res.json({
         "message": "Successfully deleted"
