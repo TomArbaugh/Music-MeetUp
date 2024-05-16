@@ -209,7 +209,7 @@ router.get('/:groupId/events', async (req, res) => {
             Events.push(obj)
         });
 
-    res.json({
+    return res.json({
         Events
     })
     
@@ -235,7 +235,7 @@ router.get('/:groupId/venues', requireAuth, async (req, res) => {
 
     if (!group) {
         res.status(404);
-        res.json({
+        return res.json({
             "message": "Group couldn't be found"
           })
     }
@@ -308,7 +308,7 @@ router.get('/current', requireAuth, async (req, res) => {
             
         
         })
-        res.json({Groups})
+        return res.json({Groups})
 }
 
 });
@@ -352,7 +352,7 @@ router.get('/:groupId/', async (req, res) => {
         
         
     
-    res.json(alteredGroup)
+    return res.json(alteredGroup)
 });
 
 
@@ -391,7 +391,7 @@ router.get('/', async (req, res) => {
         
         Groups.push(alteredGroup)
     })
-    res.json({Groups})
+    return res.json({Groups})
     
 });
 
@@ -416,7 +416,7 @@ router.post('/:groupId/membership', requireAuth, async (req, res) => {
 
     if(!groupMembership) {
         res.status(404);
-        res.json({
+        return res.json({
             "message": "Group couldn't be found"
           })
     };
@@ -435,7 +435,7 @@ router.post('/:groupId/membership', requireAuth, async (req, res) => {
 
     if (currentMembership) {
         res.status(400);
-        res.json({
+        return res.json({
             "message": "User is already a member of the group"
           })
     }
@@ -449,7 +449,7 @@ router.post('/:groupId/membership', requireAuth, async (req, res) => {
         status: "pending"
     });
     
-    res.json({
+    return res.json({
         
         memberId: newMembership.userId,
         status: newMembership.status
@@ -464,14 +464,14 @@ router.post('/:groupId/events', requireAuth, validateEvents, async (req, res) =>
     const venue = await Venue.findByPk(parseInt(venueId))
     if(!venue) {
         res.status(404);
-        res.json({
+        return res.json({
             "message": "Venue couldn't be found"
           })
     }
 
     if (endDate < startDate) {
         res.status(400);
-        res.json({
+        return res.json({
             message: "Bad Request",
             endDate: "End date is less than start date"
         })
@@ -495,7 +495,7 @@ router.post('/:groupId/events', requireAuth, validateEvents, async (req, res) =>
 
     if(!group){
         res.status(404);
-        res.json({
+        return res.json({
             "message": "Group couldn't be found"
           })
     }
@@ -537,7 +537,7 @@ router.post('/:groupId/events', requireAuth, validateEvents, async (req, res) =>
 
     if (length > 2) {
         res.status(400);
-        res.json({
+        return res.json({
             message: "Bad Request",
             errors: {
                 price: "Price is invalid"
@@ -623,7 +623,7 @@ router.post('/:groupId/venues', requireAuth, validateVenues, async (req, res) =>
     })
     if (!group) {
         res.status(404);
-        res.json({
+        return res.json({
             "message": "Group couldn't be found"
           });
     }
@@ -692,7 +692,7 @@ router.post('/', requireAuth, validate, async (req, res) => {
     })
 
     res.status(201)
-    res.json(newGroup)
+    return res.json(newGroup)
 });
 
 
@@ -759,7 +759,7 @@ if (!userWithMemId) {
 
         } else {
             res.status(403);
-            res.json({
+            return res.json({
                 "message": "Forbidden"
             })
         }
@@ -775,7 +775,7 @@ if (!userWithMemId) {
     
     await userWithMemId.save()
 
-    res.json({
+    return res.json({
         id: memberId,
         groupId: parseInt(req.params.groupId),
         memberId: memberId,
@@ -806,7 +806,7 @@ router.put('/:groupId', requireAuth, validate, async (req, res) => {
 
     if (!group) {
         res.status(404);
-        res.json({
+        return res.json({
             "message": "Group couldn't be found"
           })
     }
@@ -829,11 +829,11 @@ router.put('/:groupId', requireAuth, validate, async (req, res) => {
     
     await groups.save()
 
-    res.json(groups)
+    return res.json(groups)
 });
 
 router.delete('/:groupId/membership/:memberId', requireAuth, async (req, res) => {
-    
+
     const { user } = req;
     let safeUser;
     if (user) {
@@ -853,31 +853,40 @@ router.delete('/:groupId/membership/:memberId', requireAuth, async (req, res) =>
   
     if (!group) {
         res.status(404);
-        res.json({
+        return res.json({
             "message": "Group couldn't be found"
           })
     };
 
     if (safeUser.id === parseInt(req.params.memberId) || safeUser.id === group.organizerId) {
-        const toDelete = group.Users.find((membership) =>
+        const member = group.Users.find((membership) =>
         membership.Membership.userId === parseInt(req.params.memberId))
 
-        if (!toDelete) {
+        if (!member) {
             res.status(404);
-            res.json(
+            return res.json(
                 {
                     "message": "Membership does not exist for this User"
                   }
             )
         }
+
+        const toDelete = await Membership.findOne({
+            where: {
+                userId: req.params.memberId,
+                groupId: req.params.groupId
+            }
+        })
+
         await toDelete.destroy()
 
-            res.json({
+            return res.json({
             "message": "Successfully deleted membership from group"
         })
+
     } else {
         res.status(403);
-        res.json({
+        return res.json({
             "message": "Forbidden"
         })
     }
@@ -924,7 +933,7 @@ router.delete('/:groupId', requireAuth, async (req, res) => {
    
     await group.destroy()
 
-    res.json({
+    return res.json({
         "message": "Successfully deleted"
       })
 });
