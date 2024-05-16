@@ -858,9 +858,9 @@ router.delete('/:groupId/membership/:memberId', requireAuth, async (req, res) =>
           })
     };
 
-    if (safeUser.id === parseInt(req.params.memberId) || safeUser.id === group.organizerId) {
-        const member = group.Users.find((membership) =>
-        membership.Membership.userId === parseInt(req.params.memberId))
+    
+        const member = group.Users.find((user) =>
+        user.Membership.userId === parseInt(req.params.memberId))
 
         if (!member) {
             res.status(404);
@@ -871,6 +871,8 @@ router.delete('/:groupId/membership/:memberId', requireAuth, async (req, res) =>
             )
         }
 
+        if (safeUser.id === parseInt(req.params.memberId) || safeUser.id === group.organizerId) {
+            
         const toDelete = await Membership.findOne({
             where: {
                 userId: req.params.memberId,
