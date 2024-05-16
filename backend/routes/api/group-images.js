@@ -11,8 +11,7 @@ const { requireAuth } = require('../../utils/auth.js');
 
 
 router.delete('/:imageId', requireAuth, async (req, res) => {
-const allImg = await GroupImage.findAll()
-res.json(allImg)
+
   const { user } = req;
   let safeUser;
   if (user) {
@@ -43,7 +42,7 @@ res.json(allImg)
 
     if (members.organizerId !== safeUser.id && !isCoHost) {
       res.status(403);
-      res.json({
+      return res.json({
         'Require proper authorization': 'Current user must be the organizer or "co-host" of the Group'
       })
     }
