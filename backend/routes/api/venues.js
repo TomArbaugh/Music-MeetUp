@@ -52,7 +52,7 @@ router.put('/:venueId', requireAuth, validateVenues, async (req, res) => {
 
     if (!venue) {
         res.status(404);
-        res.json({
+        return res.json({
             "message": "Venue couldn't be found"
           })
     }
@@ -87,7 +87,7 @@ router.put('/:venueId', requireAuth, validateVenues, async (req, res) => {
             lat: venue.lat,   
             lng: venue.lng
         }
-        res.json(newVenue)
+        return res.json(newVenue)
 
     } else {
 

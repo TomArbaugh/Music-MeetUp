@@ -29,7 +29,7 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
 
     if (!image) {
       res.status(404);
-      res.json({
+      return res.json({
         "message": "Group Image couldn't be found"
       })
     }
@@ -48,7 +48,7 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
     }
     
     await image.destroy()
-    res.json({
+    return res.json({
         "message": "Successfully deleted"
       })
 })
