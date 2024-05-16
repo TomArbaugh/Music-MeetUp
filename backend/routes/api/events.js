@@ -323,12 +323,12 @@ router.get('/', async (req, res) => {
         })
     }
     if (isNaN(size)) size = 50
-    if (size > 20) {
+    if (size > 50) {
         res.status(400);
         return res.json({
             "message": "Bad Request", 
             "errors": {
-                "size": "Size must be 20 or less",
+                "size": "Size must be 50 or less",
             }
         })
     }
