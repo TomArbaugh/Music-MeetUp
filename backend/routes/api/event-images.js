@@ -49,7 +49,7 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
     if (members.organizerId !== safeUser.id && !isCoHost) {
       res.status(403);
       return res.json({
-        'Require proper authorization': 'Current user must be the organizer or "co-host" of the Group'
+        "message": "Forbidden"
       })
     }
     await image.destroy()

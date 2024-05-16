@@ -248,7 +248,7 @@ router.get('/:groupId/venues', requireAuth, async (req, res) => {
     } else {
         res.status(403);
         return res.json({
-            message: 'Require Authentication: Current User must be the organizer of the group or a member of the group with a status of "co-host"'
+            "message": "Forbidden"
         })
     }
 
@@ -506,7 +506,7 @@ router.post('/:groupId/events', requireAuth, validateEvents, async (req, res) =>
     if (safeUser.id !== group.organizerId && !memberWithStatus) {
         res.status(403);
         return res.json({
-            message: 'Require Authorization: Current User must be the organizer of the group or a member of the group with a status of "co-host"'
+            "message": "Forbidden"
         })
     }
     req.params.groupId = parseInt(req.params.groupId)
@@ -589,7 +589,7 @@ router.post('/:groupId/images', requireAuth, async (req, res) => {
     }
     if (group.organizerId !== safeUser.id) {
         res.status(403)
-        return res.json({message: "Require proper authorization: Current User must be the organizer for the group"})
+        return res.json({"message": "Forbidden"})
     }
     const newGroupImg = await GroupImage.create({
         groupId: req.params.groupId,
@@ -656,7 +656,7 @@ router.post('/:groupId/venues', requireAuth, validateVenues, async (req, res) =>
     } else {
         res.status(403);
         return res.json({
-            message: 'Require Authentication: Current User must be the organizer of the group or a member of the group with a status of "co-host"'
+            "message": "Forbidden"
         })
     }
 
@@ -739,20 +739,9 @@ if (!userWithMemId) {
     return res.json({message: 'no such user'})
 }
 
-    // const hasMemberShip = group.Memberships.find((member) => safeUser.id === member.userId)
 
     const alterMemberShip = group.Users.find((member) => safeUser.id === member.Membership.userId)
 
- 
-
-
-
-    // if (!hasMemberShip) {
-    //     res.status(404);
-    //     res.json({
-    //         "message": "Membership between the user and the group does not exist"
-    //       })
-    // }
   
     if (safeUser.id === group.organizerId) {
            
@@ -771,10 +760,7 @@ if (!userWithMemId) {
         } else {
             res.status(403);
             res.json({
-                "Require proper authorization": {
-                    'To change the status from "pending" to "member"': 'Current User must already be the organizer or have a membership to the group with the status of "co-host"',
-                    'To change the status from "member" to "co-host"': 'Current User must already be the organizer'
-                }
+                "message": "Forbidden"
             })
         }
     
@@ -828,7 +814,7 @@ router.put('/:groupId', requireAuth, validate, async (req, res) => {
 
     if (!member && safeUser.id !== group.organizerId){
         res.status(403);
-        return res.json({message: "Require proper authorization: Group must belong to the current user"})
+        return res.json({"message": "Forbidden"})
     }
     
     const groups = await Group.findByPk(req.params.groupId)
@@ -891,7 +877,7 @@ router.delete('/:groupId/membership/:memberId', requireAuth, async (req, res) =>
     } else {
         res.status(403);
         res.json({
-            'Require proper authorization': 'Current User must be the host of the group, or the user whose membership is being deleted'
+            "message": "Forbidden"
         })
     }
    
@@ -932,7 +918,7 @@ router.delete('/:groupId', requireAuth, async (req, res) => {
     
     if (!member && safeUser.id !== group.organizerId){
         res.status(403);
-        return res.json({message: "Require proper authorization: Group must belong to the current user"})
+        return res.json({"message": "Forbidden"})
     }
    
     await group.destroy()

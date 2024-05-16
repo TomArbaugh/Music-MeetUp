@@ -407,7 +407,7 @@ router.post('/:eventId/attendance', requireAuth, async (req, res) => {
 
     if (!isMember) {
         res.status(403);
-        return res.json({'Require Authorization': 'Current User must be a member of the group'})
+        return res.json({"message": "Forbidden"})
     }
 
     event.Users.forEach((attendee) => {
@@ -479,7 +479,7 @@ router.post('/:eventId/images', requireAuth, async (req, res) => {
     if (!statusAttending && !hostOrCoHost) {
         res.status(403);
         return res.json({
-            message: "Require proper authorization: Current User must be an attendee, host, or co-host of the event",
+            "message": "Forbidden"
         })
     }
     const newImage = await EventImage.create({
@@ -556,7 +556,7 @@ if (isMember) {
     if (safeUser.id !== group.organizerId && isMember.Membership.status !== 'co-host') {
         res.status(403);
         return res.json({
-            'Require proper authorization': 'Current User must already be the organizer or have a membership to the group with the status of "co-host"'
+            "message": "Forbidden"
         })
     };
 } else {
@@ -564,7 +564,7 @@ if (isMember) {
     if (safeUser.id !== group.organizerId) {
         res.status(403);
         return res.json({
-            'Require proper authorization': 'Current User must already be the organizer or have a membership to the group with the status of "co-host"'
+            "message": "Forbidden"
         })
     };
 }
@@ -650,7 +650,7 @@ router.put('/:eventId', requireAuth, validateEvents, async (req, res) => {
     if (!autherized && !(safeUser.id === group.organizerId)) {
         res.status(403);
         return res.json({
-            message: 'Require Authorization: Current User must be the organizer of the group or a member of the group with a status of "co-host"'
+            "message": "Forbidden"
         })
     }
 
@@ -731,7 +731,7 @@ router.delete('/:eventId/attendance/:userId', requireAuth, async (req, res) => {
     if (parseInt(req.params.userId) !== safeUser.id && !isHost){
         res.status(403);
         return res.json({
-            'Require proper authorization': 'Current User must be the host of the group, or the user whose attendance is being deleted'
+            "message": "Forbidden"
         })
     }
 
@@ -784,7 +784,7 @@ router.delete('/:eventId', requireAuth, async (req, res) => {
     if (!authorized) {
         res.status(403);
         return res.json({
-            message: 'Require Authorization: Current User must be the organizer of the group or a member of the group with a status of "co-host"'
+            "message": "Forbidden"
         })
     }
     const deleted = await Event.findByPk(req.params.eventId)
