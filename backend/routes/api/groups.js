@@ -833,6 +833,7 @@ router.put('/:groupId', requireAuth, validate, async (req, res) => {
 });
 
 router.delete('/:groupId/membership/:memberId', requireAuth, async (req, res) => {
+    
     const { user } = req;
     let safeUser;
     if (user) {
