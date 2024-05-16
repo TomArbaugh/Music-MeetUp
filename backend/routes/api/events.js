@@ -287,7 +287,7 @@ router.get('/', async (req, res) => {
     if (page) {
         if (page < 1) {
             res.status(400);
-            res.json({
+            return res.json({
                 "message": "Bad Request", 
                 "errors": {
                     "page": "Page must be greater than or equal to 1",
@@ -299,7 +299,7 @@ router.get('/', async (req, res) => {
     if (size) {
         if (size < 1) {
             res.status(400);
-            res.json({
+            return res.json({
                 "message": "Bad Request", 
                 "errors": {
                     "size": "Size must be greater than or equal to 1",
@@ -313,9 +313,25 @@ router.get('/', async (req, res) => {
     size = parseInt(size);
 
     if (isNaN(page)) page = 1
-    if (page > 10) throw new Error()
+    if (page > 10) {
+        res.status(400);
+        return res.json({
+            "message": "Bad Request", 
+            "errors": {
+                "page": "Must be 10 or less",
+            }
+        })
+    }
     if (isNaN(size)) size = 50
-    if (size > 50) throw new Error()
+    if (size > 20) {
+        res.status(400);
+        return res.json({
+            "message": "Bad Request", 
+            "errors": {
+                "size": "Size must be 20 or less",
+            }
+        })
+    }
 
     const pagination = {}
     pagination.limit = size
