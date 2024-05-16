@@ -735,16 +735,22 @@ router.delete('/:eventId/attendance/:userId', requireAuth, async (req, res) => {
         })
     }
 
-    const attendanceToDelete = userAttending.Users.find((attendee) => parseInt(req.params.userId) === attendee.Attendance.userId)
+    const attendanceExists = userAttending.Users.find((attendee) => parseInt(req.params.userId) === attendee.Attendance.userId)
 
-    if (!attendanceToDelete) {
+    if (!attendanceExists) {
         res.status(404);
         return res.json({
             "message": "Attendance does not exist for this User"
           })
     };
     
-    await attendanceToDelete.Attendance.destroy()
+    const attendanceToDelete = await Attendance.findOne({
+        where: {
+            userId: req.params.userId,
+            EventId: req.params.eventId
+        }
+    })
+    await attendanceToDelete.destroy()
 
     return res.json({
         "message": "Successfully deleted attendance from event"
