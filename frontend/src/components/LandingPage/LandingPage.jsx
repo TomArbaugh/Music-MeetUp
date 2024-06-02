@@ -4,6 +4,7 @@ import { MdContentPasteSearch } from "react-icons/md";
 import { Link } from "react-router-dom";
 import './LandingPage.css'
 
+
 export function LandingPage() {
 
     return (
@@ -14,7 +15,7 @@ export function LandingPage() {
                     <h3>Welcome to the music. Some join to play music, some join to hear music... here, we are music. You do not need to be a musician to join a band. You do not need to be in a band to be a musician. All you need is for the music to be in YOU. We are Music MeetUp. Nice to meet you!</h3>
                 </div>
 
-                <img id="layout-img" src={"../../dist/infographic.jpeg"} />
+                <img id="layout-img" src={"/infographic.jpeg"} />
             </div>
             <div id="layout-section-two">
                 
