@@ -7,6 +7,7 @@ import Navigation from './components/Navigation/Navigation-bonus';
 import * as sessionActions from './store/session';
 import { Modal } from './context/Modal';
 import { LandingPage } from './components/LandingPage/LandingPage';
+import { GroupList } from './components/GroupList/GroupList';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -38,7 +39,11 @@ const router = createBrowserRouter([
       {
         path: '/test',
         element: <h1>Test</h1>
-      }
+      },
+      {
+        path: '/goup-list',
+        element: <GroupList />
+      }  
       // {
       //   path: 'login',
       //   element: <LoginFormPage />

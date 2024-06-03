@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import './LandingPage.css'
 import { useSelector } from "react-redux";
 
+
 export function LandingPage() {
 
     const sessionUser = useSelector(state => state.session.user);
@@ -29,7 +30,12 @@ console.log(sessionUser)
             <div id="layout-section-three">
                 <div id="see-all-groups">
                     <GrGroup className="icons"/>
-                    <Link className="landingLink">See All Groups</Link>
+                    <Link 
+                    className="landingLink"
+                    to="/goup-list"
+                    >
+                        See All Groups
+                    </Link>
                     <h3>Heres a caption for you</h3>
                 </div>
                 <div id="find-an-event">
