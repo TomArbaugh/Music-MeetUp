@@ -40,13 +40,18 @@ console.log(sessionUser)
                 </div>
                 <div id="start-a-group">
                     <PiHandshakeDuotone className="icons"/>
+                    
                     <Link 
                     
-                    className="landingLink"
+                    className={!sessionUser ? "start-a-group-link" : "landingLink"}
+                    
                     to={sessionUser ? "/test" : null}
                     >
                         Start a Group
                     </Link>
+
+                   
+         
                     <h3>Heres a caption for you</h3>
                 </div>
             </div>

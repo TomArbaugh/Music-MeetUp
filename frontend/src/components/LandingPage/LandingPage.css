@@ -73,3 +73,13 @@
 .landingLink:hover {
     text-decoration: underline;
 }
+
+.start-a-group-link {
+    color: lightgray;
+    text-decoration: none;
+}
+
+.start-a-group-link:hover {
+    text-decoration: none;
+    cursor: not-allowed;
+}
