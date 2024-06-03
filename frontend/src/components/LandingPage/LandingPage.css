@@ -3,7 +3,7 @@
 #layout-section-one {
     display: flex;
     justify-content: center;
-    padding: 1em 3em;
+    
 }
 
 #layout-section-two {
@@ -20,15 +20,24 @@
 #layout-section-four {
     display: flex;
     justify-content: center;
-    padding: 1em;
+    height: 3em;
+   
 }
 
 #layout-img {
     width: 25%;
+    padding: 1em;
+    height: 14em;
 }
 
 #layout-title {
     width: 25%;
+    padding: 1em;
+    
+}
+
+#layout-title > h1 {
+    margin: 0px;
 }
 
 #see-all-groups {
@@ -52,3 +61,15 @@
     padding: 3em;
 }
 
+.icons {
+    height: 5em;
+    width: 5em;
+}
+
+.landingLink {
+    text-decoration: none;
+}
+
+.landingLink:hover {
+    text-decoration: underline;
+}

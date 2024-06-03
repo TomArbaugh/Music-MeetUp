@@ -2,6 +2,8 @@
   display: flex;
   justify-content: space-between;
   width: 90%;
+  list-style-type: none;
+ 
 }
 
 .profile-dropdown {
@@ -10,4 +12,9 @@
 
 .hidden {
   display: none;
+}
+
+.active {
+  text-decoration: none;
+ 
 }

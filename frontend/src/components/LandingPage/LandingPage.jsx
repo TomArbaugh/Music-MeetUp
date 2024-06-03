@@ -19,26 +19,26 @@ export function LandingPage() {
             </div>
             <div id="layout-section-two">
                 
-                    <h2>How Music MeetUp works</h2>
+                    <h2>How Music MeetUp Works</h2>
                     <h4>Meet musicians in your area or enjoy their performance from the audience when you brows our groups and events!</h4>
 
 
             </div>
             <div id="layout-section-three">
                 <div id="see-all-groups">
-                    <GrGroup />
-                    <Link>See All Groups</Link>
+                    <GrGroup className="icons"/>
+                    <Link className="landingLink">See All Groups</Link>
                     <h3>Heres a caption for you</h3>
                 </div>
                 <div id="find-an-event">
 
-                    <MdContentPasteSearch />
-                    <Link>Find an Event</Link>
+                    <MdContentPasteSearch className="icons"/>
+                    <Link className="landingLink">Find an Event</Link>
                     <h3>Heres a caption for you</h3>
                 </div>
                 <div id="start-a-group">
-                    <PiHandshakeDuotone />
-                    <Link>Start a Group</Link>
+                    <PiHandshakeDuotone className="icons"/>
+                    <Link className="landingLink">Start a Group</Link>
                     <h3>Heres a caption for you</h3>
                 </div>
             </div>
