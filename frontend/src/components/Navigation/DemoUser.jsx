@@ -8,7 +8,7 @@ export function DemoUser(){
 
     const dispatch = useDispatch();
     const [credential] = useState("LittleWing");
-    const [password] = useState("34&sldkfKJ");
+    const [password] = useState('34&sldkfKJ');
     const { closeModal } = useModal();
                 
                 
