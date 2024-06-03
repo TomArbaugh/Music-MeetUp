@@ -3,10 +3,12 @@ import { PiHandshakeDuotone } from "react-icons/pi";
 import { MdContentPasteSearch } from "react-icons/md";
 import { Link } from "react-router-dom";
 import './LandingPage.css'
-
+import { useSelector } from "react-redux";
 
 export function LandingPage() {
 
+    const sessionUser = useSelector(state => state.session.user);
+console.log(sessionUser)
     return (
         <div id="test">
             <div id="layout-section-one">
@@ -38,7 +40,13 @@ export function LandingPage() {
                 </div>
                 <div id="start-a-group">
                     <PiHandshakeDuotone className="icons"/>
-                    <Link className="landingLink">Start a Group</Link>
+                    <Link 
+                    
+                    className="landingLink"
+                    to={sessionUser ? "/test" : null}
+                    >
+                        Start a Group
+                    </Link>
                     <h3>Heres a caption for you</h3>
                 </div>
             </div>
