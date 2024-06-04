@@ -7,6 +7,10 @@
    
 }
 
+#header {
+    display: flex;
+}
+
 #events-header {
     text-decoration: none;
     color: lightgray;
@@ -34,3 +38,15 @@
     display: flex;
 }
 
+#right {
+    padding: 1em 2em;
+    width: 50%;
+}
+
+#left {
+    padding: 1em;
+    width: 20%;
+}
+#bottom {
+    display: flex;
+}
