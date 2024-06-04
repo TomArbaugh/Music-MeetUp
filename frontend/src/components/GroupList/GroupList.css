@@ -36,6 +36,9 @@
 
 #card {
     display: flex;
+    cursor: pointer;
+    border-bottom: solid black 3px;
+    
 }
 
 #right {
@@ -47,6 +50,17 @@
     padding: 1em;
     width: 20%;
 }
+
+
 #bottom {
     display: flex;
+}
+
+#dot {
+    align-self: center;
+}
+
+#card-link {
+    text-decoration: none;
+    color: black;
 }
