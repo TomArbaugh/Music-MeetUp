@@ -42,7 +42,7 @@ export function GroupList() {
             <div id="outer-div">
                 <div id="header">
                     <Link id="groups-header"><h1>Groups</h1></Link>
-                    <Link id="events-header"><h1>Events</h1></Link>
+                    <Link id="events-header" to="/events-list"><h1>Events</h1></Link>
                 </div>
                 <div id="body">
                     <h2 id="subtitle">Groups In Meetup</h2>

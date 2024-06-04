@@ -1,0 +1,9 @@
+#group-header {
+    color: lightgray;
+    text-decoration: none;
+}
+
+#event-header {
+    color: teal;
+    text-decoration: underline;
+}

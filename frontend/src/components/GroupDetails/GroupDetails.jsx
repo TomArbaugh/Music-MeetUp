@@ -8,6 +8,7 @@ import { getAllGroupsId } from "../../store/groups"
 import { LuDot } from "react-icons/lu";
 import { useState } from "react"
 import * as sessionActions from '../../store/session'
+
 import './GroupDetails.css'
 
 export function GroupDetails() {
@@ -31,7 +32,7 @@ export function GroupDetails() {
     }, [dispatch, groupId])
 
     const group = useSelector((state) => state.groups.GroupById)
-
+   
 
     useEffect(() => {
 
@@ -47,7 +48,16 @@ export function GroupDetails() {
 
     const eventsList = events.filter((events) => events.groupId === group.id)
 
+    const sorter = (a, b) => {
+        return a - b
+    }
+    const sortedEvents = eventsList.sort(sorter)
 
+
+    const today = new Date().toISOString().split('T')[0]
+    
+
+    
     return (
         <div id="card">
             <Link to='/group-list'>Back to Groups</Link>
@@ -65,18 +75,65 @@ export function GroupDetails() {
                     </div>
                     <h4>Orginaized By: {group.Organizer.firstName} {group.Organizer.lastName}</h4>
                     <button
-                    id={isLoaded && sessionUser && sessionUser.id !== group.Organizer.id ? "red-button" : null}
+                    id={isLoaded && sessionUser && sessionUser.id !== group.Organizer.id ? "red-button" 
+                    : !sessionUser ? "no-button"
+                    : isLoaded && sessionUser && sessionUser.id == group.Organizer.id ? "no-button"
+                    : null}
+                    onClick={((e) => isLoaded && sessionUser && sessionUser.id !== group.Organizer.id ? alert('Feature coming soon.'): e.preventDefault())}
                     >Join This Group</button>
+
+                    <button
+                    id={isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? "dark-grey" : "no-button"}
+                    onClick={((e) => isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? alert('Feature coming soon.'): e.preventDefault())}
+                    >Create Event</button>
+
+                    <button
+                    id={isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? "dark-grey" : "no-button"}
+                    onClick={((e) => isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? alert('Feature coming soon.'): e.preventDefault())}
+                    >Update</button>
+
+                    <button
+                    onClick={((e) => isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? alert('Feature coming soon.'): e.preventDefault())}
+                    id={isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? "dark-grey" : "no-button"}
+                    >Delete</button>
                 </div>
             </div>
             <div id="bottom">
                 <h2>What we are about</h2>
                 <h4>{group.about}</h4>
-                <h2>Upcoming Events</h2>
-                {eventsList.map((event) => (
-                    <>
-                        <h4 key={event.id}>{event.name}</h4>
-                    </>
+                <h2>Events ({eventsList.length})</h2>
+                {sortedEvents.map((event) => (
+                    <div key={event.id} >
+                        
+                        {event.startDate > today ? 
+                        <>
+                                     <h2>Upcoming Events</h2>
+                        <h4 id="event-card">{event.previewImage}</h4>
+                        <h4 id="event-card">{event.description}</h4>
+                        <h4 id="event-card">{event.name} </h4>
+                        <h4 id="event-card">{event.startDate.split('T')[0]}</h4>
+                        <LuDot />
+                        <h4 id="event-card">{event.startDate.split('T')[1].split('.')[0]}</h4>
+                        <h4 id="event-card">{event.title}</h4>
+                        <h4 id="event-card">{event.Venue.city}, {event.Venue.state}</h4>
+                        </>
+           
+                        :
+                       
+                        <>
+                         <h2>Past Events</h2>
+                        <h4 id="event-card">{event.previewImage}</h4>
+                        <h4 id="event-card">{event.description}</h4>
+                        <h4 id="event-card">{event.name} </h4>
+                        <h4 id="event-card">{event.startDate.split('T')[0]}</h4>
+                        <LuDot />
+                        <h4 id="event-card">{event.startDate.split('T')[1].split('.')[0]}</h4>
+                        <h4 id="event-card">{event.title}</h4>
+                        <h4 id="event-card">{event.Venue.city}, {event.Venue.state}</h4>
+                        </>
+                        }
+
+                    </div>
                 ))}
             </div>
 

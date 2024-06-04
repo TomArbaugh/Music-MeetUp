@@ -26,3 +26,11 @@
 #red-button {
     color:red;
 }
+
+#no-button {
+    display: none;
+}
+
+#event-card {
+    cursor: pointer;
+}
