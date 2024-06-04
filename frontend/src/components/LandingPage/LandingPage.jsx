@@ -32,7 +32,7 @@ console.log(sessionUser)
                     <GrGroup className="icons"/>
                     <Link 
                     className="landingLink"
-                    to="/goup-list"
+                    to="/group-list"
                     >
                         See All Groups
                     </Link>

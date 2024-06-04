@@ -41,7 +41,7 @@ const router = createBrowserRouter([
         element: <h1>Test</h1>
       },
       {
-        path: '/goup-list',
+        path: '/group-list',
         element: <GroupList />
       }  
       // {

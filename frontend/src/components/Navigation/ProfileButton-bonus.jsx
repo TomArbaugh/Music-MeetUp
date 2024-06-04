@@ -6,6 +6,7 @@ import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 import { DemoUser } from './DemoUser';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -58,6 +59,9 @@ function ProfileButton({ user }) {
             <li>
               <button onClick={logout}>Log Out</button>
             </li>
+            <li>
+              <Link to='/group-list' >View Groups</Link>
+            </li>
           </>
         ) : (
           <>
@@ -76,6 +80,14 @@ function ProfileButton({ user }) {
               onItemClick={closeMenu}
               modalComponent={<DemoUser />}
             />
+            <li>
+            <Link 
+            onClick={closeMenu}
+            to='/group-list' 
+            >
+              View Groups</Link>
+            </li>
+            
           </>
         )}
       </ul>

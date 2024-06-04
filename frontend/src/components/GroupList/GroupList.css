@@ -1,0 +1,36 @@
+#outer-div {
+    display: grid;
+    grid-template-areas: 
+    "a b c c"
+    "d d d d";
+    justify-content: center;
+   
+}
+
+#events-header {
+    text-decoration: none;
+    color: lightgray;
+    grid-area: b;
+    
+    
+}
+
+#groups-header {
+    color: teal;
+    grid-area: a;
+   
+}
+
+#body {
+    grid-area: d;
+}
+
+#subtitle {
+    display: flex;
+    align-self: flex-start;
+}
+
+#card {
+    display: flex;
+}
+
