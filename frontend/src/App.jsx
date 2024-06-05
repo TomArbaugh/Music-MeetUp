@@ -10,6 +10,7 @@ import { LandingPage } from './components/LandingPage/LandingPage';
 import { GroupList } from './components/GroupList/GroupList';
 import { GroupDetails } from './components/GroupDetails/GroupDetails';
 import { EventsList } from './components/EventsList/EventsList';
+import { EventDetails } from './components/EventDetails/EventDetails';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: '/events-list',
         element: <EventsList />
+      },
+      {
+        path: '/events/:eventId',
+        element: <EventDetails />
       }
       // {
       //   path: 'login',

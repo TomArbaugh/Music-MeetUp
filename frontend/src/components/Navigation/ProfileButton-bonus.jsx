@@ -62,6 +62,9 @@ function ProfileButton({ user }) {
             <li>
               <Link to='/group-list' >View Groups</Link>
             </li>
+            <li>
+            <Link to="/events-list">View Events</Link>
+            </li>
           </>
         ) : (
           <>
@@ -85,9 +88,17 @@ function ProfileButton({ user }) {
             onClick={closeMenu}
             to='/group-list' 
             >
-              View Groups</Link>
+              View Groups
+              </Link>
             </li>
-            
+            <li>
+              <Link
+              onClick={closeMenu}
+              to="/events-list"
+              >
+              View Events
+              </Link>
+            </li>
           </>
         )}
       </ul>

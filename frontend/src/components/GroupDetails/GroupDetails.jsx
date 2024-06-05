@@ -101,9 +101,11 @@ export function GroupDetails() {
             <div id="bottom">
                 <h2>What we are about</h2>
                 <h4>{group.about}</h4>
+                
                 <h2>Events ({eventsList.length})</h2>
                 {sortedEvents.map((event) => (
-                    <div key={event.id} >
+                    <Link key={event.id} to={`/events/${event.id}`}>
+                    <div>
                         
                         {event.startDate > today ? 
                         <>
@@ -114,7 +116,7 @@ export function GroupDetails() {
                         <h4 id="event-card">{event.startDate.split('T')[0]}</h4>
                         <LuDot />
                         <h4 id="event-card">{event.startDate.split('T')[1].split('.')[0]}</h4>
-                        <h4 id="event-card">{event.title}</h4>
+                        
                         <h4 id="event-card">{event.Venue.city}, {event.Venue.state}</h4>
                         </>
            
@@ -128,13 +130,15 @@ export function GroupDetails() {
                         <h4 id="event-card">{event.startDate.split('T')[0]}</h4>
                         <LuDot />
                         <h4 id="event-card">{event.startDate.split('T')[1].split('.')[0]}</h4>
-                        <h4 id="event-card">{event.title}</h4>
+                       
                         <h4 id="event-card">{event.Venue.city}, {event.Venue.state}</h4>
                         </>
                         }
 
                     </div>
+                    </Link>
                 ))}
+                
             </div>
 
         </div>

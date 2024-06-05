@@ -7,3 +7,18 @@
     color: teal;
     text-decoration: underline;
 }
+
+#event-card {
+    cursor: pointer;
+    
+}
+
+#link {
+    text-decoration: none;
+    color: black;
+    
+}
+
+#border {
+    border-bottom: solid black 2px;
+}

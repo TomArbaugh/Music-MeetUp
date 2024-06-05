@@ -41,7 +41,7 @@ console.log(sessionUser)
                 <div id="find-an-event">
 
                     <MdContentPasteSearch className="icons"/>
-                    <Link className="landingLink">Find an Event</Link>
+                    <Link to="/events-list" className="landingLink">Find an Event</Link>
                     <h3>Heres a caption for you</h3>
                 </div>
                 <div id="start-a-group">
