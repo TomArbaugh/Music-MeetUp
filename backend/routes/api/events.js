@@ -363,6 +363,7 @@ router.get('/', async (req, res) => {
             obj.groupId = event.groupId,
             obj.venueId = event.venueId,
             obj.name = event.name,
+            obj.description = event.description,
             obj.type = event.type,
             obj.startDate = event.startDate,
             obj.endDate = event.endDate,
