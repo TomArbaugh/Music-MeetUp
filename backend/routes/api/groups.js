@@ -115,13 +115,31 @@ router.get('/:groupId/members', async (req, res) => {
 
     const Members =  []
 
+    if(!safeUser) {
+        
+        members.Users.forEach((member) => {
+            const user = members.Users.find((user) => member.Membership.userId === user.id)
+            if (member.Membership.status !== 'pending'){
+                const memberObj = {
+                    id: member.Membership.userId,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    Membership: {
+                        status: member.Membership.status
+                    }
+                }
+                Members.push(memberObj)
+            }
+        })
+    }
+
     members.Users.forEach((member) => {
 
-        if (safeUser.id === member.Membership.userId && member.Membership.status === 'co-host') authorized = true
+        if (safeUser && safeUser.id === member.Membership.userId && member.Membership.status === 'co-host') authorized = true
 
         const user = members.Users.find((user) => member.Membership.userId === user.id)
 
-        if (safeUser.id === members.organizerId || authorized === true){
+        if (safeUser && safeUser.id === members.organizerId || authorized === true){
 
             const memberObj = {
                 id: member.Membership.userId,
