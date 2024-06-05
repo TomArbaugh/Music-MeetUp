@@ -19,6 +19,9 @@ export function EventsList(){
     const sorter = (a, b) => {
         return a - b
     }
+
+    if (!events) return;
+    
     const sortedEvents = events.sort(sorter)
 
     const today = new Date().toISOString().split('T')[0]

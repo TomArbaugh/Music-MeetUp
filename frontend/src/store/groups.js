@@ -5,6 +5,12 @@ const GET_GROUPS = '/get-groups'
 
 const GET_GROUP_ID = '/get-groups-by-id'
 
+const GET_MEMBERSHIPS = '/get-memberships'
+
+const getMemberships = (groupId, memberships) => ({
+    type: GET_MEMBERSHIPS,
+    memberships
+})
 
 const getGroups = (groups) => ({
     type: GET_GROUPS,
@@ -15,6 +21,13 @@ const getGroupsId = (groupId, group) => ({
     type: GET_GROUP_ID,
     group
 })
+
+export const getAllMemberships = (groupId) => async dispatch => {
+    const response = await csrfFetch(`/api/groups/${groupId}/members`);
+    const data = await response.json();
+    dispatch(getMemberships(groupId, data));
+    return response;
+  };
 
 export const getAllGroups = () => async dispatch => {
     const response = await csrfFetch("/api/groups");
@@ -38,6 +51,8 @@ function groupsReducer(state=initialState, action) {
             return {...state, Groups: action.groups}
         case GET_GROUP_ID:
             return {...state, GroupById: action.group}
+        case GET_MEMBERSHIPS:
+            return {...state, Memberships: action.memberships}
         default:
             return state;
     }

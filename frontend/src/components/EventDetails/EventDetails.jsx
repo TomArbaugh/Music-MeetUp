@@ -2,12 +2,11 @@ import { Link } from "react-router-dom"
 import { useParams } from "react-router-dom"
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-// import { useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
-// import * as sessionActions from '../../store/session'
+import * as sessionActions from '../../store/session'
 import { getAllEventsId } from "../../store/events";
-// import { getAllAttendees } from "../../store/events";
-// import { getAllGroups, getAllGroupsId } from "../../store/groups";
+import { getAllMemberships } from "../../store/groups";
 import { TfiAlarmClock } from "react-icons/tfi";
 import { MdAttachMoney } from "react-icons/md";
 import { FiMapPin } from "react-icons/fi";
@@ -17,15 +16,15 @@ import './EventDetails.css'
 export function EventDetails(){
 
     const dispatch = useDispatch()
-    // const [isLoaded, setIsLoaded] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
 
-    // const sessionUser = useSelector(state => state.session.user)
+    const sessionUser = useSelector(state => state.session.user)
 
-    // useEffect(() => {
-    //   dispatch(sessionActions.restoreUser()).then(() => {
-    //     setIsLoaded(true)
-    //   });
-    // }, [dispatch]);
+    useEffect(() => {
+      dispatch(sessionActions.restoreUser()).then(() => {
+        setIsLoaded(true)
+      });
+    }, [dispatch]);
 
 
     const { eventId } = useParams()
@@ -39,21 +38,37 @@ export function EventDetails(){
 
    
     
-    // useEffect(() =>{
-    //     dispatch(getAllGroupsId(event.groupId))
-    // },[dispatch, event.groupId])
+    useEffect(() =>{
 
-    // const group = useSelector((state) => state.groups.GroupById)
+        event && Object.values(event).length ? dispatch(getAllMemberships(event.groupId)) : null
+        
+        
+    },[event, dispatch])
 
-    // if (!group) return
-    if (!event) return;
-  
+    const members = useSelector((state) => state.groups.Memberships)
+    
+    console.log(members)
+
+    if (!members)  return
+   
+    const host = members.Members.find((host) => host.Membership.status === 'host') 
+   
+
+    
+    
+
+
+    
+    if(!event) return;
+
+
+
     return (
         <>
     <Link to="/events-list">Events</Link>
         <h1>Event Details</h1>
         <h4>{event.name}</h4>
-        <h4>Hosted By:  </h4>
+        <h4>Hosted By:  {host.firstName} {host.lastName}</h4>
         <h4>{event.EventImages[0].url}</h4>
         <div>
             </div>
@@ -70,15 +85,15 @@ export function EventDetails(){
 
             </div>
 
-            {/* <button 
-            onClick={((e) => isLoaded && sessionUser && sessionUser.id === event.Organizer.id ? null : e.preventDefault())}
-            id={isLoaded && sessionUser && sessionUser.id === event.Organizer.id ? "show-button" : "hide-button"}
+            <button 
+            onClick={((e) => isLoaded && sessionUser && sessionUser.id === host.id ? null : e.preventDefault())}
+            id={isLoaded && sessionUser && sessionUser.id === host.id ? "show-button" : "hide-button"}
             >Update</button>
 
             <button 
-            onClick={((e) => isLoaded && sessionUser && sessionUser.id === event.Organizer.id ? null : e.preventDefault())}
-            id={isLoaded && sessionUser && sessionUser.id === event.Organizer.id ? "show-button" : "hide-button"}
-            >Delete</button> */}
+            onClick={((e) => isLoaded && sessionUser && sessionUser.id === host.id ? null : e.preventDefault())}
+            id={isLoaded && sessionUser && sessionUser.id === host.id ? "show-button" : "hide-button"}
+            >Delete</button>
         </>
     )
 }
