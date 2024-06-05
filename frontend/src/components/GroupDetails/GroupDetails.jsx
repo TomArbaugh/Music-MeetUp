@@ -63,7 +63,7 @@ export function GroupDetails() {
             <Link to='/group-list'>Back to Groups</Link>
             <div id="top">
                 <div id="left">
-                    <h4>{group.GroupImages[0].url}</h4>
+                    <img src={group.GroupImages[0].url} />
                 </div>
                 <div id="right">
                     <h4>{group.name}</h4>
@@ -110,7 +110,7 @@ export function GroupDetails() {
                         {event.startDate > today ? 
                         <>
                                      <h2>Upcoming Events</h2>
-                        <h4 id="event-card">{event.previewImage}</h4>
+                        <img id="event-card" src={event.previewImage} />
                         <h4 id="event-card">{event.description}</h4>
                         <h4 id="event-card">{event.name} </h4>
                         <h4 id="event-card">{event.startDate.split('T')[0]}</h4>

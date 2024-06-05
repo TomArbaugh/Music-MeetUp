@@ -21,139 +21,139 @@ module.exports = {
     await GroupImage.bulkCreate([
       {
         groupId: 1,
-        url: 'validURLaddress',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/group-images/group-1.jpg',
         preview: false,
       
       },
       {
         groupId: 2,
-        url: 'validURLaddress2',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/group-images/group-2.jpg',
         preview: true,
       
       },
       {
         groupId: 3,
-        url: 'validURLAddress3',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/group-images/group-3.jpg',
         preview: false,
      
       },
       {
         groupId: 4,
-        url: 'validURLaddress4',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/group-images/group-4.jpg',
         preview: false,
       
       },
       {
         groupId: 5,
-        url: 'validURLaddress5',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/group-images/group-5.jpg',
         preview: true,
       
       },
       {
         groupId: 6,
-        url: 'validURLAddress6',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/group-images/group-6.jpg',
         preview: false,
      
       },
       {
         groupId: 7,
-        url: 'validURLaddress7',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/group-images/group-7.jpg',
         preview: false,
       
       },
       {
         groupId: 8,
-        url: 'validURLaddress8',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/group-images/group-8.jpg',
         preview: true,
       
       },
       {
         groupId: 9,
-        url: 'validURLAddress9',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/group-images/group-9.jpg',
         preview: false,
      
       },
       {
         groupId: 10,
-        url: 'validURLaddress10',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/group-images/group-10.jpg',
         preview: false,
       
       },
       {
         groupId: 11,
-        url: 'validURLaddress11',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/group-images/group-11.jpg',
         preview: true,
       
       },
       {
         groupId: 12,
-        url: 'validURLAddress12',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/group-images/group-12.jpg',
         preview: false,
      
       },
       {
         groupId: 13,
-        url: 'validURLaddress13',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/group-images/group-13.jpg',
         preview: false,
       
       },
       {
         groupId: 14,
-        url: 'validURLaddress14',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/group-images/group-14.jpg',
         preview: true,
       
       },
       {
         groupId: 15,
-        url: 'validURLAddress15',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/group-images/group-15.jpg',
         preview: false,
      
       },
       {
         groupId: 16,
-        url: 'validURLaddress16',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/group-images/group-16.jpg',
         preview: false,
       
       },
       {
         groupId: 17,
-        url: 'validURLaddress17',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/group-images/group-17.jpg',
         preview: true,
       
       },
       {
         groupId: 18,
-        url: 'validURLAddress18',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/group-images/group-18.jpg',
         preview: false,
      
       },
       {
         groupId: 19,
-        url: 'validURLaddress19',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/group-images/group-19.jpg',
         preview: false,
       
       },
       {
         groupId: 20,
-        url: 'validURLaddress20',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/group-images/group-20.jpg',
         preview: true,
       
       },
       {
         groupId: 1,
-        url: 'validURLAddress1again',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+12.56%E2%80%AFPM.jpg',
         preview: false,
      
       },
       {
         groupId: 2,
-        url: 'validURLaddress2again',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+12.56%E2%80%AFPM.jpg',
         preview: true,
       
       },
       {
         groupId: 3,
-        url: 'validURLAddress3again',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+12.56%E2%80%AFPM.jpg',
         preview: false,
      
       }

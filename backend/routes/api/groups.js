@@ -388,7 +388,7 @@ router.get('/', async (req, res) => {
        
         let firstImage;
         if (group.GroupImages.length !== 0) {
-            firstImage = group.GroupImages[0].url
+            firstImage = group.GroupImages[group.GroupImages.length -1].url
         } else {
             firstImage = 'none'
         }

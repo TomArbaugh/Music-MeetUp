@@ -21,102 +21,102 @@ module.exports = {
     await EventImage.bulkCreate([
       {
         eventId: 1,
-        url: 'URLeventimageOne',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+12.42%E2%80%AFPM.jpg',
         preview: true
       },
       {
         eventId: 2,
-        url: 'URLeventImgeTwo',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+12.43%E2%80%AFPM.jpg',
         preview: false
       },
       {
         eventId: 3,
-        url: 'URLeventImageThree',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+12.45%E2%80%AFPM.jpg',
         preview: false
       },
       {
         eventId: 4,
-        url: 'URLeventimage4',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+12.47%E2%80%AFPM.jpg',
         preview: true
       },
       {
         eventId: 5,
-        url: 'URLeventImge5',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+12.51%E2%80%AFPM.jpg',
         preview: false
       },
       {
         eventId: 6,
-        url: 'URLeventImage6',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+12.52%E2%80%AFPM.jpg',
         preview: false
       },
       {
         eventId: 7,
-        url: 'URLeventimage7',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+12.53%E2%80%AFPM.jpg',
         preview: true
       },
       {
         eventId: 8,
-        url: 'URLeventImge8',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+12.54%E2%80%AFPM.jpg',
         preview: false
       },
       {
         eventId: 9,
-        url: 'URLeventImage9',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+12.55%E2%80%AFPM.jpg',
         preview: false
       },
       {
         eventId: 10,
-        url: 'URLeventimage10',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+12.57%E2%80%AFPM.jpg',
         preview: true
       },
       {
         eventId: 11,
-        url: 'URLeventImge11',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+12.58%E2%80%AFPM.jpg',
         preview: false
       },
       {
         eventId: 12,
-        url: 'URLeventImage12',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+1.00%E2%80%AFPM.jpg',
         preview: false
       },
       {
         eventId: 13,
-        url: 'URLeventimage13',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+1.00%E2%80%AFPM+2.jpg',
         preview: true
       },
       {
         eventId: 14,
-        url: 'URLeventImge14',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+1.02%E2%80%AFPM.jpg',
         preview: false
       },
       {
         eventId: 15,
-        url: 'URLeventImage15',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+1.04%E2%80%AFPM.jpg',
         preview: false
       },
       {
         eventId: 16,
-        url: 'URLeventimage16',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+1.04%E2%80%AFPM+2.jpg',
         preview: true
       },
       {
         eventId: 17,
-        url: 'URLeventImge17',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+1.07%E2%80%AFPM.jpg',
         preview: false
       },
       {
         eventId: 18,
-        url: 'URLeventImage18',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+1.07%E2%80%AFPM+2.jpg',
         preview: false
       },
       {
         eventId: 19,
-        url: 'URLeventimage19',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+1.08%E2%80%AFPM.jpg',
         preview: true
       },
       {
         eventId: 20,
-        url: 'URLeventImge20',
+        url: 'https://tomsmusicbucket.s3.us-west-2.amazonaws.com/event-images/Image+6-5-24+at+1.10%E2%80%AFPM.jpg',
         preview: false
       }
     ], { validate: true });

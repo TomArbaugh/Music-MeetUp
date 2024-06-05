@@ -50,7 +50,7 @@ export function GroupList() {
                         <Link key={group.id} to={`/group/${group.id}`} id="card-link">
                         <div id="card">
                             <div id="left">
-                            <h4>{group.previewImg}</h4>
+                            <img src={group.previewImg} />
                             </div>
                             
                             <div id="right">
