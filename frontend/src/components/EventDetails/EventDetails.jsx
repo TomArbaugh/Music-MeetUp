@@ -69,7 +69,8 @@ export function EventDetails(){
         <h1>Event Details</h1>
         <h4>{event.name}</h4>
         <h4>Hosted By:  {host.firstName} {host.lastName}</h4>
-        <h4>{event.EventImages[0].url}</h4>
+        <h4></h4>
+        <img src={event.EventImages[0].url} />
         <div>
             </div>
             <TfiAlarmClock />

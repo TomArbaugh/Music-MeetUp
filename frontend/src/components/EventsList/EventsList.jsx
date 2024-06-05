@@ -40,7 +40,7 @@ export function EventsList(){
                         {event.startDate > today ? 
                         <>
                                     
-                        <h4 id="event-card">{event.previewImage}</h4>
+                        <img id="event-card" src={event.previewImage}/>
                         <h4 id="event-card">{event.description}</h4>
                         <h4 id="event-card">{event.name} </h4>
                         <h4 id="event-card">{event.startDate.split('T')[0]}</h4>
@@ -54,7 +54,7 @@ export function EventsList(){
                        
                         <>
                       
-                        <h4 id="event-card">{event.previewImage}</h4>
+                        <img id="event-card" src={event.previewImage} />
                         <h4 id="event-card">{event.description}</h4>
                         <h4 id="event-card">{event.name} </h4>
                         <h4 id="event-card">{event.startDate.split('T')[0]}</h4>
