@@ -31,12 +31,12 @@ export function GroupList() {
         getEvents()
     }, [dispatch])
 
-
+console.log(groups)
     const event = useSelector((state) => state.events.Events)
 
 
-    if (!groups) return;
-    if (!event) return;
+    if (!groups) return null;
+    if (!event) return null;
     return (
         <>
             <div id="outer-div">

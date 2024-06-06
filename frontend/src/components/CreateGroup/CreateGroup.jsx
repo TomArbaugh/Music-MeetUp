@@ -14,6 +14,7 @@ export function CreateGroup(){
     const [city, setCity] = useState()
     const [isPrivate, setIsPrivate] = useState(true)
     const [state, setState] = useState()
+    const [errorState, setErrorState] = useState({})
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -32,10 +33,15 @@ export function CreateGroup(){
         try {
             group = await dispatch(createAGroup(payload))
         } catch (e){
-            console.log('e')
+            const errors = await e.json()
+            setErrorState(errors.errors)
+            
         }
-           
-        navigate(`/group/${group.id}`)
+        
+        if (group) {
+            navigate(`/group/${group.id}`)
+        }
+        
            
 
     }
@@ -54,6 +60,7 @@ export function CreateGroup(){
             onChange={((e) => setCity(e.target.value))}
             >
             </input>
+            {errorState.city && <p>{errorState.city}</p>}
             <input
             value={state}
             type="text"
@@ -61,6 +68,7 @@ export function CreateGroup(){
             onChange={((e) => setState(e.target.value))}
             >
             </input>
+            {errorState.state && <p>{errorState.state}</p>}
         </div>
         <div>
             <h2>What will your group&#39;s name be?</h2>
@@ -71,6 +79,7 @@ export function CreateGroup(){
             placeholder="What is your group name?"
             onChange={((e) => setName(e.target.value))}
             ></input>
+            {errorState.name && <p>{errorState.name}</p>}
         </div>
         <div>
             <h2>Describe the purpose of your group.</h2>
@@ -81,6 +90,7 @@ export function CreateGroup(){
             placeholder="Please write at least 30 characters"
             onChange={((e) => setAbout(e.target.value))}
             ></input>
+            {errorState.about && <p>{errorState.about}</p>}
         </div>
         <div>
             <h3>Is this an in-person or online group?</h3>
@@ -91,6 +101,7 @@ export function CreateGroup(){
                 <option>Online</option>
                 <option>In person</option>
             </select>
+            {errorState.type && <p>{errorState.type}</p>}
             <h3>Is this group private or public?</h3>
             <select
             value={isPrivate}
@@ -99,6 +110,7 @@ export function CreateGroup(){
                 <option value={true}>Private</option>
                 <option value={false}>Public</option>
             </select>
+            {errorState.private && <p>{errorState.private}</p>}
             <h3>Please add an image URL for your group below</h3>
             <input type="text" placeholder="Image Url"></input>
             <button type="submit">Create Group</button>

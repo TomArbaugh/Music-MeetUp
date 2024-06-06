@@ -51,19 +51,22 @@ export const getAllGroups = () => async dispatch => {
   };
 
   export const createAGroup = (payload) => async dispatch => {
- 
-    const response = await csrfFetch('/api/groups/', {
-        method: "POST",
-        headers: {
-            'Content-Type' : 'application/json'
-        },
-        body: JSON.stringify(payload)
-    })
-    const data = await response.json()
+   
+        const response = await csrfFetch('/api/groups/', {
+            method: "POST",
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
 
-    dispatch(createGroup(data));
-    return data
+        const data = await response.json()
+        dispatch(createGroup(data));
+        return data
+
+  
   }
+
 
 const initialState = {}
 
@@ -76,7 +79,7 @@ function groupsReducer(state=initialState, action) {
         case GET_MEMBERSHIPS:
             return {...state, Memberships: action.memberships}
         case CREATE_GROUP:
-            return {...state, Groups: action.payload}
+            return {...state, Groups: [action.payload]}
         default:
             return state;
     }
