@@ -63,7 +63,7 @@ export function GroupDetails() {
             <Link to='/group-list'>Back to Groups</Link>
             <div id="top">
                 <div id="left">
-                    <img src={group.GroupImages[0].url} />
+                    <img src={group.GroupImages.length ? group.GroupImages[0].url : "no image"} />
                 </div>
                 <div id="right">
                     <h4>{group.name}</h4>

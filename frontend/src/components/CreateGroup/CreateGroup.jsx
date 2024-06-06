@@ -1,12 +1,12 @@
 import { useDispatch} from 'react-redux';
 import { useState } from "react"
 import { createAGroup } from '../../store/groups';
-
+import { useNavigate } from 'react-router-dom';
 
 export function CreateGroup(){
 
     const dispatch = useDispatch()
-
+    const navigate = useNavigate()
 
     const [name, setName] = useState()
     const [about, setAbout] = useState()
@@ -28,8 +28,15 @@ export function CreateGroup(){
         }
 
       
-           await dispatch(createAGroup(payload))
-   
+        let group;
+        try {
+            group = await dispatch(createAGroup(payload))
+        } catch (e){
+            console.log('e')
+        }
+           
+        navigate(`/group/${group.id}`)
+           
 
     }
 

@@ -51,7 +51,7 @@ export const getAllGroups = () => async dispatch => {
   };
 
   export const createAGroup = (payload) => async dispatch => {
-   
+ 
     const response = await csrfFetch('/api/groups/', {
         method: "POST",
         headers: {
@@ -59,11 +59,10 @@ export const getAllGroups = () => async dispatch => {
         },
         body: JSON.stringify(payload)
     })
-   
     const data = await response.json()
 
     dispatch(createGroup(data));
-    return response
+    return data
   }
 
 const initialState = {}
