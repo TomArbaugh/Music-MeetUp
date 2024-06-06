@@ -51,7 +51,7 @@ console.log(sessionUser)
                     
                     className={!sessionUser ? "start-a-group-link" : "landingLink"}
                     
-                    to={sessionUser ? "/test" : null}
+                    to={sessionUser ? "/create-group" : null}
                     >
                         Start a Group
                     </Link>

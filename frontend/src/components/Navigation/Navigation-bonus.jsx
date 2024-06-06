@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton-bonus';
 import './Navigation.css';
@@ -14,6 +14,11 @@ function Navigation({ isLoaded }) {
       </li>
       {isLoaded && (
         <li>
+          <Link 
+          id={!sessionUser ? "hide" : null}
+          onClick={((e) => !sessionUser ? e.preventDefault() : null)}
+          to='/create-group'
+          >Start a new Group</Link>
           <ProfileButton user={sessionUser} />
         </li>
       )}

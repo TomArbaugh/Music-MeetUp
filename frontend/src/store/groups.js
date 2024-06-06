@@ -7,6 +7,8 @@ const GET_GROUP_ID = '/get-groups-by-id'
 
 const GET_MEMBERSHIPS = '/get-memberships'
 
+const CREATE_GROUP = '/create-group'
+
 const getMemberships = (groupId, memberships) => ({
     type: GET_MEMBERSHIPS,
     memberships
@@ -20,6 +22,11 @@ const getGroups = (groups) => ({
 const getGroupsId = (groupId, group) => ({
     type: GET_GROUP_ID,
     group
+})
+
+const createGroup = (payload) => ({
+    type: CREATE_GROUP,
+    payload
 })
 
 export const getAllMemberships = (groupId) => async dispatch => {
@@ -43,6 +50,22 @@ export const getAllGroups = () => async dispatch => {
     return response;
   };
 
+  export const createAGroup = (payload) => async dispatch => {
+   
+    const response = await csrfFetch('/api/groups/', {
+        method: "POST",
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(payload)
+    })
+   
+    const data = await response.json()
+
+    dispatch(createGroup(data));
+    return response
+  }
+
 const initialState = {}
 
 function groupsReducer(state=initialState, action) {
@@ -53,6 +76,8 @@ function groupsReducer(state=initialState, action) {
             return {...state, GroupById: action.group}
         case GET_MEMBERSHIPS:
             return {...state, Memberships: action.memberships}
+        case CREATE_GROUP:
+            return {...state, Groups: action.payload}
         default:
             return state;
     }
