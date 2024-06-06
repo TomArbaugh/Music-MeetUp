@@ -3,17 +3,21 @@ import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { useEffect } from "react"
+import { useRef } from "react"
 import { getAllEvents } from "../../store/events"
 import { getAllGroupsId } from "../../store/groups"
 import { LuDot } from "react-icons/lu";
 import { useState } from "react"
 import * as sessionActions from '../../store/session'
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem"
+import { DeleteGroup } from "../DeleteGroup/DeleteGroup"
 
 import './GroupDetails.css'
 
 export function GroupDetails() {
     const dispatch = useDispatch()
     const [isLoaded, setIsLoaded] = useState(false);
+   const ulRef = useRef()
 
     const sessionUser = useSelector(state => state.session.user)
 
@@ -92,10 +96,19 @@ export function GroupDetails() {
                     onClick={((e) => isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? alert('Feature coming soon.'): e.preventDefault())}
                     >Update</button>
 
+
                     <button
-                    onClick={((e) => isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? alert('Feature coming soon.'): e.preventDefault())}
+                    ref={ulRef}
+                    onClick={((e) => isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? null: e.preventDefault())}
                     id={isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? "dark-grey" : "no-button"}
-                    >Delete</button>
+                    ><OpenModalMenuItem
+                    itemText="Delete"
+                    // onItemClick={closeMenu}
+                    modalComponent={<DeleteGroup />}
+            /></button>
+
+                        
+                    
                 </div>
             </div>
             <div id="bottom">
