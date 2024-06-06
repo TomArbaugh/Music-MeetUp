@@ -35,6 +35,28 @@ const validate = [
     handleValidationErrors
   ];
 
+  const validateNoBool = [
+    check('name')
+      .isLength({max: 60})
+      .withMessage("Name must be 60 characters or less"),
+    check('about')
+      .exists({ checkFalsy: true })
+      .isLength({ min: 50 })
+      .withMessage("About must be 50 characters or more"),
+    check('type')
+      .isIn(['Online', 'In person'])
+      .withMessage("Type must be 'Online' or 'In person'"),
+    check('city')
+      .exists()
+      .isLength({ min: 4 })
+      .withMessage("City is required"),
+    check('state')
+      .exists()
+      .isLength({ min: 1})
+      .withMessage("State is required"),
+    handleValidationErrors
+  ];
+
   const validateVenues = [
     check('address')
         .isLength({min: 1})
@@ -680,8 +702,19 @@ router.post('/:groupId/venues', requireAuth, validateVenues, async (req, res) =>
 
 })
 
-router.post('/', requireAuth, validate, async (req, res) => {
-    const { name, about, type, private, city, state } = req.body
+router.post('/', requireAuth, validateNoBool, async (req, res) => {
+
+    const { name, about, type, isPrivate, city, state } = req.body
+
+    const isTrue = Boolean(isPrivate)
+
+    if (!isTrue) {
+        res.status(400);
+        res.json({
+            private: 'Private must be a boolean'
+        })
+    }
+    
     const { user } = req;
     let safeUser;
     if (user) {
@@ -698,7 +731,7 @@ router.post('/', requireAuth, validate, async (req, res) => {
         name,
         about,
         type,
-        private,
+        private: isPrivate,
         city,
         state
     });
