@@ -12,6 +12,7 @@ import * as sessionActions from '../../store/session'
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem"
 import { DeleteGroup } from "../DeleteGroup/DeleteGroup"
 
+
 import './GroupDetails.css'
 
 export function GroupDetails() {
@@ -96,8 +97,8 @@ export function GroupDetails() {
 
                     <button
                     id={isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? "dark-grey" : "no-button"}
-                    onClick={((e) => isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? alert('Feature coming soon.'): e.preventDefault())}
-                    >Update</button>
+                    onClick={((e) => isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? null : e.preventDefault())}
+                    ><Link to="/update-group">Update</Link></button>
 
 
                     <button
