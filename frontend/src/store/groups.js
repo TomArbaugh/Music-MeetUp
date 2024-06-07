@@ -84,7 +84,7 @@ export const getAllGroups = () => async dispatch => {
         }
     })
     const data = await response.json()
-    console.log(data)
+    
     dispatch(deleteGroup(data))
     return data
   }

@@ -11,6 +11,8 @@ import { TfiAlarmClock } from "react-icons/tfi";
 import { MdAttachMoney } from "react-icons/md";
 import { FiMapPin } from "react-icons/fi";
 import { LuDot } from "react-icons/lu";
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
+import { DeleteEvent } from "../DeleteEvent/DeleteEvent";
 import './EventDetails.css'
 
 export function EventDetails(){
@@ -89,7 +91,12 @@ export function EventDetails(){
             <button 
             onClick={((e) => isLoaded && sessionUser && sessionUser.id === host.id ? null : e.preventDefault())}
             id={isLoaded && sessionUser && sessionUser.id === host.id ? "show-button" : "hide-button"}
-            >Delete</button>
+            ><OpenModalMenuItem
+            itemText="Delete"
+            // onItemClick={closeMenu}
+            modalComponent={<DeleteEvent />}
+            />
+            </button>
         </>
     )
 }

@@ -91,7 +91,7 @@ export function GroupDetails() {
 
                     <button
                     id={isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? "dark-grey" : "no-button"}
-                    onClick={((e) => isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? alert('Feature coming soon.'): e.preventDefault())}
+                    onClick={((e) => isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? null : e.preventDefault())}
                     ><Link to="/create-event">Create Event</Link></button>
 
                     <button

@@ -10,6 +10,8 @@ const CREATE_EVENT = '/create-event'
 
 const ADD_EVENT_IMAGE = '/add-event-image'
 
+const DELETE_EVENT = '/delete-the-event'
+
 const getEvents = (events) => ({
     type: GET_EVENTS,
     events
@@ -34,6 +36,11 @@ const createEvent = (groupId, payload) => ({
 const addEventImage = (eventId, payloadTwo) => ({
     type: ADD_EVENT_IMAGE,
     payloadTwo
+})
+
+const deleteEvent = (eventId) => ({
+    type: DELETE_EVENT,
+    eventId
 })
 
 export const getAllEvents = () => async dispatch => {
@@ -85,6 +92,18 @@ export const addAnEventImage = (eventId, payloadTwo) => async dispatch => {
     return data
 }
 
+export const deleteTheEvent= (eventId) => async dispatch => {
+    const response = await csrfFetch(`/api/events/${eventId}`, {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    const data = await response.json()
+    dispatch(deleteEvent(data))
+    return data
+}
+
 const initialState = {}
 
 function eventsReducer(state = initialState, action) {
@@ -99,6 +118,11 @@ function eventsReducer(state = initialState, action) {
             return {...state, Events: [action.payload]}
         case ADD_EVENT_IMAGE:
             return {...state, EventImages: [action.payloadTwo]}
+        case DELETE_EVENT:{
+            const newState = {...state}
+            delete newState[action.data]
+            return newState
+        }
         default:
             return state;
     }
