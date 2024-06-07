@@ -9,6 +9,8 @@ const GET_MEMBERSHIPS = '/get-memberships'
 
 const CREATE_GROUP = '/create-group'
 
+const ADD_GROUP_IMAGE = '/add-group-image'
+
 const DELETE_GROUP = '/delete-the-group'
 
 const UPDATE_GROUP = '/update-the-group'
@@ -28,9 +30,15 @@ const getGroupsId = (groupId, group) => ({
     group
 })
 
-const createGroup = (payload) => ({
+const createGroup = (payload, payloadTwo) => ({
     type: CREATE_GROUP,
-    payload
+    payload,
+    payloadTwo
+})
+
+const addGroupImage = () => ({
+    type: ADD_GROUP_IMAGE,
+    
 })
 
 const deleteGroup = (groupId) => ({
@@ -64,7 +72,7 @@ export const getAllGroups = () => async dispatch => {
     return response;
   };
 
-  export const createAGroup = (payload) => async dispatch => {
+  export const createAGroup = (payload, payloadTwo) => async dispatch => {
    
         const response = await csrfFetch('/api/groups/', {
             method: "POST",
@@ -76,10 +84,36 @@ export const getAllGroups = () => async dispatch => {
 
         const data = await response.json()
         dispatch(createGroup(data));
+
+        const responseTwo = await csrfFetch(`/api/groups/${data.id}/images`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payloadTwo)
+        })
+
+        const dataTwo = await responseTwo.json()
+
+        dispatch(addGroupImage(dataTwo))
         return data
 
-  
+        
   }
+
+//   export const addAGroupImage = (groupId, payloadTwo) => async dispatch => {
+//     const response = await csrfFetch(`/api/groups/${groupId}/images`, {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json"
+//         },
+//         body: JSON.stringify(payloadTwo)
+//     })
+
+//     const data = await response.json()
+//     dispatch(addGroupImage(data))
+//     return data
+//   }
 
   export const deleteTheGroup = (groupId) => async dispatch => {
 
@@ -122,7 +156,9 @@ function groupsReducer(state=initialState, action) {
         case GET_MEMBERSHIPS:
             return {...state, Memberships: action.memberships}
         case CREATE_GROUP:
-            return {...state, Groups: [action.payload]}
+            return {...state, Groups: [action.payload], GroupImage: [action.payloadTwo]}
+        // case ADD_GROUP_IMAGE:
+        //     return {...state, GroupImage: [action.payload]}
         case DELETE_GROUP:{
             const newState = {...state}
             delete newState[action.data]

@@ -3,6 +3,8 @@ import { useState } from "react"
 import { createAGroup } from '../../store/groups';
 import { useNavigate } from 'react-router-dom';
 
+
+
 export function CreateGroup(){
 
     const dispatch = useDispatch()
@@ -15,6 +17,9 @@ export function CreateGroup(){
     const [isPrivate, setIsPrivate] = useState(true)
     const [state, setState] = useState()
     const [errorState, setErrorState] = useState({})
+    const [url, setUrl] = useState()
+    
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -25,26 +30,39 @@ export function CreateGroup(){
             type,
             isPrivate,
             city,
-            state
-        }
-
-      
-        let group;
-        try {
-            group = await dispatch(createAGroup(payload))
-        } catch (e){
-            const errors = await e.json()
-            setErrorState(errors.errors)
+            state,
             
         }
+
+        const payloadTwo = {
+            url,
+            preview: false
+        }
+
+
+      
+        
+        let group;
+        try {
+            group = await dispatch(createAGroup(payload, payloadTwo))
+           
+        } catch (e){
+           
+            const theErrors = await e.json()
+            console.log(theErrors)
+            setErrorState(theErrors.errors)
+            
+        }
+
         
         if (group) {
             navigate(`/group/${group.id}`)
-        }
+        } 
         
            
 
     }
+
 
   
     return (
@@ -112,7 +130,13 @@ export function CreateGroup(){
             </select>
             {errorState.private && <p>{errorState.private}</p>}
             <h3>Please add an image URL for your group below</h3>
-            <input type="text" placeholder="Image Url"></input>
+            <input 
+            type="text" 
+            placeholder="Image Url"
+            value={url}
+            onChange={((e) => setUrl(e.target.value))}
+            ></input>
+             {errorState.preview && <p>{errorState.preview}</p>}
             <button type="submit">Create Group</button>
         </div>
         </form>
