@@ -834,9 +834,18 @@ if (!userWithMemId) {
 });
 
 
-router.put('/:groupId', requireAuth, validate, async (req, res) => {
+router.put('/:groupId', requireAuth, validateNoBool, async (req, res) => {
 
-    const {organizerId, name, about, type, private, city, state} = req.body
+    const {organizerId, name, about, type, isPrivate, city, state} = req.body
+
+    const isTrue = Boolean(isPrivate)
+
+    if (!isTrue) {
+        res.status(400);
+        res.json({
+            private: 'Private must be a boolean'
+        })
+    }
 
     const { user } = req;
     let safeUser;
@@ -873,7 +882,7 @@ router.put('/:groupId', requireAuth, validate, async (req, res) => {
     if (name !== undefined) groups.name = name
     if (about !== undefined) groups.about = about
     if (type !== undefined) groups.type = type
-    if (private !== undefined) groups.private = private
+    if (isPrivate !== undefined) groups.private = isPrivate
     if (city !== undefined) groups.city = city
     if (state !== undefined) groups.state = state
     
