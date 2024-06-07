@@ -47,7 +47,6 @@ const onSubmit = async (e) => {
 
     let event;
     
-   
     try {
         event = await dispatch(createTheEvent(group.id, payload))
     } catch (e) {
@@ -56,8 +55,6 @@ const onSubmit = async (e) => {
         setErrorState(errors.errors)
         
     }
-
-    !event ? console.log('eventImage not created because there was no event to get an Id from') : null
     
     let eventImage;
     try {
