@@ -571,18 +571,18 @@ router.post('/:groupId/events', requireAuth, validateEvents, async (req, res) =>
 
 
 
-    const priceArray = JSON.stringify(price).split('.')
-    const length = priceArray[1].length
+    // const priceArray = JSON.stringify(price).split('.')
+    // const length = priceArray[1].length
 
-    if (length > 2) {
-        res.status(400);
-        return res.json({
-            message: "Bad Request",
-            errors: {
-                price: "Price is invalid"
-            }
-        })
-    }
+    // if (length > 2) {
+    //     res.status(400);
+    //     return res.json({
+    //         message: "Bad Request",
+    //         errors: {
+    //             price: "Price is invalid"
+    //         }
+    //     })
+    // }
     
     await newEvent.save()
 
@@ -738,7 +738,7 @@ router.post('/', requireAuth, validateNoBool, async (req, res) => {
     const newMembership = await Membership.create({
         userId: safeUser.id,
         groupId: newGroup.id,
-        status: 'member'
+        status: 'host'
     })
 
     res.status(201)
