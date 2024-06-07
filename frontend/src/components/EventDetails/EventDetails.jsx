@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import * as sessionActions from '../../store/session'
 import { getAllEventsId } from "../../store/events";
-import { getAllMemberships } from "../../store/groups";
+import { getAllGroupsId, getAllMemberships } from "../../store/groups";
 import { TfiAlarmClock } from "react-icons/tfi";
 import { MdAttachMoney } from "react-icons/md";
 import { FiMapPin } from "react-icons/fi";
@@ -20,8 +20,12 @@ export function EventDetails() {
     const dispatch = useDispatch()
     const [isLoaded, setIsLoaded] = useState(false);
 
+    const event = useSelector((state) => state.events.EventById)
+
+ 
+
     const sessionUser = useSelector(state => state.session.user)
-    const group = useSelector(state => state.groups.GroupById)
+    
     useEffect(() => {
         dispatch(sessionActions.restoreUser()).then(() => {
             setIsLoaded(true)
@@ -35,9 +39,10 @@ export function EventDetails() {
         dispatch(getAllEventsId(eventId))
     }, [dispatch, eventId])
 
-
-    const event = useSelector((state) => state.events.EventById)
-
+    
+    useEffect(() => {
+        event && Object.values(event).length ? getAllGroupsId(event.groupId) : null
+    }, [event, dispatch])
 
     useEffect(() => {
 
@@ -47,7 +52,7 @@ export function EventDetails() {
     }, [event, dispatch])
 
     const members = useSelector((state) => state.groups.Memberships)
-
+   
 
 
     if (!members) return
@@ -55,8 +60,7 @@ export function EventDetails() {
     const host = members.Members.find((host) => host.Membership.status === 'host')
 
 
-    if (!event || !group) return;
-
+    if (!event) return;
 
 
     return (
@@ -73,8 +77,8 @@ export function EventDetails() {
 
                 <div id="event-details-right">
                     <div id="event-details-top-right">
-                        <img src={group.GroupImages[0].url} id="event-detail-group-image" />
-                        <h3>{group.name}</h3>
+                        <img src={event.EventImages[0].url} id="event-detail-group-image" />
+                        <h3>{event.Group.name}</h3>
                     </div>
 
                     <div id="event-details-bottom-right">
