@@ -20,7 +20,7 @@ export function EventsList() {
         return a - b
     }
 
-    if (!events) return;
+    if (!events || events.length === 0) return;
 
     const sortedEvents = events.sort(sorter)
 

@@ -2,8 +2,8 @@
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux";
-import { useState } from "react";
-import { createTheEvent } from "../../store/events";
+import { useEffect, useState } from "react";
+import { createTheEvent, getAllEvents } from "../../store/events";
 import { addAnEventImage } from "../../store/events";
 import './CreateEvent.css'
 
@@ -21,6 +21,9 @@ const [endDate, setEndDate] = useState()
 const [description, setDescription] = useState()
 const [url, setUrl] = useState()
 
+useEffect(() => {
+    dispatch(getAllEvents())
+}, [dispatch])
 
 const [errorState, setErrorState] = useState({})
 const [imageErrorState, setImageErrorState] = useState({})
