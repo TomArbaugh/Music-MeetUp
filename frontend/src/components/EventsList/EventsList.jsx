@@ -26,6 +26,7 @@ export function EventsList(){
 
     const today = new Date().toISOString().split('T')[0]
 
+    if (!sortedEvents) return null;
     return(
         <>
         <div id="header">
