@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+* {
+    font-family: "Noto Sans", sans-serif;
+}
 
 #root > ul {
   display: flex;
@@ -15,9 +19,19 @@
   display: none;
 }
 
-.active {
+#M {
+  height: 2em;
+  width: 2em;
+}
+
+#logo {
   text-decoration: none;
- 
+  
+}
+
+.time-to-start-a-group {
+  text-decoration: none;
+  padding: 1em
 }
 
 #hide {

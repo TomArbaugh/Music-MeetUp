@@ -15,6 +15,7 @@ import { CreateGroup } from './components/CreateGroup/CreateGroup';
 import { CreateEvent } from './components/CreateEvent/CreateEvent';
 import { UpdateGroup } from './components/UpdateGroup/UpdateGroup';
 
+
 function Layout() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
