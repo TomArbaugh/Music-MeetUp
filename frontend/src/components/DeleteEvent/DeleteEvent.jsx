@@ -1,8 +1,10 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { deleteTheEvent } from "../../store/events";
+import { useEffect } from "react";
+import { getAllEvents } from "../../store/events";
 
 
 export function DeleteEvent() {
@@ -12,6 +14,13 @@ export function DeleteEvent() {
     const {eventId} = useParams()
     const { closeModal } = useModal();
 
+    const groupId = useSelector((state) => state.groups.GroupById.id)
+
+    useEffect(() => {
+
+        dispatch(getAllEvents())
+
+    }, [dispatch])
 
     function onSubmit(e){
         e.preventDefault()
@@ -24,9 +33,12 @@ export function DeleteEvent() {
         const deleted = await dispatch(deleteTheEvent(eventId))
 
 
-     if (deleted) navigate('/events-list')
+     if (deleted) navigate(`/group/${groupId}`)
      
  }
+
+ if(!groupId) return null;
+
     return (
              <form onSubmit={onSubmit}>
                 <h1>Confirm Delete</h1>

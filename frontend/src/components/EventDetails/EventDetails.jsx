@@ -93,7 +93,6 @@ export function EventDetails(){
             id={isLoaded && sessionUser && sessionUser.id === host.id ? "show-button" : "hide-button"}
             ><OpenModalMenuItem
             itemText="Delete"
-            // onItemClick={closeMenu}
             modalComponent={<DeleteEvent />}
             />
             </button>
