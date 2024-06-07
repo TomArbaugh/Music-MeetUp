@@ -17,6 +17,8 @@ import './GroupDetails.css'
 export function GroupDetails() {
     const dispatch = useDispatch()
     const [isLoaded, setIsLoaded] = useState(false);
+   
+
    const ulRef = useRef()
 
     const sessionUser = useSelector(state => state.session.user)
@@ -29,6 +31,7 @@ export function GroupDetails() {
 
 
     const { groupId } = useParams()
+
 
 
     useEffect(() => {
@@ -89,7 +92,7 @@ export function GroupDetails() {
                     <button
                     id={isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? "dark-grey" : "no-button"}
                     onClick={((e) => isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? alert('Feature coming soon.'): e.preventDefault())}
-                    >Create Event</button>
+                    ><Link to="/create-event">Create Event</Link></button>
 
                     <button
                     id={isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? "dark-grey" : "no-button"}

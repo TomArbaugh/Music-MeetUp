@@ -47,17 +47,12 @@ export function EventDetails(){
 
     const members = useSelector((state) => state.groups.Memberships)
     
-    console.log(members)
+  
 
     if (!members)  return
    
     const host = members.Members.find((host) => host.Membership.status === 'host') 
    
-
-    
-    
-
-
     
     if(!event) return;
 

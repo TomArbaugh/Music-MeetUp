@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 export function LandingPage() {
 
     const sessionUser = useSelector(state => state.session.user);
-console.log(sessionUser)
+
     return (
         <div id="test">
             <div id="layout-section-one">

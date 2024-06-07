@@ -31,7 +31,7 @@ export function GroupList() {
         getEvents()
     }, [dispatch])
 
-console.log(groups)
+
     const event = useSelector((state) => state.events.Events)
 
 
