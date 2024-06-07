@@ -2,7 +2,7 @@ import { useDispatch} from 'react-redux';
 import { useState } from "react"
 import { createAGroup } from '../../store/groups';
 import { useNavigate } from 'react-router-dom';
-
+import './CreateGroup.css'
 
 
 export function CreateGroup(){
@@ -71,6 +71,7 @@ export function CreateGroup(){
         <div>
             <h2>Set your group&apos;s location</h2>
             <h3>Meetup groups meet locally, in person, and online. We&#39;ll connect you with people in your area.</h3>
+            
             <input 
             value={city}
             type="text" 
@@ -78,7 +79,7 @@ export function CreateGroup(){
             onChange={((e) => setCity(e.target.value))}
             >
             </input>
-            {errorState.city && <p>{errorState.city}</p>}
+            {errorState.city && <p className="red-errors">{errorState.city}</p>}
             <input
             value={state}
             type="text"
@@ -86,7 +87,7 @@ export function CreateGroup(){
             onChange={((e) => setState(e.target.value))}
             >
             </input>
-            {errorState.state && <p>{errorState.state}</p>}
+            {errorState.state && <p className="red-errors">{errorState.state}</p>}
         </div>
         <div>
             <h2>What will your group&#39;s name be?</h2>
@@ -97,7 +98,7 @@ export function CreateGroup(){
             placeholder="What is your group name?"
             onChange={((e) => setName(e.target.value))}
             ></input>
-            {errorState.name && <p>{errorState.name}</p>}
+            {errorState.name && <p className="red-errors">{errorState.name}</p>}
         </div>
         <div>
             <h2>Describe the purpose of your group.</h2>
@@ -108,7 +109,7 @@ export function CreateGroup(){
             placeholder="Please write at least 30 characters"
             onChange={((e) => setAbout(e.target.value))}
             ></input>
-            {errorState.about && <p>{errorState.about}</p>}
+            {errorState.about && <p className="red-errors">{errorState.about}</p>}
         </div>
         <div>
             <h3>Is this an in-person or online group?</h3>
@@ -119,7 +120,7 @@ export function CreateGroup(){
                 <option>Online</option>
                 <option>In person</option>
             </select>
-            {errorState.type && <p>{errorState.type}</p>}
+            {errorState.type && <p className="red-errors">{errorState.type}</p>}
             <h3>Is this group private or public?</h3>
             <select
             value={isPrivate}
@@ -128,7 +129,7 @@ export function CreateGroup(){
                 <option value={true}>Private</option>
                 <option value={false}>Public</option>
             </select>
-            {errorState.private && <p>{errorState.private}</p>}
+            {errorState.private && <p className="red-errors">{errorState.private}</p>}
             <h3>Please add an image URL for your group below</h3>
             <input 
             type="text" 
@@ -136,7 +137,7 @@ export function CreateGroup(){
             value={url}
             onChange={((e) => setUrl(e.target.value))}
             ></input>
-             {errorState.preview && <p>{errorState.preview}</p>}
+             {errorState.preview && <p className="red-errors">{errorState.preview}</p>}
             <button type="submit">Create Group</button>
         </div>
         </form>

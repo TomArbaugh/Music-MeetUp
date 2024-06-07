@@ -6,13 +6,17 @@
 #root > ul {
   display: flex;
   justify-content: space-between;
-  width: 90%;
+  width: 95%;
   list-style-type: none;
+  padding: 2em;
  
 }
 
 .profile-dropdown {
-  position: absolute;
+   position: absolute;
+   width: 40%;
+   
+   padding-top: 1em;
 }
 
 .hidden {
@@ -22,18 +26,27 @@
 #M {
   height: 2em;
   width: 2em;
+  color: red;
 }
 
 #logo {
   text-decoration: none;
+  color: red;
   
 }
 
 .time-to-start-a-group {
   text-decoration: none;
-  padding: 1em
+  padding: 1em;
+  color: black;
 }
 
 #hide {
   display: none;
 }
+
+#user-menu {
+  padding: 0em 2em;
+  margin: 0;
+}
+

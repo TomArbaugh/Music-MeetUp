@@ -87,3 +87,10 @@
     text-decoration: none;
     cursor: not-allowed;
 }
+
+#sign-up-button {
+    list-style-type: none;
+    padding: 0em 2em;
+    margin: 0;
+    
+}

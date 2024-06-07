@@ -3,6 +3,7 @@ import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
 import { updateTheGroup } from "../../store/groups"
 import { useNavigate } from "react-router-dom";
+import './UpdatedGroup.css'
 
 export function UpdateGroup() {
 
@@ -87,7 +88,7 @@ export function UpdateGroup() {
             onChange={((e) => setCity(e.target.value))}
             >
             </input>
-            {errorState.city && <p>{errorState.city}</p>}
+            {errorState.city && <p className="update-red-errors">{errorState.city}</p>}
             <input
             value={state}
             type="text"
@@ -95,7 +96,7 @@ export function UpdateGroup() {
             onChange={((e) => setState(e.target.value))}
             >
             </input>
-            {errorState.state && <p>{errorState.state}</p>}
+            {errorState.state && <p className="update-red-errors">{errorState.state}</p>}
         </div>
         <div>
             <h2>What will your group&#39;s name be?</h2>
@@ -106,7 +107,7 @@ export function UpdateGroup() {
             placeholder="What is your group name?"
             onChange={((e) => setName(e.target.value))}
             ></input>
-            {errorState.name && <p>{errorState.name}</p>}
+            {errorState.name && <p className="update-red-errors">{errorState.name}</p>}
         </div>
         <div>
             <h2>Describe the purpose of your group.</h2>
@@ -117,7 +118,7 @@ export function UpdateGroup() {
             placeholder="Please write at least 30 characters"
             onChange={((e) => setAbout(e.target.value))}
             ></input>
-            {errorState.about && <p>{errorState.about}</p>}
+            {errorState.about && <p className="update-red-errors">{errorState.about}</p>}
         </div>
         <div>
             <h3>Is this an in-person or online group?</h3>
@@ -128,7 +129,7 @@ export function UpdateGroup() {
                 <option>Online</option>
                 <option>In person</option>
             </select>
-            {errorState.type && <p>{errorState.type}</p>}
+            {errorState.type && <p className="update-red-errors">{errorState.type}</p>}
             <h3>Is this group private or public?</h3>
             <select
             value={isPrivate}
@@ -137,7 +138,7 @@ export function UpdateGroup() {
                 <option value={true}>Private</option>
                 <option value={false}>Public</option>
             </select>
-            {errorState.private && <p>{errorState.private}</p>}
+            {errorState.private && <p className="update-red-errors">{errorState.private}</p>}
             <h3>Please add an image URL for your group below</h3>
             {/* <input type="text" placeholder="Image Url"></input> */}
             <button type="submit">Update Group</button>

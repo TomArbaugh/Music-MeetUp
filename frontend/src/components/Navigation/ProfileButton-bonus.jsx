@@ -47,8 +47,9 @@ function ProfileButton({ user }) {
   return (
     <>
       <button onClick={toggleMenu}>
+        <h4 id="user-menu">User Menu <i className="fas fa-user-circle" /></h4>
       
-        <i className="fas fa-user-circle" />
+        
        
       </button>
       <ul className={ulClassName} ref={ulRef}>
@@ -62,10 +63,14 @@ function ProfileButton({ user }) {
               <button onClick={logout}>Log Out</button>
             </li>
             <li>
-              <Link to='/group-list' >View Groups</Link>
+              <Link 
+              onClick={closeMenu}
+              to='/group-list' >View Groups</Link>
             </li>
             <li>
-            <Link to="/events-list">View Events</Link>
+            <Link 
+            onClick={closeMenu}
+            to="/events-list">View Events</Link>
             </li>
           </>
         ) : (

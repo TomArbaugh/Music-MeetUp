@@ -39,30 +39,31 @@ export function GroupList() {
     if (!event) return null;
     return (
         <>
-            <div id="outer-div">
-                <div id="header">
-                    <Link id="groups-header"><h1>Groups</h1></Link>
-                    <Link id="events-header" to="/events-list"><h1>Events</h1></Link>
+            <div id="group-outer-div">
+                <div id="group-header">
+                    <Link id="group-groups-header"><h1>Groups</h1></Link>
+                    <Link id="group-events-header" to="/events-list"><h1>Events</h1></Link>
                 </div>
-                <div id="body">
-                    <h2 id="subtitle">Groups In Meetup</h2>
+                <div id="group-body">
+                    <h2 id="group-subtitle">Groups In Meetup</h2>
+
                     {groups.map((group) => (
-                        <Link key={group.id} to={`/group/${group.id}`} id="card-link">
-                        <div id="card">
-                            <div id="left">
-                            <img src={group.previewImg} />
+                        <Link key={group.id} to={`/group/${group.id}`} id="group-card-link">
+                        <div id="group-card">
+                            <div id="group-left">
+                            <img src={group.previewImg} id="group-image" />
                             </div>
                             
-                            <div id="right">
-                                <div id="top">
-                                    <h3>{group.name}</h3>
+                            <div id="group-right">
+                                <div id="group-top">
+                                    <h1 id="group-name">{group.name}</h1>
                                     <h4>{group.city}, {group.state}</h4>
                                     <h4>{group.about}</h4>
                                 </div>
 
-                                <div id="bottom">
+                                <div id="group-bottom">
                                     <h5>{event.filter((events) => events.groupId === group.id).length} events</h5>
-                                    <LuDot id="dot"/>
+                                    <LuDot id="group-dot"/>
                                         
                                         <h5>Private: {group.private.toString()}</h5>
                                         

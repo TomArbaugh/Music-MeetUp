@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { createTheEvent } from "../../store/events";
 import { addAnEventImage } from "../../store/events";
+import './CreateEvent.css'
 
 export function CreateEvent() {
 const dispatch = useDispatch()
@@ -88,7 +89,7 @@ if(!group) return null;
         onChange={((e) => setName(e.target.value))}
         >
         </input>
-        {errorState.name && <p>{errorState.name}</p>}
+        {errorState.name && <p className="red-errors-event">{errorState.name}</p>}
         <select
             value={type}
             onChange={((e) => setType(e.target.value))}
@@ -96,7 +97,7 @@ if(!group) return null;
                 <option>Online</option>
                 <option>In person</option>
             </select>
-            {errorState.type && <p>{errorState.type}</p>}
+            {errorState.type && <p className="red-errors-event">{errorState.type}</p>}
         <h4>What is the price of your event?</h4>
         <input 
         type='number' 
@@ -104,23 +105,23 @@ if(!group) return null;
         value={price}
         onChange={((e) => setPrice(e.target.value))}
         ></input>
-        {errorState.price && <p>{errorState.price}</p>}
+        {errorState.price && <p className="red-errors-event">{errorState.price}</p>}
         <h4>When does your event start?</h4>
         <input 
         type="text" 
-        placeholder="MM/DD/YYYY, HH/mm AM"
+        placeholder="YYYY/MM/DD, HH/mm AM"
         value={startDate}
         onChange={((e) => setStartDate(e.target.value))}
         ></input>
-        {errorState.startDate && <p>{errorState.startDate}</p>}
+        {errorState.startDate && <p className="red-errors-event">{errorState.startDate}</p>}
         <h4>When does your event end?</h4>
         <input 
         type="text" 
-        placeholder="MM/DD/YYYY, HH/mm PM"
+        placeholder="YYYY/MM/DD, HH/mm PM"
         value={endDate}
         onChange={((e) => setEndDate(e.target.value))}
         ></input>
-        {errorState.endDate && <p>{errorState.endDate}</p>}
+        {errorState.endDate && <p className="red-errors-event">{errorState.endDate}</p>}
         <h4>Please add an image URL for your group below</h4>
             <input 
             type="text" 
@@ -128,7 +129,7 @@ if(!group) return null;
             value={url}
             onChange={((e) => setUrl(e.target.value))}
             ></input>
-            {imageErrorState.url && <p>{imageErrorState.url}</p>}
+            {imageErrorState.url && <p className="red-errors-event">{imageErrorState.url}</p>}
             <h4>Please describe your event</h4>
         <input 
         type="text" 
@@ -136,7 +137,7 @@ if(!group) return null;
         value={description}
         onChange={((e) => setDescription(e.target.value))}
         ></input>
-        {errorState.description && <p>{errorState.description}</p>}
+        {errorState.description && <p className="red-errors-event">{errorState.description}</p>}
         <button type="submit">Create Event</button>
         </form>
     )

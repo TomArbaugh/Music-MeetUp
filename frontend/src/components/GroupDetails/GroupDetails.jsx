@@ -18,16 +18,16 @@ import './GroupDetails.css'
 export function GroupDetails() {
     const dispatch = useDispatch()
     const [isLoaded, setIsLoaded] = useState(false);
-   
 
-   const ulRef = useRef()
+
+    const ulRef = useRef()
 
     const sessionUser = useSelector(state => state.session.user)
 
     useEffect(() => {
-      dispatch(sessionActions.restoreUser()).then(() => {
-        setIsLoaded(true)
-      });
+        dispatch(sessionActions.restoreUser()).then(() => {
+            setIsLoaded(true)
+        });
     }, [dispatch]);
 
 
@@ -40,7 +40,7 @@ export function GroupDetails() {
     }, [dispatch, groupId])
 
     const group = useSelector((state) => state.groups.GroupById)
-   
+
 
     useEffect(() => {
 
@@ -63,99 +63,157 @@ export function GroupDetails() {
 
 
     const today = new Date().toISOString().split('T')[0]
-    
 
-    
+    const pastEvents = []
+    const futureEvents = []
+
+    sortedEvents.map((events) => events.startDate > today ? futureEvents.push(events) : pastEvents.push(events))
+
     return (
-        <div id="card">
-            <Link to='/group-list'>Back to Groups</Link>
-            <div id="top">
-                <div id="left">
-                    <img src={group.GroupImages.length ? group.GroupImages[0].url : "no image"} />
+        <div id="group-details-card">
+            <Link to='/group-list' id="group-details-breadcrum">Back to Groups</Link>
+            <div id="group-details-top">
+                <div id="group-details-left">
+                    <img id="group-details-img" src={group.GroupImages.length ? group.GroupImages[0].url : "no image"} />
                 </div>
-                <div id="right">
-                    <h4>{group.name}</h4>
-                    <h4>{group.city}, {group.state}</h4>
-                    <div id="event-private">
-                        <h4>{eventsList.length} events</h4>
-                        <LuDot id="dot" />
-                        <h4>Private: {group.private.toString()}</h4>
+                <div id="group-details-right">
+
+                    <div id="group-finer-details">
+                        <h1 id="group-details-name">{group.name}</h1>
+                        <h3 id="group-details-grey">{group.city}, {group.state}</h3>
+                        <div id="group-details-event-private">
+                            <h4 id="group-details-grey">{eventsList.length} events</h4>
+                            <LuDot id="group-details-dot" />
+                            <h4 id="group-details-grey">Private: {group.private.toString()}</h4>
+                        </div>
+                        <h4 id="group-details-grey">Orginaized By: {group.Organizer.firstName} {group.Organizer.lastName}</h4>
+
                     </div>
-                    <h4>Orginaized By: {group.Organizer.firstName} {group.Organizer.lastName}</h4>
+
                     <button
-                    id={isLoaded && sessionUser && sessionUser.id !== group.Organizer.id ? "red-button" 
-                    : !sessionUser ? "no-button"
-                    : isLoaded && sessionUser && sessionUser.id == group.Organizer.id ? "no-button"
-                    : null}
-                    onClick={((e) => isLoaded && sessionUser && sessionUser.id !== group.Organizer.id ? alert('Feature coming soon.'): e.preventDefault())}
+                        id={isLoaded && sessionUser && sessionUser.id !== group.Organizer.id ? "group-details-red-button"
+                            : !sessionUser ? "group-details-no-button"
+                                : isLoaded && sessionUser && sessionUser.id == group.Organizer.id ? "group-details-no-button"
+                                    : null}
+                        onClick={((e) => isLoaded && sessionUser && sessionUser.id !== group.Organizer.id ? alert('Feature coming soon.') : e.preventDefault())}
                     >Join This Group</button>
+                    <div>
+                        <button
+                            id={isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? "group-details-dark-grey" : "group-details-no-button"}
+                            onClick={((e) => isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? null : e.preventDefault())}
+                        ><Link to="/create-event" id="group-details-link-buttons">Create Event</Link></button>
 
-                    <button
-                    id={isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? "dark-grey" : "no-button"}
-                    onClick={((e) => isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? null : e.preventDefault())}
-                    ><Link to="/create-event">Create Event</Link></button>
-
-                    <button
-                    id={isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? "dark-grey" : "no-button"}
-                    onClick={((e) => isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? null : e.preventDefault())}
-                    ><Link to="/update-group">Update</Link></button>
+                        <button
+                            id={isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? "group-details-dark-grey" : "group-details-no-button"}
+                            onClick={((e) => isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? null : e.preventDefault())}
+                        ><Link to="/update-group" id="group-details-link-buttons">Update</Link></button>
 
 
-                    <button
-                    ref={ulRef}
-                    onClick={((e) => isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? null: e.preventDefault())}
-                    id={isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? "dark-grey" : "no-button"}
-                    ><OpenModalMenuItem
-                    itemText="Delete"
-                    // onItemClick={closeMenu}
-                    modalComponent={<DeleteGroup />}
-            /></button>
+                        <button
+                            ref={ulRef}
+                            onClick={((e) => isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? null : e.preventDefault())}
+                            id={isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? "group-details-dark-grey" : "group-details-no-button"}
+                        ><OpenModalMenuItem
+                                itemText="Delete"
+                                modalComponent={<DeleteGroup />}
+                            /></button>
+                    </div>
 
-                        
-                    
+
+
+
                 </div>
             </div>
-            <div id="bottom">
-                <h2>What we are about</h2>
+            <div id="group-details-bottom">
+                <h2 id="event-details-h2">Organizer</h2>
+                <h4 id="make-grey">{group.Organizer.firstName} {group.Organizer.lastName}</h4>
+                <h2 id="event-details-h2">What we are about</h2>
                 <h4>{group.about}</h4>
-                
-                <h2>Events ({eventsList.length})</h2>
-                {sortedEvents.map((event) => (
-                    <Link key={event.id} to={`/events/${event.id}`}>
-                    <div>
-                        
-                        {event.startDate > today ? 
-                        <>
-                                     <h2>Upcoming Events</h2>
-                        <img id="event-card" src={event.previewImage} />
-                        <h4 id="event-card">{event.description}</h4>
-                        <h4 id="event-card">{event.name} </h4>
-                        <h4 id="event-card">{event.startDate.split('T')[0]}</h4>
-                        <LuDot />
-                        <h4 id="event-card">{event.startDate.split('T')[1].split('.')[0]}</h4>
-                        
-                        <h4 id="event-card">{event.Venue.city}, {event.Venue.state}</h4>
-                        </>
-           
-                        :
-                       
-                        <>
-                         <h2>Past Events</h2>
-                        <h4 id="event-card">{event.previewImage}</h4>
-                        <h4 id="event-card">{event.description}</h4>
-                        <h4 id="event-card">{event.name} </h4>
-                        <h4 id="event-card">{event.startDate.split('T')[0]}</h4>
-                        <LuDot />
-                        <h4 id="event-card">{event.startDate.split('T')[1].split('.')[0]}</h4>
-                       
-                        <h4 id="event-card">{event.Venue.city}, {event.Venue.state}</h4>
-                        </>
-                        }
 
-                    </div>
+                <h2 id={futureEvents.length ? "show" : "hide"}>Upcoming Events ({futureEvents.length})</h2>
+                {futureEvents.map((event) => (
+                    <Link key={event.id} to={`/events/${event.id}`} className="no-more-underline">
+                        <div>
+
+                            {
+                                <>
+                                    <div id="event-details-card">
+
+                                        <div id="event-details-card-top">
+                                            <img id="group-details-event-card-image" src={event.previewImage} />
+                                            <div id="event-card-top-right">
+                                                <div id="event-details-date">
+                                                    <h4 id="group-details-event-card">{event.startDate.split('T')[0]}</h4>
+                                                    <LuDot />
+                                                    <h4 id="group-details-event-card">{event.startDate.split('T')[1].split('.')[0]}</h4>
+                                                </div>
+
+
+                                                <h2 id="group-details-event-card">{event.name} </h2>
+
+
+                                                <h4 id="group-details-event-card">{event.Venue.city}, {event.Venue.state}</h4>
+
+                                            </div>
+
+                                        </div>
+                                        <h4 id="group-details-event-card-bottom">{event.description}</h4>
+                                    </div>
+
+
+                                </>
+
+                        
+
+
+                            }
+
+                        </div>
                     </Link>
                 ))}
-                
+                <h2 id={pastEvents.length ? "show" : "hide"}>Past Events {pastEvents.length}</h2>
+                {pastEvents.map((event) => (
+                    <Link key={event.id} to={`/events/${event.id}`} className="no-more-underline">
+                        <div>
+
+                            {
+                                <>
+                                    
+                                    <div id="event-details-card">
+
+                                        <div id="event-details-card-top">
+                                            <img id="group-details-event-card-image" src={event.previewImage} />
+                                            <div id="event-card-top-right">
+                                                <div id="event-details-date">
+                                                    <h4 id="group-details-event-card">{event.startDate.split('T')[0]}</h4>
+                                                    <LuDot />
+                                                    <h4 id="group-details-event-card">{event.startDate.split('T')[1].split('.')[0]}</h4>
+                                                </div>
+
+
+                                                <h2 id="group-details-event-card">{event.name} </h2>
+
+
+                                                <h4 id="group-details-event-card">{event.Venue.city}, {event.Venue.state}</h4>
+
+                                            </div>
+
+                                        </div>
+                                        <h4 id="group-details-event-card-bottom">{event.description}</h4>
+                                    </div>
+
+
+                                </>
+
+                                
+
+
+                            }
+
+                        </div>
+                    </Link>
+                ))}
+
             </div>
 
         </div>

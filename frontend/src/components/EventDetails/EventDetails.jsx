@@ -15,17 +15,17 @@ import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import { DeleteEvent } from "../DeleteEvent/DeleteEvent";
 import './EventDetails.css'
 
-export function EventDetails(){
+export function EventDetails() {
 
     const dispatch = useDispatch()
     const [isLoaded, setIsLoaded] = useState(false);
 
     const sessionUser = useSelector(state => state.session.user)
-
+    const group = useSelector(state => state.groups.GroupById)
     useEffect(() => {
-      dispatch(sessionActions.restoreUser()).then(() => {
-        setIsLoaded(true)
-      });
+        dispatch(sessionActions.restoreUser()).then(() => {
+            setIsLoaded(true)
+        });
     }, [dispatch]);
 
 
@@ -35,67 +35,99 @@ export function EventDetails(){
         dispatch(getAllEventsId(eventId))
     }, [dispatch, eventId])
 
- 
+
     const event = useSelector((state) => state.events.EventById)
 
-   
-    
-    useEffect(() =>{
+
+    useEffect(() => {
 
         event && Object.values(event).length ? dispatch(getAllMemberships(event.groupId)) : null
-        
-        
-    },[event, dispatch])
+
+
+    }, [event, dispatch])
 
     const members = useSelector((state) => state.groups.Memberships)
-    
-  
 
-    if (!members)  return
-   
-    const host = members.Members.find((host) => host.Membership.status === 'host') 
-   
-    
-    if(!event) return;
+
+
+    if (!members) return
+
+    const host = members.Members.find((host) => host.Membership.status === 'host')
+
+
+    if (!event || !group) return;
 
 
 
     return (
         <>
-    <Link to="/events-list">Events</Link>
-        <h1>Event Details</h1>
-        <h4>{event.name}</h4>
-        <h4>Hosted By:  {host.firstName} {host.lastName}</h4>
-        <h4></h4>
-        <img src={event.EventImages[0].url} />
-        <div>
-            </div>
-            <TfiAlarmClock />
-            <h4>Start: {event.startDate.split('T')[0] } <LuDot />{event.startDate.split('T')[1].split('Z')}</h4>
-            <h4>End: {event.endDate.split('T')[0] } <LuDot />{event.endDate.split('T')[1].split('Z')}</h4>
-            <MdAttachMoney />
-            <h4>{event.price !== 0 ? event.price : "FREE"}</h4>
-            <FiMapPin />
-            <h4>{event.type}</h4>
-            <h2>Description</h2>
-            <h4>{event.description}</h4>
-            <div>
+            <div id="event-details-top">
+                <Link to="/events-list" id="event-detail-bread">Events</Link>
 
+                <h1 id="event-detail-title ">{event.name}</h1>
+                <h4>Hosted By:  {host.firstName} {host.lastName}</h4>
             </div>
 
-            <button 
-            onClick={((e) => isLoaded && sessionUser && sessionUser.id === host.id ? null : e.preventDefault())}
-            id={isLoaded && sessionUser && sessionUser.id === host.id ? "show-button" : "hide-button"}
-            >Update</button>
+            <div id="event-details-second">
+                <img id="event-details-img" src={event.EventImages[0].url} />
 
-            <button 
-            onClick={((e) => isLoaded && sessionUser && sessionUser.id === host.id ? null : e.preventDefault())}
-            id={isLoaded && sessionUser && sessionUser.id === host.id ? "show-button" : "hide-button"}
-            ><OpenModalMenuItem
-            itemText="Delete"
-            modalComponent={<DeleteEvent />}
-            />
-            </button>
+                <div id="event-details-right">
+                    <div id="event-details-top-right">
+                        <img src={group.GroupImages[0].url} id="event-detail-group-image" />
+                        <h3>{group.name}</h3>
+                    </div>
+
+                    <div id="event-details-bottom-right">
+                        <div id="event-clock">
+                            <TfiAlarmClock id="clock-logo" />
+                            <div>
+                                <h4 className="event-time">Start: {event.startDate.split('T')[0]} <LuDot />{event.startDate.split('T')[1].split('Z')}</h4>
+                                <h4 className="event-time">End: {event.endDate.split('T')[0]} <LuDot />{event.endDate.split('T')[1].split('Z')}</h4>
+                            </div>
+                        </div>
+                        <div id="event-money">
+                            <MdAttachMoney id="event-dollar-sign" />
+                            <h4>{event.price !== 0 ? event.price : "FREE"}</h4>
+                        </div>
+
+                        <div id="event-location">
+                            <FiMapPin id="event-location-pin" />
+                            <h4>{event.type}</h4>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div id="event-details-section3">
+                <h2>Description</h2>
+                <h4>{event.description}</h4>
+            </div>
+
+            <div id="event-details-buttons">
+                <button
+                    onClick={((e) => isLoaded && sessionUser && sessionUser.id === host.id ? null : e.preventDefault())}
+                    id={isLoaded && sessionUser && sessionUser.id === host.id ? "show-button" : "hide-button"}
+                >Update</button>
+
+                <button
+                className="event-details-delete-button"
+                    onClick={((e) => isLoaded && sessionUser && sessionUser.id === host.id ? null : e.preventDefault())}
+                    id={isLoaded && sessionUser && sessionUser.id === host.id ? "show-button" : "hide-button"}
+                ><OpenModalMenuItem
+                
+                        itemText="Delete"
+                        modalComponent={<DeleteEvent />}
+                    />
+                </button>
+            </div>
+
+
+
         </>
     )
 }

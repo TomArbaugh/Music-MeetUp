@@ -3,12 +3,14 @@
     font-family: "Noto Sans", sans-serif;
 }
 
-#group-header {
+#events-group-header {
     color: lightgray;
     text-decoration: none;
+    padding-right: 1em;
+    padding-left: 2em;
 }
 
-#event-header {
+#events-event-header {
     color: teal;
     text-decoration: underline;
 }
@@ -18,12 +20,38 @@
     
 }
 
-#link {
+#events-link {
     text-decoration: none;
     color: black;
     
 }
 
-#border {
+#events-border {
     border-bottom: solid black 2px;
+    padding-left: 2em;
+}
+
+#events-header {
+    display: flex;
+}
+
+#events-title {
+    padding-left: 1.5em;
+}
+
+.event-card-top {
+    display: flex;
+}
+
+.event-card-top-right {
+    padding-left: 3em;
+}
+
+.event-card-time {
+    display: flex;
+    align-items: center;
+}
+
+.event-card-image {
+    width: 45%;
 }

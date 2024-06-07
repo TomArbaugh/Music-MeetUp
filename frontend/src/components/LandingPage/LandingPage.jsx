@@ -4,6 +4,8 @@ import { MdContentPasteSearch } from "react-icons/md";
 import { Link } from "react-router-dom";
 import './LandingPage.css'
 import { useSelector } from "react-redux";
+import OpenModalMenuItem from '../Navigation/OpenModalMenuItem'
+import SignupFormModal from "../SignupFormModal";
 
 
 export function LandingPage() {
@@ -36,13 +38,13 @@ export function LandingPage() {
                     >
                         See All Groups
                     </Link>
-                    <h3>Heres a caption for you</h3>
+                    <h3>Find a group now!</h3>
                 </div>
                 <div id="find-an-event">
 
                     <MdContentPasteSearch className="icons"/>
                     <Link to="/events-list" className="landingLink">Find an Event</Link>
-                    <h3>Heres a caption for you</h3>
+                    <h3>Find an event today!</h3>
                 </div>
                 <div id="start-a-group">
                     <PiHandshakeDuotone className="icons"/>
@@ -58,11 +60,14 @@ export function LandingPage() {
 
                    
          
-                    <h3>Heres a caption for you</h3>
+                    <h3>Create a new group!</h3>
                 </div>
             </div>
             <div id="layout-section-four">
-                <button >Join Music MeetUp!</button>
+                <button id="sign-up-button">      <OpenModalMenuItem 
+              itemText="Join MeetUp"
+              modalComponent={<SignupFormModal />}
+            /></button>
             </div>
         </div>
     )

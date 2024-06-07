@@ -6,3 +6,86 @@
 #hide-button {
     display: none;
 }
+
+#event-details-buttons {
+    padding-left: 2em;
+}
+
+#event-details-top {
+    padding-left: 2em;
+}
+
+#event-detail-title {
+    padding: 0em;
+    margin: 0;
+}
+
+#event-detail-bread {
+    text-decoration: none;
+    color: black;
+}
+
+#event-details-second {
+    display: flex;
+}
+
+#event-detail-group-image {
+    width: 35%;
+    padding-right: 2em;
+    padding-bottom: 2em;
+}
+
+#event-details-img {
+    width: 45%;
+    padding-right: 2em;
+    padding-left: 2em;
+}
+
+#event-details-top-right {
+    display: flex;
+}
+
+#event-clock {
+    display: flex;
+}
+
+#clock-logo {
+    align-self: center;
+    height: 3em;
+    width: 3em;
+    padding-right: 1em;
+}
+
+#event-money {
+    display: flex;
+}
+
+#event-dollar-sign {
+    align-self: center;
+    height: 3em;
+    width: 3em;
+    padding-right: 1em;
+}
+
+#event-location {
+    display: flex;
+}
+
+#event-location-pin {
+    align-self: center;
+    height: 3em;
+    width: 3em;
+    padding-right: 1em;
+}
+
+.event-time {
+    margin: 0;
+}
+
+#event-details-section3 {
+    padding-left: 2em;
+}
+
+.event-details-delete-button {
+    list-style-type: none;
+}
