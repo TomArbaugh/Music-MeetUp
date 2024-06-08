@@ -20,9 +20,25 @@ export function EventDetails() {
     const dispatch = useDispatch()
     const [isLoaded, setIsLoaded] = useState(false);
 
+    const { eventId } = useParams()
+
+    useEffect(() => {
+        dispatch(getAllEventsId(eventId))
+    }, [dispatch, eventId])
+
     const event = useSelector((state) => state.events.EventById)
 
- 
+    const groups = useSelector((state) => state.groups)
+
+    const members = groups.Memberships
+
+    const group = groups.GroupById 
+
+    useEffect(() => {
+        event && Object.values(event).length ? dispatch(getAllGroupsId(event.groupId)) : null
+    }, [group, event, dispatch])
+
+
 
     const sessionUser = useSelector(state => state.session.user)
     
@@ -33,26 +49,18 @@ export function EventDetails() {
     }, [dispatch]);
 
 
-    const { eventId } = useParams()
+
 
     useEffect(() => {
-        dispatch(getAllEventsId(eventId))
-    }, [dispatch, eventId])
 
+            event && Object.values(event).length ? dispatch(getAllMemberships(event.groupId)) : null
     
-    useEffect(() => {
-        event && Object.values(event).length ? getAllGroupsId(event.groupId) : null
-    }, [event, dispatch])
-
-    useEffect(() => {
-
-        event && Object.values(event).length ? dispatch(getAllMemberships(event.groupId)) : null
-
 
     }, [event, dispatch])
-
-    const members = useSelector((state) => state.groups.Memberships)
+    
+    
    
+
 
 
     if (!members) return
@@ -60,9 +68,9 @@ export function EventDetails() {
     const host = members.Members.find((host) => host.Membership.status === 'host')
 
 
-    if (!event) return;
-
-
+    if (!event) return null;
+    if (!group) return null;
+ 
     return (
         <>
             <div id="event-details-top">
@@ -77,7 +85,7 @@ export function EventDetails() {
 
                 <div id="event-details-right">
                     <div id="event-details-top-right">
-                        <img src={event.EventImages[0].url} id="event-detail-group-image" />
+                        <img src={group.GroupImages[0] ? group.GroupImages[0].url : 'no image'} id="event-detail-group-image" />
                         <h3>{event.Group.name}</h3>
                     </div>
 

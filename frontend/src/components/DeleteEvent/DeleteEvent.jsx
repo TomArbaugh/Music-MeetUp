@@ -14,13 +14,15 @@ export function DeleteEvent() {
     const {eventId} = useParams()
     const { closeModal } = useModal();
 
-    const groupId = useSelector((state) => state.groups.GroupById.id)
+    const groupId = useSelector((state) => state.groups.GroupById)
 
     useEffect(() => {
 
         dispatch(getAllEvents())
 
     }, [dispatch])
+
+
 
     function onSubmit(e){
         e.preventDefault()
@@ -33,7 +35,7 @@ export function DeleteEvent() {
         const deleted = await dispatch(deleteTheEvent(eventId))
 
 
-     if (deleted) navigate(`/group/${groupId}`)
+     if (deleted) navigate(`/group/${groupId.id}`)
      
  }
 
