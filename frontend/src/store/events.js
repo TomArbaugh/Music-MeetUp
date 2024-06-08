@@ -115,7 +115,7 @@ function eventsReducer(state = initialState, action) {
         case GET_ATTENDEES:
             return {...state, Attendees: action.attendees}
         case CREATE_EVENT:
-            return {...state, Events: [action.payload]}
+            return {...state, Events: action.payload}
         case ADD_EVENT_IMAGE:
             return {...state, EventImages: [action.payloadTwo]}
         case DELETE_EVENT:{

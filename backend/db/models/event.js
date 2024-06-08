@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Event.hasMany(models.EventImage, {
         foreignKey: 'eventId',
-
+        onDelete: "cascade"
       });
 
       // Event.hasMany(models.Attendance, {
@@ -31,7 +31,8 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       Event.belongsTo(models.Group, {
-        foreignKey: 'groupId'
+        foreignKey: 'groupId',
+        onDelete: "cascade"
       });
     }
   }
@@ -42,7 +43,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     groupId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      onDelete: "cascade"
     },
     name: {
       type: DataTypes.STRING(50),

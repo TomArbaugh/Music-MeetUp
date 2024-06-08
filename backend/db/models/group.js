@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Group.hasMany(models.Event, {
         foreignKey: 'groupId',
+        onDelete: 'cascade'
        
       });
 
@@ -37,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
 
       Group.hasMany(models.GroupImage, {
         foreignKey: 'groupId',
-        
+        onDelete: 'cascade'
       });
     }
   }

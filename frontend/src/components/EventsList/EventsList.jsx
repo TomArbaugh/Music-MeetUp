@@ -10,11 +10,13 @@ export function EventsList() {
 
     const dispatch = useDispatch()
 
+    const events = useSelector((state) => state.events.Events)
+    
     useEffect(() => {
         dispatch(getAllEvents())
-    }, [dispatch])
+    }, [events, dispatch])
 
-    const events = useSelector((state) => state.events.Events)
+    
 
     const sorter = (a, b) => {
         return a - b
