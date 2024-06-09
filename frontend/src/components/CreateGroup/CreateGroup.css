@@ -6,3 +6,29 @@
 .red-errors {
     color: red;
 }
+
+#start-group-form {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin: auto;
+}
+
+#start-new-group-title {
+    color: teal;
+}
+
+.long-text-bodies {
+    color: darkslategray;
+}
+
+.start-group-inputs {
+    padding: 1em 2em 1em 2em;
+    margin-right: 1em;
+}
+
+.create-group-button {
+    padding: 2em 4em 2em 4em;
+    width: 100%
+}
+

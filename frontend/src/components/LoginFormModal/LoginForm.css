@@ -6,3 +6,17 @@
 .error-message {
     color: red;
 }
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.login-add-padding {
+   margin: 1em;
+}
+
+#login-title {
+    padding-left: 1em;
+}

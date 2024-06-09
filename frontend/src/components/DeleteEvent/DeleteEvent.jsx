@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { deleteTheEvent } from "../../store/events";
 import { useEffect } from "react";
 import { getAllEvents } from "../../store/events";
-
+import './DeleteEvent.css'
 
 export function DeleteEvent() {
 
@@ -43,15 +43,18 @@ export function DeleteEvent() {
 
     return (
              <form onSubmit={onSubmit}>
-                <h1>Confirm Delete</h1>
-                <h2>Are you sure you want to remove this event?</h2>
+                <h1 className="delete-event-margin">Confirm Delete</h1>
+                <h2 className="delete-event-margin">Are you sure you want to remove this event?</h2>
 
                 <button 
+ className="delete-event-margin"
                 onClick={handleSubmit}
                 type="submit" id="delete-button"
                 >Yes (Delete Event)</button>
 
-                <button type="submit">No (Keep Event)</button>
+                <button 
+                 className="delete-event-margin"
+                type="submit">No (Keep Event)</button>
             </form>
     )
 }

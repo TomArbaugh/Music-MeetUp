@@ -66,13 +66,16 @@ export function CreateGroup(){
 
   
     return (
-        <form onSubmit={handleSubmit}>
-        <h1>Start a New Group</h1>
+        <form 
+        id="start-group-form"
+        onSubmit={handleSubmit}>
+        <h1 id="start-new-group-title">Start a New Group</h1>
         <div>
             <h2>Set your group&apos;s location</h2>
-            <h3>Meetup groups meet locally, in person, and online. We&#39;ll connect you with people in your area.</h3>
+            <h3 className='long-text-bodies'>Meetup groups meet locally, in person, and online. We&#39;ll connect you with people in your area.</h3>
             
             <input 
+className='start-group-inputs'
             value={city}
             type="text" 
             placeholder="City"
@@ -81,6 +84,7 @@ export function CreateGroup(){
             </input>
             {errorState.city && <p className="red-errors">{errorState.city}</p>}
             <input
+className='start-group-inputs'
             value={state}
             type="text"
             placeholder='STATE'
@@ -91,8 +95,9 @@ export function CreateGroup(){
         </div>
         <div>
             <h2>What will your group&#39;s name be?</h2>
-            <h3>Choose a name that will give people a clear idea of what the group is about. Feel free to get creative! You can edit this later if you change your mind.</h3>
+            <h3 className='long-text-bodies'>Choose a name that will give people a clear idea of what the group is about. Feel free to get creative! You can edit this later if you change your mind.</h3>
             <input 
+className='start-group-inputs'
             value={name}
             type="text" 
             placeholder="What is your group name?"
@@ -102,8 +107,9 @@ export function CreateGroup(){
         </div>
         <div>
             <h2>Describe the purpose of your group.</h2>
-            <h3>People will see this when we promote your group, but you&#39;ll be able to add to it later, too. 1. What&#39;s the purpose of the group? 2. Who should join? 3. What will you do at your events?</h3>
+            <h3 className='long-text-bodies'>People will see this when we promote your group, but you&#39;ll be able to add to it later, too. 1. What&#39;s the purpose of the group? 2. Who should join? 3. What will you do at your events?</h3>
             <input 
+className='start-group-inputs'
             value={about}
             type="text" 
             placeholder="Please write at least 30 characters"
@@ -114,6 +120,7 @@ export function CreateGroup(){
         <div>
             <h3>Is this an in-person or online group?</h3>
             <select
+            className='start-group-inputs'
             value={type}
             onChange={((e) => setType(e.target.value))}
             >
@@ -123,6 +130,7 @@ export function CreateGroup(){
             {errorState.type && <p className="red-errors">{errorState.type}</p>}
             <h3>Is this group private or public?</h3>
             <select
+            className='start-group-inputs'
             value={isPrivate}
             onChange={((e) => setIsPrivate(e.target.value))}
             >
@@ -132,6 +140,7 @@ export function CreateGroup(){
             {errorState.private && <p className="red-errors">{errorState.private}</p>}
             <h3>Please add an image URL for your group below</h3>
             <input 
+            className='start-group-inputs'
             type="text" 
             placeholder="Image Url"
             value={url}
@@ -139,7 +148,7 @@ export function CreateGroup(){
             ></input>
              {!url && <p className="red-errors">URL required</p>}
             <button 
-            
+            className='create-group-button'
             type="submit">Create Group</button>
         </div>
         </form>

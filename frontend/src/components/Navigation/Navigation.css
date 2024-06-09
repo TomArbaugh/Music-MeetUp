@@ -6,6 +6,9 @@
 * {
     font-family: "Noto Sans", sans-serif;
 }
+#demo-user-modal {
+  margin: 1em;
+}
 
 #root > ul {
   display: flex;
@@ -27,6 +30,10 @@
   display: none;
 }
 
+.profile-dropdown {
+  padding-top: 5em;
+ 
+}
 
 #M {
   

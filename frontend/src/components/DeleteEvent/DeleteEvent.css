@@ -4,5 +4,10 @@
 }
 
 #delete-button {
-    color: red;
+    background-color: red;
+    color: white;
+}
+
+.delete-event-margin {
+    margin: 1em;
 }

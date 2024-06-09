@@ -44,67 +44,84 @@ function SignupFormModal() {
 
   return (
     <>
+    <h4 className='signup-margins-h4'>Please fill out all fields</h4>
+    <h4 className='signup-margins-h4'>username must be 4 characters or more</h4>
+    <h4 className='signup-margins-h4'>password must be 6 characters or more</h4>
       <h1 id="sign-up-title">Sign Up</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
+      <form 
+      id="signup-form"
+      onSubmit={handleSubmit}>
+        <label className='signup-margins'>
           Email
+          </label>
           <input
+           className='signup-margins'
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </label>
+        
         {errors.email && <p className='error-message'>{errors.email}</p>}
-        <label>
+        <label className='signup-margins'>
           Username
+          </label>
           <input
+ className='signup-margins'
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
-        </label>
+        
         {errors.username && <p className='error-message'>{errors.username}</p>}
-        <label>
+        <label className='signup-margins'>
           First Name
+          </label>
           <input
+ className='signup-margins'
             type="text"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
           />
-        </label>
+       
         {errors.firstName && <p className='error-message'>{errors.firstName}</p>}
-        <label>
+        <label className='signup-margins'>
           Last Name
+          </label>
           <input
+ className='signup-margins'
             type="text"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
           />
-        </label>
+       
         {errors.lastName && <p className='error-message'>{errors.lastName}</p>}
-        <label>
+        <label className='signup-margins'>
           Password
+          </label>
           <input
+ className='signup-margins'
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </label>
+       
         {errors.password && <p className='error-message'>{errors.password}</p>}
-        <label>
+        <label className='signup-margins'>
           Confirm Password
+          </label>
           <input
+ className='signup-margins'
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
-        </label>
+       
         {errors.confirmPassword && <p className='error-message'>{errors.confirmPassword}</p>}
         <button 
                 disabled={

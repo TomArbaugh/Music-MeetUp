@@ -43,7 +43,7 @@ function ProfileButton({ user }) {
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
-
+ 
   return (
     <>
       <button id="user-menu-button" onClick={toggleMenu}>
@@ -92,6 +92,7 @@ function ProfileButton({ user }) {
             />
             <li>
             <Link 
+            
             onClick={closeMenu}
             to='/group-list' 
             >
@@ -100,6 +101,7 @@ function ProfileButton({ user }) {
             </li>
             <li>
               <Link
+              
               onClick={closeMenu}
               to="/events-list"
               >

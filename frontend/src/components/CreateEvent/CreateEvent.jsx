@@ -80,10 +80,13 @@ const onSubmit = async (e) => {
 if(!group) return null;
 
     return (
-        <form onSubmit={onSubmit}>
-        <h1>Create a new event for {group.name}</h1>
+        <form 
+        id="create-event-form"
+        onSubmit={onSubmit}>
+        <h1 id="create-event-title">Create a new event for {group.name}</h1>
         <h4>What is the name of your event?</h4>
         <input 
+className="create-event-input"
         value={name}
         placeholder="Event Name"
         onChange={((e) => setName(e.target.value))}
@@ -91,6 +94,8 @@ if(!group) return null;
         </input>
         {errorState.name && <p className="red-errors-event">{errorState.name}</p>}
         <select
+        id="online-or-not"
+className="create-event-input"
             value={type}
             onChange={((e) => setType(e.target.value))}
             >
@@ -100,6 +105,7 @@ if(!group) return null;
             {errorState.type && <p className="red-errors-event">{errorState.type}</p>}
         <h4>What is the price of your event?</h4>
         <input 
+className="create-event-input"
         type='number' 
         placeholder="0"
         value={price}
@@ -108,6 +114,7 @@ if(!group) return null;
         {errorState.price && <p className="red-errors-event">{errorState.price}</p>}
         <h4>When does your event start?</h4>
         <input 
+className="create-event-input"
         type="date" 
         placeholder="YYYY/MM/DD, HH/mm AM"
         value={startDate}
@@ -116,6 +123,7 @@ if(!group) return null;
         {errorState.startDate && <p className="red-errors-event">{errorState.startDate}</p>}
         <h4>When does your event end?</h4>
         <input 
+className="create-event-input"
         type="date" 
         placeholder="YYYY/MM/DD, HH/mm PM"
         value={endDate}
@@ -124,6 +132,7 @@ if(!group) return null;
         {errorState.endDate && <p className="red-errors-event">{errorState.endDate}</p>}
         <h4>Please add an image URL for your group below</h4>
             <input 
+className="create-event-input"
             type="text" 
             placeholder="Image Url"
             value={url}
@@ -132,13 +141,16 @@ if(!group) return null;
             {!url && <p className="red-errors-event">URL Required</p>}
             <h4>Please describe your event</h4>
         <input 
+        className="create-event-input"
         type="text" 
         placeholder="Please include at least 30 characters."
         value={description}
         onChange={((e) => setDescription(e.target.value))}
         ></input>
         {errorState.description && <p className="red-errors-event">{errorState.description}</p>}
-        <button type="submit">Create Event</button>
+        <button 
+        id="create-event-button"
+        type="submit">Create Event</button>
         </form>
     )
 }

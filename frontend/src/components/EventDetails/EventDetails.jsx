@@ -122,6 +122,7 @@ export function EventDetails() {
 
             <div id="event-details-buttons">
                 <button
+                className="event-details-update-button"
                     onClick={((e) => isLoaded && sessionUser && sessionUser.id === host.id ? null : e.preventDefault())}
                     id={isLoaded && sessionUser && sessionUser.id === host.id ? "show-button" : "hide-button"}
                 >Update</button>

@@ -6,3 +6,28 @@
 .update-red-errors {
     color: red;
 }
+
+#update-group-form {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin: auto; 
+}
+
+#update-title {
+    color: teal;
+}
+
+.long-text-update {
+    color: darkslategray
+}
+
+.update-inputs {
+    padding: 1em 2em 1em 2em;
+    margin-right: 1em;
+}
+
+#update-button {
+    padding: 2em 4em 2em 4em;
+    width: 100%
+}

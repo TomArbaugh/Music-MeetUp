@@ -29,16 +29,22 @@ export function DeleteGroup() {
 
     return (
         
-            <form onSubmit={onSubmit}>
-                <h1>Confirm Delete</h1>
-                <h2>Are you sure you want to remove this group?</h2>
+            <form 
+            id="delete-group-form"
+            onSubmit={onSubmit}>
+                <h1 className="group-delete-margin">Confirm Delete</h1>
+                <h2 className="group-delete-margin">Are you sure you want to remove this group?</h2>
 
                 <button 
+ className="group-delete-margin"
                 onClick={handleSubmit}
                 type="submit" id="delete-button"
                 >Yes (Delete Group)</button>
 
-                <button type="submit">No (Keep Group)</button>
+                <button 
+                type="submit"
+                 className="group-delete-margin"
+                >No (Keep Group)</button>
             </form>
          
     )

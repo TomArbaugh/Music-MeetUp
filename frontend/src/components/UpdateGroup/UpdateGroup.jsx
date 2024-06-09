@@ -76,12 +76,15 @@ export function UpdateGroup() {
     if(!group) return null;
 
     return (
-        <form onSubmit={handleSubmit}>
-        <h1>Update Your Group</h1>
+        <form 
+        id="update-group-form"
+        onSubmit={handleSubmit}>
+        <h1 id="update-title">Update Your Group</h1>
         <div>
             <h2>Set your group&apos;s location</h2>
-            <h3>Meetup groups meet locally, in person, and online. We&#39;ll connect you with people in your area.</h3>
+            <h3 className="long-text-update">Meetup groups meet locally, in person, and online. We&#39;ll connect you with people in your area.</h3>
             <input 
+className="update-inputs"
             value={city}
             type="text" 
             placeholder="City"
@@ -90,6 +93,7 @@ export function UpdateGroup() {
             </input>
             {errorState.city && <p className="update-red-errors">{errorState.city}</p>}
             <input
+className="update-inputs"
             value={state}
             type="text"
             placeholder='STATE'
@@ -100,8 +104,9 @@ export function UpdateGroup() {
         </div>
         <div>
             <h2>What will your group&#39;s name be?</h2>
-            <h3>Choose a name that will give people a clear idea of what the group is about. Feel free to get creative! You can edit this later if you change your mind.</h3>
+            <h3 className="long-text-update">Choose a name that will give people a clear idea of what the group is about. Feel free to get creative! You can edit this later if you change your mind.</h3>
             <input 
+className="update-inputs"
             value={name}
             type="text" 
             placeholder="What is your group name?"
@@ -111,8 +116,9 @@ export function UpdateGroup() {
         </div>
         <div>
             <h2>Describe the purpose of your group.</h2>
-            <h3>People will see this when we promote your group, but you&#39;ll be able to add to it later, too. 1. What&#39;s the purpose of the group? 2. Who should join? 3. What will you do at your events?</h3>
+            <h3 className="long-text-update">People will see this when we promote your group, but you&#39;ll be able to add to it later, too. 1. What&#39;s the purpose of the group? 2. Who should join? 3. What will you do at your events?</h3>
             <input 
+className="update-inputs"
             value={about}
             type="text" 
             placeholder="Please write at least 30 characters"
@@ -123,6 +129,7 @@ export function UpdateGroup() {
         <div>
             <h3>Is this an in-person or online group?</h3>
             <select
+className="update-inputs"
             value={type}
             onChange={((e) => setType(e.target.value))}
             >
@@ -132,6 +139,7 @@ export function UpdateGroup() {
             {errorState.type && <p className="update-red-errors">{errorState.type}</p>}
             <h3>Is this group private or public?</h3>
             <select
+            className="update-inputs"
             value={isPrivate}
             onChange={((e) => setIsPrivate(e.target.value))}
             >
@@ -141,7 +149,9 @@ export function UpdateGroup() {
             {errorState.private && <p className="update-red-errors">{errorState.private}</p>}
             <h3>Please add an image URL for your group below</h3>
             {/* <input type="text" placeholder="Image Url"></input> */}
-            <button type="submit">Update Group</button>
+            <button 
+            id="update-button"
+            type="submit">Update Group</button>
         </div>
         </form>
         

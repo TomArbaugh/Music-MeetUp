@@ -35,29 +35,37 @@ function LoginFormModal() {
 
   return (
     <>
-    
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
+      <h4 className='login-add-padding'>user name must be 4 characters or more</h4>
+      <h4 className='login-add-padding'>password must be 6 characters or more</h4>
+      <h1 id="login-title">Log In</h1>
+      <form 
+      id="login-form"
+      onSubmit={handleSubmit}>
+        <label className='login-add-padding'>
           Username or Email
+          </label>
           <input
+ className='login-add-padding'
             type="text"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
             required
           />
-        </label>
-        <label>
+        
+        <label className='login-add-padding'>
           Password
+          </label>
           <input
+ className='login-add-padding'
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </label>
+       
         {errors.credential && <p className='error-message'>{errors.credential}</p>}
         <button 
+         className='login-add-padding'
         type="submit"
         disabled={password.length < 6 || credential.length < 4}
         >
@@ -66,6 +74,7 @@ function LoginFormModal() {
         </button>
 
         <button
+        className='login-add-padding'
         onClick={() => demoLogIn()}
         >
           Log in as Demo User

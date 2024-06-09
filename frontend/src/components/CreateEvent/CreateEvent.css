@@ -6,3 +6,30 @@
 .red-errors-event {
     color: red;
 }
+
+#create-event-form {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin: auto;
+    
+}
+
+#create-event-title {
+    color: teal;
+}
+
+.create-event-input {
+    padding: 1em 2em 1em 2em;
+    margin-right: 1em;
+}
+
+#create-event-button {
+    padding: 2em 4em 2em 4em;
+    width: 100%;
+    margin-top: 2em;
+}
+
+#online-or-not {
+    margin-top: 3em;
+}

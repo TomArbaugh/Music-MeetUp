@@ -5,5 +5,11 @@
 
 
 #delete-button {
-    color: red;
+    background-color: red;
+    color: white;
+}
+
+.group-delete-margin {
+    margin: 1em;
+   
 }

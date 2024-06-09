@@ -11,6 +11,16 @@
     padding: 0em 1em;
 }
 
-form {
+#signup-form {
+    display: flex;
+    flex-direction: column;
     padding: 2em;
+}
+
+.signup-margins {
+    margin-bottom: 1em;
+}
+
+.signup-margins-h4 {
+    margin: 1em;
 }
