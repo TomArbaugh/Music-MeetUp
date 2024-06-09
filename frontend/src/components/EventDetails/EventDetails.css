@@ -2,9 +2,12 @@
 * {
     font-family: "Noto Sans", sans-serif;
 }
-
+#show-button {
+    margin-right: 1em;
+}
 #hide-button {
     display: none;
+    margin-right: 1em;
 }
 
 #event-details-buttons {
@@ -13,16 +16,19 @@
 
 #event-details-top {
     padding-left: 2em;
+    color: #330023;
 }
 
 #event-detail-title {
     padding: 0em;
     margin: 0;
+    color: #330023;
 }
 
 #event-detail-bread {
     text-decoration: none;
-    color: black;
+    color: teal;
+   
 }
 
 #event-details-second {
@@ -30,7 +36,7 @@
 }
 
 #event-detail-group-image {
-    width: 35%;
+    width: 40%;
     padding-right: 2em;
     padding-bottom: 2em;
 }
@@ -43,10 +49,15 @@
 
 #event-details-top-right {
     display: flex;
+    color: #330023;
+    padding-bottom: 5em;
 }
 
 #event-clock {
     display: flex;
+    color: darkgray;
+    padding-bottom: 2em;
+    padding-top: 1em;
 }
 
 #clock-logo {
@@ -58,6 +69,8 @@
 
 #event-money {
     display: flex;
+    color: darkgray;
+    padding-bottom: 1em;
 }
 
 #event-dollar-sign {
@@ -69,6 +82,7 @@
 
 #event-location {
     display: flex;
+    color: darkgray;
 }
 
 #event-location-pin {
@@ -84,8 +98,24 @@
 
 #event-details-section3 {
     padding-left: 2em;
+    color: #330023;
 }
 
 .event-details-delete-button {
     list-style-type: none;
+    
+    
 }
+
+#event-details-right {
+    padding-left: 6em;
+}
+
+#event-host {
+    font-weight: 100;
+}
+
+#event-details-date > h4 {
+    font-weight: 100;
+}
+

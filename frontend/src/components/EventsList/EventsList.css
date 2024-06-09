@@ -20,6 +20,10 @@
     
 }
 
+.event-card {
+    font-weight: 100;
+}
+
 #events-link {
     text-decoration: none;
     color: black;
@@ -29,6 +33,7 @@
 #events-border {
     border-bottom: solid black 2px;
     padding-left: 2em;
+    padding-bottom: 3em;
 }
 
 #events-header {
@@ -37,6 +42,7 @@
 
 #events-title {
     padding-left: 1.5em;
+    
 }
 
 .event-card-top {
@@ -50,8 +56,24 @@
 .event-card-time {
     display: flex;
     align-items: center;
+   
+}
+
+.event-card-time > h4 {
+    font-weight: 100;
+    margin-bottom: 0;
 }
 
 .event-card-image {
     width: 45%;
+    padding-top: 1em;
+    padding-bottom: 2em;
+}
+
+#event-card-name {
+    font-size: xx-large;
+}
+
+#event-card-name {
+    color: teal;
 }

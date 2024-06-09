@@ -46,8 +46,8 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={toggleMenu}>
-        <h4 id="user-menu">User Menu <i className="fas fa-user-circle" /></h4>
+      <button id="user-menu-button" onClick={toggleMenu}>
+        <h4 id="user-menu">User Menu </h4>
       
         
        

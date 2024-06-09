@@ -6,13 +6,14 @@
 #group-details-card {
     display: flex;
     flex-direction: column;
+    color: #330023;
     
 }
 
 #group-details-breadcrum {
     text-decoration: none;
     padding: 3em 0em 0em 4em;
-    color: black;
+    color: teal;
 }
 
 #group-details-img {
@@ -42,11 +43,21 @@
 
 #group-details-event-private {
     display: flex;
+    
 
+}
+
+#group-bottom > h5 {
+    font-weight: 100;
 }
 
 #group-details-dot {
     align-self: center;
+    
+}
+
+#group-dot {
+    font-weight: 100;
 }
 
 #group-details-bottom {
@@ -55,7 +66,9 @@
 }
 
 #group-details-red-button {
-    color:red;
+    
+    background-color: red;
+    color:white;
     align-self: flex-start;
     padding: 1em 3em;
     
@@ -69,6 +82,11 @@
     cursor: pointer;
 }
 
+#event-card-top-right > h4 {
+    color: #330023;
+}
+
+
 #group-finer-details {
     display: flex;
     flex-direction: column;
@@ -77,9 +95,14 @@
 
 }
 
+#group-finer-details > h3 {
+    color: #330023
+}
+
 #group-details-name {
     margin: 0;
     padding: 0em 0em 1em 0em;
+    color: teal;
 }
 
 #group-details-grey {
@@ -87,15 +110,21 @@
     margin: 5px;
 }
 
+
+#group-name {
+    padding-bottom: 2em;
+}
+
 #group-details-dark-grey {
     list-style-type: none;
     margin: 0em 1em 0em 0em;
     width: 30%;
+    
 }
 
 #group-details-link-buttons {
     text-decoration: none;
-    color: black;
+    color: white;
     
 }
 #group-details-bottom {
@@ -118,6 +147,7 @@
   
   #event-details-h2 {
     margin: 0;
+    color: teal;
   }
   
   #make-grey {
@@ -131,4 +161,20 @@
 
 #hide {
     display: none;
+}
+
+#group-details-bottom > h4 {
+    font-weight: 100;
+}
+
+#event-card-top-right > h2 {
+    font-weight: 900;
+    font-size: xx-large;
+    color: teal;
+}
+
+#show {
+    color: #330023;
+    font-weight: 900;
+    font-size: xx-large;
 }

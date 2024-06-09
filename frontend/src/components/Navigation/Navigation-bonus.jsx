@@ -9,14 +9,14 @@ function Navigation({ isLoaded }) {
 
   return (
     <ul>
-      <li>
-        <NavLink id="logo" to="/"><FaMeetup id="M"/>usic MeetUp</NavLink>
+      <li id="logo-container">
+        <NavLink id="logo" to="/"><FaMeetup id="M"/><h2 id="logo-text">usic MeetUp</h2></NavLink>
       </li>
       {isLoaded && (
-        <li>
+        <li id="profile-button-container">
           <Link 
           className='time-to-start-a-group'
-          id={!sessionUser ? "hide" : null}
+          id={!sessionUser ? "hide" : "center-text"}
           onClick={((e) => !sessionUser ? e.preventDefault() : null)}
           to='/create-group'
           >Start a new Group</Link>

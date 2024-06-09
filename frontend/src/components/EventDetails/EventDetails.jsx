@@ -77,7 +77,7 @@ export function EventDetails() {
                 <Link to="/events-list" id="event-detail-bread">Events</Link>
 
                 <h1 id="event-detail-title ">{event.name}</h1>
-                <h4>Hosted By:  {host.firstName} {host.lastName}</h4>
+                <h4 id="event-host">Hosted By:  {host.firstName} {host.lastName}</h4>
             </div>
 
             <div id="event-details-second">

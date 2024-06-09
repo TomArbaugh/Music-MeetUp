@@ -2,29 +2,37 @@
 
 * {
     font-family: "Noto Sans", sans-serif;
+    
 }
 
 #layout-section-one {
     display: flex;
     justify-content: center;
-    
+    color: #330023;
+    padding-top: 3em;
+    padding-bottom: 3em;
 }
 
 #layout-section-two {
     display: flex;
     flex-direction: column;
    align-items: center;
+   color: #330023;
+   padding-bottom: 3em;
 }
 
 #layout-section-three {
     display: flex;
     justify-content: center;
+    color: #330023;
+    padding-bottom: 3em;
 }
 
 #layout-section-four {
     display: flex;
     justify-content: center;
     height: 3em;
+    padding-bottom: 8em;
    
 }
 
@@ -49,6 +57,8 @@
     flex-direction: column;
     align-items: center;
     padding: 3em;
+    color: #330023;
+    
 }
 
 #find-an-event {
@@ -56,6 +66,8 @@
     flex-direction: column;
     align-items: center;
     padding: 3em;
+    color: #330023;
+    
 }
 
 #start-a-group {
@@ -63,6 +75,8 @@
     flex-direction: column;
     align-items: center;
     padding: 3em;
+    color: #330023; 
+    
 }
 
 .icons {
@@ -93,4 +107,30 @@
     padding: 0em 2em;
     margin: 0;
     
+}
+
+button {
+    background-color: teal;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    
+    padding: .5em;
+    overflow: hidden;
+}
+
+a {
+    color: teal;
+}
+
+#layout-section-one > #layout-title > h3 {
+    font-weight: 400;
+}
+
+#layout-section-two > h4 {
+    font-weight: 400;
+}
+
+#layout-section-two > h2 {
+    color: teal;
 }

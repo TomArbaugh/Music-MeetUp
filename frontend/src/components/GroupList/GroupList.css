@@ -37,10 +37,16 @@
     grid-area: d;
 }
 
+#group-top > h4 {
+    color: darkgray;
+    margin-top: .5em;
+}
+
 #group-subtitle {
     display: flex;
     align-self: flex-start;
     padding: 0em 1em;
+    color: #330023;
 }
 
 #group-card {
@@ -48,6 +54,7 @@
     flex-direction: row;
     cursor: pointer;
     border-bottom: solid black 3px;
+    color: #330023;
     
 }
 
@@ -87,4 +94,5 @@
 #group-name {
     margin: 0;
     padding: 0;
+    color: teal;
 }
