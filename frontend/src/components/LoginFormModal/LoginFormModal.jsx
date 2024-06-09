@@ -11,6 +11,14 @@ function LoginFormModal() {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
+
+  const demoLogIn = () => {
+    setCredential('LittleWing');
+    setPassword('34&sldkfKJ');
+    return null;
+  }
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
@@ -24,8 +32,10 @@ function LoginFormModal() {
       });
   };
 
+
   return (
     <>
+    
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
         <label>
@@ -53,6 +63,12 @@ function LoginFormModal() {
         >
           Log In
           
+        </button>
+
+        <button
+        onClick={() => demoLogIn()}
+        >
+          Log in as Demo User
         </button>
       </form>
     </>

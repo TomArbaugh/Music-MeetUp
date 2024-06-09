@@ -106,7 +106,12 @@ function SignupFormModal() {
           />
         </label>
         {errors.confirmPassword && <p className='error-message'>{errors.confirmPassword}</p>}
-        <button type="submit">Sign Up</button>
+        <button 
+                disabled={
+                  !password || !confirmPassword || !lastName || !firstName || !username
+                  || username.length < 4 || password.length < 6
+                }
+        type="submit">Sign Up</button>
       </form>
     </>
   );
