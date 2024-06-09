@@ -101,19 +101,7 @@ export const getAllGroups = () => async dispatch => {
         
   }
 
-//   export const addAGroupImage = (groupId, payloadTwo) => async dispatch => {
-//     const response = await csrfFetch(`/api/groups/${groupId}/images`, {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify(payloadTwo)
-//     })
 
-//     const data = await response.json()
-//     dispatch(addGroupImage(data))
-//     return data
-//   }
 
   export const deleteTheGroup = (groupId) => async dispatch => {
 

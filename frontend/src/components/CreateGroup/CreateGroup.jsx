@@ -49,7 +49,7 @@ export function CreateGroup(){
         } catch (e){
            
             const theErrors = await e.json()
-            console.log(theErrors)
+            
             setErrorState(theErrors.errors)
             
         }
@@ -137,8 +137,10 @@ export function CreateGroup(){
             value={url}
             onChange={((e) => setUrl(e.target.value))}
             ></input>
-             {errorState.preview && <p className="red-errors">{errorState.preview}</p>}
-            <button type="submit">Create Group</button>
+             {!url && <p className="red-errors">URL required</p>}
+            <button 
+            
+            type="submit">Create Group</button>
         </div>
         </form>
         

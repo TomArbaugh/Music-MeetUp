@@ -23,7 +23,7 @@ const [url, setUrl] = useState()
 
 
 const [errorState, setErrorState] = useState({})
-const [imageErrorState, setImageErrorState] = useState({})
+const [ setImageErrorState] = useState({})
 
 const onSubmit = async (e) => {
 
@@ -108,7 +108,7 @@ if(!group) return null;
         {errorState.price && <p className="red-errors-event">{errorState.price}</p>}
         <h4>When does your event start?</h4>
         <input 
-        type="text" 
+        type="date" 
         placeholder="YYYY/MM/DD, HH/mm AM"
         value={startDate}
         onChange={((e) => setStartDate(e.target.value))}
@@ -116,7 +116,7 @@ if(!group) return null;
         {errorState.startDate && <p className="red-errors-event">{errorState.startDate}</p>}
         <h4>When does your event end?</h4>
         <input 
-        type="text" 
+        type="date" 
         placeholder="YYYY/MM/DD, HH/mm PM"
         value={endDate}
         onChange={((e) => setEndDate(e.target.value))}
@@ -129,7 +129,7 @@ if(!group) return null;
             value={url}
             onChange={((e) => setUrl(e.target.value))}
             ></input>
-            {imageErrorState.url && <p className="red-errors-event">{imageErrorState.url}</p>}
+            {!url && <p className="red-errors-event">URL Required</p>}
             <h4>Please describe your event</h4>
         <input 
         type="text" 
