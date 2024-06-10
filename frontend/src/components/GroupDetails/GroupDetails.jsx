@@ -61,12 +61,11 @@ export function GroupDetails() {
 
 
 
-    const pastEvents = []
-    const futureEvents = []
+    let pastEvents = []
+    let futureEvents = []
 
     eventsList.map((events) => {
-        console.log('today',today)
-        console.log('event', events.startDate.split('T')[0].split('-'))
+  
        const eventDate =  events.startDate.split('T')[0].split('-')
 
         eventDate[0] < today[0] ? pastEvents.push(events) :
@@ -81,6 +80,10 @@ export function GroupDetails() {
        
     })
 
+    pastEvents = pastEvents.sort((a, b) => a - b)
+    futureEvents = futureEvents.sort((a, b) => a -b)
+
+    
     return (
         <div id="group-details-card">
             <Link to='/group-list' id="group-details-breadcrum">Back to Groups</Link>
