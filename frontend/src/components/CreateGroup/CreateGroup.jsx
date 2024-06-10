@@ -17,7 +17,7 @@ export function CreateGroup(){
     const [isPrivate, setIsPrivate] = useState(true)
     const [state, setState] = useState()
     const [errorState, setErrorState] = useState({})
-    const [url, setUrl] = useState()
+    const [url, setUrl] = useState(' ')
     
 
 
@@ -54,6 +54,10 @@ export function CreateGroup(){
             
         }
 
+        if (url === ' ') {
+            setUrl()
+            return null;
+        }
         
         if (group) {
             navigate(`/group/${group.id}`)
