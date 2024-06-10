@@ -7,6 +7,53 @@
 [meetup-database-schema]: https://appacademy-open-assets.s3.us-west-1.amazonaws.com/Modular-Curriculum/content/week-12/meetup-db-schema.png
 [meetup-db-diagram-info]: https://appacademy-open-assets.s3.us-west-1.amazonaws.com/Modular-Curriculum/content/week-12/meetup-db-diagram-info.txt
 
+Hello, and welcome to Music MeetUp! This project is a full stack application inspired by the app, MeetUp. 
+
+The technologies used are:
+
+
+bcryptjs: ^2.4.3,
+cookie-parser: ^1.4.6,
+cors: ^2.8.5,
+csurf: ^1.11.0
+dotenv: ^16.4.5,
+express": ^4.19.2,
+express-async-errors: ^3.1.1,
+express-validator: ^7.0.1,
+helmet": ^7.1.0,
+jsonwebtoken: ^9.0.2,
+morgan: ^1.10.0,
+per-env: ^1.0.2,
+pg: ^8.11.3,
+sequelize: ^6.37.1,
+sequelize-cli: ^6.6.2,
+js-cookie: ^3.0.5,
+react: ^18.2.0,
+react-dom: ^18.2.0,
+react-icons: ^5.2.1,
+react-redux: ^8.1.1,
+react-router-dom: ^6.15.0,
+redux: ^4.2.1,
+redux-thunk: ^2.4.2
+@types/react: ^18.2.15,
+@types/react-dom: ^18.2.7,
+@vitejs/plugin-react: ^4.0.3,
+eslint": ^8.45.0,
+eslint-plugin-react: ^7.32.2,
+eslint-plugin-react-hooks: ^4.6.0,
+eslint-plugin-react-refresh: ^0.4.3,
+redux-logger: ^3.0.6,
+vite: ^4.4.5,
+vite-plugin-eslint: ^1.8.1
+
+
+
+
+![alt text](https://tomsmusicbucket.s3.us-west-2.amazonaws.com/group-images/group-10.jpg)
+
+To launch this application locally, start your backend server in an integrated terminal at the "backend/" file with the start command "npm start". Start your frontend server in a seperate terminal at the "frontend/" file with the start command "npm run dev". Open your browser and navigate to "http://localhost:5173/". Have fun!
+
+
 ## API Documentation
 
 ## USER AUTHENTICATION/AUTHORIZATION
