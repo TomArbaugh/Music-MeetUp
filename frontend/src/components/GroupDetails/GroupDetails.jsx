@@ -68,6 +68,7 @@ export function GroupDetails() {
   
        const eventDate =  events.startDate.split('T')[0].split('-')
 
+        eventDate === today ? futureEvents.push(events) :
         eventDate[0] < today[0] ? pastEvents.push(events) :
         eventDate[0] > today[0] ? futureEvents.push(events) :
         eventDate[1] < today[1] ? pastEvents.push(events) :
@@ -186,7 +187,7 @@ export function GroupDetails() {
                         </div>
                     </Link>
                 ))}
-                <h2 id={pastEvents.length ? "show" : "hide"}>Past Events {pastEvents.length}</h2>
+                <h2 id={pastEvents.length ? "show" : "hide"}>Past Events ({pastEvents.length})</h2>
                 {pastEvents.map((event) => (
                     <Link key={event.id} to={`/events/${event.id}`} className="no-more-underline">
                         <div>
