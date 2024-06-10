@@ -98,9 +98,7 @@ const validate = [
         .exists()
         .isLength({min: 4})
         .withMessage("Description is required"),
-    check('startDate')
-        .isAfter(JSON.stringify(new Date()).slice(0, 11) + ' ' + JSON.stringify(new Date()).slice(13, 20))
-        .withMessage("Start date must be in the future"),
+    
         handleValidationErrors
     
   ]
