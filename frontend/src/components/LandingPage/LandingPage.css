@@ -106,18 +106,17 @@
     list-style-type: none;
     padding: 0em 2em;
     margin: 0;
-    
-}
-
-button {
     background-color: teal;
     color: white;
     border: none;
     border-radius: 10px;
     
-    padding: .5em;
-    overflow: hidden;
+    padding: .5em 3em;
+
+    
 }
+
+
 
 a {
     color: teal;

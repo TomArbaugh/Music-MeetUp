@@ -65,14 +65,25 @@
 }
 
 #user-menu {
-  padding: 0em 2em;
+  
   margin: 0;
+  list-style-type: none;
+
+
+  background-color: teal;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  
+  padding: .5em 3em;
   
 }
 
 #user-menu-button {
   height: 50%;
   align-self: center;
+  border: none;
+  background-color: white;
 }
 
 #center-text {

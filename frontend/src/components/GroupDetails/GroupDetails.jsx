@@ -56,18 +56,30 @@ export function GroupDetails() {
 
     const eventsList = events.filter((events) => events.groupId === group.id)
 
-    const sorter = (a, b) => {
-        return a - b
-    }
-    const sortedEvents = eventsList.sort(sorter)
+
+    const today = new Date().toISOString().split('T')[0].split('-')
 
 
-    const today = new Date().toISOString().split('T')[0]
 
     const pastEvents = []
     const futureEvents = []
 
-    sortedEvents.map((events) => events.startDate > today ? futureEvents.push(events) : pastEvents.push(events))
+    eventsList.map((events) => {
+        console.log('today',today)
+        console.log('event', events.startDate.split('T')[0].split('-'))
+       const eventDate =  events.startDate.split('T')[0].split('-')
+
+        eventDate[0] < today[0] ? pastEvents.push(events) :
+        eventDate[0] > today[0] ? futureEvents.push(events) :
+        eventDate[1] < today[1] ? pastEvents.push(events) :
+        eventDate[1] > today[1] ? futureEvents.push(events) :
+        eventDate[2] < today[2] ? pastEvents.push(events) :
+        futureEvents.push(events)
+       
+        
+
+       
+    })
 
     return (
         <div id="group-details-card">

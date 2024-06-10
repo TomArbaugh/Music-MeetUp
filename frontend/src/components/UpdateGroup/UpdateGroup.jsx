@@ -148,7 +148,7 @@ className="update-inputs"
             </select>
             {errorState.private && <p className="update-red-errors">{errorState.private}</p>}
             <h3>Please add an image URL for your group below</h3>
-            {/* <input type="text" placeholder="Image Url"></input> */}
+            <input className="update-inputs" type="text" placeholder="Image Url"></input>
             <button 
             id="update-button"
             type="submit">Update Group</button>

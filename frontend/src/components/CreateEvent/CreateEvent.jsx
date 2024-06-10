@@ -19,7 +19,7 @@ const [price, setPrice] = useState()
 const [startDate, setStartDate] = useState()
 const [endDate, setEndDate] = useState()
 const [description, setDescription] = useState()
-const [url, setUrl] = useState()
+const [url, setUrl] = useState(' ')
 
 
 const [errorState, setErrorState] = useState({})
@@ -28,6 +28,8 @@ const [ setImageErrorState] = useState({})
 const onSubmit = async (e) => {
 
     e.preventDefault()
+
+
 
     const payload = {
         venueId: 1,
@@ -67,6 +69,10 @@ const onSubmit = async (e) => {
         setImageErrorState(errors.errors)
        
     }
+    if (url === ' ') {
+        setUrl()
+        return null;
+    }
 
     if (event && eventImage) {
         navigate(`/events/${event.id}`)
@@ -93,6 +99,7 @@ className="create-event-input"
         >
         </input>
         {errorState.name && <p className="red-errors-event">{errorState.name}</p>}
+        <h4>Is this an in-person or online group</h4>
         <select
         id="online-or-not"
 className="create-event-input"

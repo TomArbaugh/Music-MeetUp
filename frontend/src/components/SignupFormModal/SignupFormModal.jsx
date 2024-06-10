@@ -123,7 +123,7 @@ function SignupFormModal() {
           />
        
         {errors.confirmPassword && <p className='error-message'>{errors.confirmPassword}</p>}
-        <button 
+        <button id="sign-up-modal-button"
                 disabled={
                   !password || !confirmPassword || !lastName || !firstName || !username
                   || username.length < 4 || password.length < 6
