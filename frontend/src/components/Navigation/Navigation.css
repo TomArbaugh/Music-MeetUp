@@ -68,12 +68,15 @@
   
   margin: 0;
   list-style-type: none;
-
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 30px;
   background-color: teal;
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 30px;
   
   padding: .5em 3em;
   

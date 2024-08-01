@@ -30,9 +30,11 @@
 
 #layout-section-four {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     height: 3em;
-    padding-bottom: 8em;
+    padding-bottom: 4em;
+    padding-left: 50px;
+    padding-right: 50px;
    
 }
 
@@ -109,7 +111,7 @@
     background-color: teal;
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 30px;
     
     padding: .5em 3em;
 
@@ -132,4 +134,15 @@ a {
 
 #layout-section-two > h2 {
     color: teal;
+}
+
+
+.about-links {
+    font-size: xx-large;
+}
+
+.about-links:hover {
+    color: white;
+    background-color: teal;
+    box-shadow: 1px 1px 2px teal;
 }

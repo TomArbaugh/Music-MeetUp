@@ -6,6 +6,8 @@ import './LandingPage.css'
 import { useSelector } from "react-redux";
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem'
 import SignupFormModal from "../SignupFormModal";
+import { FaLinkedin } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
 
 
 export function LandingPage() {
@@ -64,11 +66,14 @@ export function LandingPage() {
                 </div>
             </div>
             <div id="layout-section-four">
+            <Link to="https://www.linkedin.com/in/tomarbaugh/"><FaLinkedin className="about-links"/></Link>
                 <button id="sign-up-button">      <OpenModalMenuItem 
               itemText="Join MeetUp"
               modalComponent={<SignupFormModal />}
             /></button>
+               <Link to="https://github.com/TomArbaugh/"><FaGithub className="about-links"/></Link>
             </div>
+
         </div>
     )
 }
