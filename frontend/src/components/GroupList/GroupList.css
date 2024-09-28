@@ -96,3 +96,42 @@
     padding: 0;
     color: teal;
 }
+
+@media (max-width: 320px) {
+    #group-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    #group-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    #group-image {
+        width: 200px;
+       
+    }
+
+    #group-left {
+        display: flex;
+        justify-content: center;
+    }
+
+    #group-top {
+      
+        text-align: center;
+    }
+
+    #group-top > h4{
+       width: 90%;
+       align-items: center;
+    }
+
+    #group-bottom {
+       
+       justify-content: center;
+    }
+}
