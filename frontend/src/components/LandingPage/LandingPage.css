@@ -146,3 +146,41 @@ a {
     background-color: teal;
     box-shadow: 1px 1px 2px teal;
 }
+
+@media (max-width: 320px) {
+
+    #layout-section-one {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        
+    }
+
+    #layout-title {
+        width: 95%;
+    }
+
+    #layout-img {
+        width: 95%;
+    }
+
+    #test {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #layout-section-two {
+        text-align: center;
+    }
+
+    #layout-section-three {
+        flex-direction: column;
+    }
+
+    #sign-up-button {
+        margin-right: 20px;
+        margin-left: 20px;
+    }
+}
