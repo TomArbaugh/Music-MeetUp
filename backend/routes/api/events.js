@@ -168,121 +168,121 @@ router.get('/:eventId', async (req, res) => {
 
 router.get('/', async (req, res) => {
 
-    let { page, size, name, type, startDate } = req.query
+    let { page, size } = req.query
 
     const Events = []
 
-    if (startDate) {
-        if (!startDate){
-            res.status(400);
-            return res.json({
-                "message": "Bad Request", 
-                "errors": {
-                    "startDate": "Start date must be a valid datetime",
-                }
-              })
-        }
+    // if (startDate) {
+    //     if (!startDate){
+    //         res.status(400);
+    //         return res.json({
+    //             "message": "Bad Request", 
+    //             "errors": {
+    //                 "startDate": "Start date must be a valid datetime",
+    //             }
+    //           })
+    //     }
 
-        const eventByDate = await Event.findAll({
-            where: {
-                startDate,
-            },
-            include: [Group, Venue, User, EventImage]
-        })
+        // const eventByDate = await Event.findAll({
+        //     where: {
+        //         startDate,
+        //     },
+        //     include: [Group, Venue, User, EventImage]
+        // })
 
-        eventByDate.forEach(async (event) => {
+    //     eventByDate.forEach(async (event) => {
 
-            let firstImage;
-        if (event.EventImages.length !== 0) {
-            firstImage = event.EventImages[0].url
-        } else {
-            firstImage = 'none'
-        }
-            const obj = {}
-                obj.id = event.id,
-                obj.groupId = event.groupId,
-                obj.venueId = event.venueId,
-                obj.name = event.name,
-                obj.type = event.type,
-                obj.startDate = event.startDate,
-                obj.endDate = event.endDate,
-                obj.numAttending = event.Users.length,
-                obj.previewImage = firstImage,
-                obj.Group = {
-                  id: event.Group.id,
-                  name: event.Group.name,
-                  city: event.Group.city,
-                  state: event.Group.state
-                },
-                obj.Venue = {
-                    id: event.Venue.id,
-                    city: event.Venue.city,
-                    state: event.Venue.state
-                }
+    //         let firstImage;
+    //     if (event.EventImages.length !== 0) {
+    //         firstImage = event.EventImages[0].url
+    //     } else {
+    //         firstImage = 'none'
+    //     }
+    //         const obj = {}
+    //             obj.id = event.id,
+    //             obj.groupId = event.groupId,
+    //             obj.venueId = event.venueId,
+    //             obj.name = event.name,
+    //             obj.type = event.type,
+    //             obj.startDate = event.startDate,
+    //             obj.endDate = event.endDate,
+    //             obj.numAttending = event.Users.length,
+    //             obj.previewImage = firstImage,
+    //             obj.Group = {
+    //               id: event.Group.id,
+    //               name: event.Group.name,
+    //               city: event.Group.city,
+    //               state: event.Group.state
+    //             },
+    //             obj.Venue = {
+    //                 id: event.Venue.id,
+    //                 city: event.Venue.city,
+    //                 state: event.Venue.state
+    //             }
     
-                if (!event.EventImages) obj.previewImage = null
-                if (!event.Group) obj.Group = null
-                if (!event.Venue) obj.Venue = null
-                Events.push(obj)
-            });
+    //             if (!event.EventImages) obj.previewImage = null
+    //             if (!event.Group) obj.Group = null
+    //             if (!event.Venue) obj.Venue = null
+    //             Events.push(obj)
+    //         });
     
-        return res.json({
-            Events
-        })
-    }
-    if (name) {
-        if (typeof name !== 'string'){
-            res.status(400);
-            return res.json({
-                "message": "Bad Request", 
-                "errors": {
-                  "name": "Name must be a string",
-                }
-              })
-        }
+    //     return res.json({
+    //         Events
+    //     })
+    // }
+    // if (name) {
+    //     if (typeof name !== 'string'){
+    //         res.status(400);
+    //         return res.json({
+    //             "message": "Bad Request", 
+    //             "errors": {
+    //               "name": "Name must be a string",
+    //             }
+    //           })
+    //     }
 
-        const eventName = await Event.findOne({
-            where: {
-                name,
-            },
-            include: [Group, Venue, Attendance, EventImage]
-        })
-        let firstImage;
-        if (eventName.EventImages.length !== 0) {
-            firstImage = eventName.EventImages[0].url
-        } else {
-            firstImage = 'none'
-        }
-        const obj = {}
-            obj.id = eventName.id,
-            obj.groupId = eventName.groupId,
-            obj.venueId = eventName.venueId,
-            obj.name = eventName.name,
-            obj.type = eventName.type,
-            obj.startDate = eventName.startDate,
-            obj.endDate = eventName.endDate,
-            obj.numAttending = eventName.Attendances.length,
-            obj.previewImage = firstImage,
-            obj.Group = {
-              id: eventName.Group.id,
-              name: eventName.Group.name,
-              city: eventName.Group.city,
-              state: eventName.Group.state
-            },
-            obj.Venue = {
-                id: eventName.Venue.id,
-                city: eventName.Venue.city,
-                state: eventName.Venue.state
-            }
+    //     const eventName = await Event.findOne({
+    //         where: {
+    //             name,
+    //         },
+    //         include: [Group, Venue, Attendance, EventImage]
+    //     })
+    //     let firstImage;
+    //     if (eventName.EventImages.length !== 0) {
+    //         firstImage = eventName.EventImages[0].url
+    //     } else {
+    //         firstImage = 'none'
+    //     }
+    //     const obj = {}
+    //         obj.id = eventName.id,
+    //         obj.groupId = eventName.groupId,
+    //         obj.venueId = eventName.venueId,
+    //         obj.name = eventName.name,
+    //         obj.type = eventName.type,
+    //         obj.startDate = eventName.startDate,
+    //         obj.endDate = eventName.endDate,
+    //         obj.numAttending = eventName.Attendances.length,
+    //         obj.previewImage = firstImage,
+    //         obj.Group = {
+    //           id: eventName.Group.id,
+    //           name: eventName.Group.name,
+    //           city: eventName.Group.city,
+    //           state: eventName.Group.state
+    //         },
+    //         obj.Venue = {
+    //             id: eventName.Venue.id,
+    //             city: eventName.Venue.city,
+    //             state: eventName.Venue.state
+    //         }
 
-            if (!eventName.EventImages) obj.previewImage = null
-            if (!eventName.Group) obj.Group = null
-            if (!eventName.Venue) obj.Venue = null
-            Events.push(obj)
+    //         if (!eventName.EventImages) obj.previewImage = null
+    //         if (!eventName.Group) obj.Group = null
+    //         if (!eventName.Venue) obj.Venue = null
+    //         Events.push(obj)
         
 
-        return res.json({Events})
-    }
+    //     return res.json({Events})
+    // }
 
     if (page) {
         if (page < 1) {
@@ -338,10 +338,10 @@ router.get('/', async (req, res) => {
     pagination.offset = size * (page -1)
 
     const where = {}
-    if (name) where.name = name
-    if (type) where.type = type
-    if (startDate) where.startDate = startDate
-    if(name === undefined && type === undefined && startDate === undefined) delete where
+    // if (name) where.name = name
+    // if (type) where.type = type
+    // if (startDate) where.startDate = startDate
+    // if(name === undefined && type === undefined && startDate === undefined) delete where
 
     const events = await Event.findAll({
         where,

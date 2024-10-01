@@ -99,3 +99,8 @@
   align-content: center;
 }
 
+@media (max-width: 400px) {
+  #user-menu {
+    width: 30px;
+  }
+}

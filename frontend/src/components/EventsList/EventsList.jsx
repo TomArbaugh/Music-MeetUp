@@ -14,7 +14,7 @@ export function EventsList() {
     
     useEffect(() => {
         dispatch(getAllEvents())
-    }, [events, dispatch])
+    }, [dispatch])
 
     
 

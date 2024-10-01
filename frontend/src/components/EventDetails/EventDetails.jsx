@@ -24,7 +24,7 @@ export function EventDetails() {
 
     useEffect(() => {
         dispatch(getAllEventsId(eventId))
-    }, [dispatch, eventId])
+    }, [dispatch])
 
     const event = useSelector((state) => state.events.EventById)
 
@@ -36,7 +36,7 @@ export function EventDetails() {
 
     useEffect(() => {
         event && Object.values(event).length ? dispatch(getAllGroupsId(event.groupId)) : null
-    }, [group, event, dispatch])
+    }, [dispatch])
 
 
 

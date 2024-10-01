@@ -147,7 +147,7 @@ a {
     box-shadow: 1px 1px 2px teal;
 }
 
-@media (max-width: 320px) {
+@media (max-width: 1200px) {
 
     #layout-section-one {
         display: flex;

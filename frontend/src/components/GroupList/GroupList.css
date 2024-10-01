@@ -10,6 +10,7 @@
     "d d d d";
     justify-content: center;
     
+    
    
 }
 
@@ -97,11 +98,27 @@
     color: teal;
 }
 
-@media (max-width: 320px) {
+@media (max-width: 1200px) {
+
+    #group-top > h4 {
+        max-width: 70%;
+        overflow: scroll;
+        text-align: center;
+    }
+    #group-outer-div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 95%;
+    }
+    #group-subtitle {
+        align-self: center;
+    }
     #group-body {
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: 95%;
     }
     #group-card {
         display: flex;
