@@ -122,3 +122,43 @@
 .event-details-update-button {
     padding: 1em 3em 1em 3em;
 }
+
+@media (max-width: 1000px) {
+    
+
+    #event-detail-group-image {
+        padding: 0px;
+    }
+    #event-details-top {
+        text-align: center;
+        padding: 0px;
+    }
+    #event-details-second {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        
+    }
+
+    #event-details-top-right {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+      
+    }
+    #event-details-buttons {
+        display: flex;
+        justify-content: center;
+        padding: 0px;
+    }
+
+    #event-details-section3 {
+        text-align: center;
+        padding: 0px;
+    }
+    #event-details-right {
+        padding: 0px;
+    }
+}

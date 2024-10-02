@@ -179,3 +179,36 @@
     font-size: xx-large;
 }
 
+@media (max-width: 1200px) {
+    #group-details-img {
+        padding: 0px;
+    }
+    #group-details-top {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    #event-details-card-top {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      #group-details-bottom {
+        align-items: center;
+        padding: 0px;
+        text-align: center;
+      }
+      #group-details-left {
+        padding: 0px;
+      }
+      #group-details-breadcrum {
+        text-align: center;
+        padding: 0px;
+        margin-bottom: 10px;
+      }
+      #group-details-event-card-image {
+        padding: 0px;
+      }
+}
