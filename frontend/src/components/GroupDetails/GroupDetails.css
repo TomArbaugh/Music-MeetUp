@@ -211,4 +211,16 @@
       #group-details-event-card-image {
         padding: 0px;
       }
+      #group-details-right {
+        padding: 0px;
+      }
+      #button-holder {
+        display: flex;
+        align-self: center;
+        margin-left: 1em;
+        
+      }
+      #group-details-dark-grey {
+        width: 80px;
+      }
 }

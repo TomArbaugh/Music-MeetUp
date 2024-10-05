@@ -113,7 +113,7 @@ export function GroupDetails() {
                                     : null}
                         onClick={((e) => isLoaded && sessionUser && sessionUser.id !== group.Organizer.id ? alert('Feature coming soon.') : e.preventDefault())}
                     >Join This Group</button>
-                    <div>
+                    <div id="button-holder">
                         <button
                             id={isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? "group-details-dark-grey" : "group-details-no-button"}
                             onClick={((e) => isLoaded && sessionUser && sessionUser.id === group.Organizer.id ? null : e.preventDefault())}

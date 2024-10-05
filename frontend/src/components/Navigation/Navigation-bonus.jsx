@@ -8,7 +8,7 @@ function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
 
   return (
-    <ul>
+    <ul id="navigation">
       <li id="logo-container">
         <NavLink id="logo" to="/"><FaMeetup id="M"/><h2 id="logo-text">usic MeetUp</h2></NavLink>
       </li>

@@ -10,7 +10,7 @@
   margin: 1em;
 }
 
-#root > ul {
+#navigation {
   display: flex;
   justify-content: space-between;
   width: 95%;
@@ -100,7 +100,22 @@
 }
 
 @media (max-width: 400px) {
+  #navigation {
+    padding: 0px;
+  }
   #user-menu {
     width: 30px;
+  }
+
+  #logo-text {
+    font-size: small;
+  }
+
+  #center-text {
+    font-size: xx-small;
+  }
+
+  #user-menu {
+    padding: 10px;
   }
 }
