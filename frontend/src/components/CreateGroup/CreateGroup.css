@@ -40,9 +40,14 @@
 }
 
 .create-group-button {
-    padding: 2em 4em 2em 4em;
+    padding-top: 4px;
+    padding-bottom: 4px;
     width: 100%;
     margin-top: 2em;
+    background-color: teal;
+    color: white;
+    font-size: x-large;
+    border-radius: 12px;
 }
 
 @media (max-width: 1200px) {

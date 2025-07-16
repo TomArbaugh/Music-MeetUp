@@ -52,6 +52,8 @@
 
 #logo-text {
   font-family: "Cedarville Cursive", cursive;
+  background-color: transparent;
+  
 }
 
 .time-to-start-a-group {
@@ -86,7 +88,8 @@
   height: 50%;
   align-self: center;
   border: none;
-  background-color: white;
+  background-color: none; 
+
 }
 
 #center-text {

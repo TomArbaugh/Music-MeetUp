@@ -56,6 +56,10 @@
     cursor: pointer;
     border-bottom: solid black 3px;
     color: #330023;
+    background-color: #fafafa;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    width: 1100px;
     
 }
 
@@ -99,10 +103,20 @@
     color: teal;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1200px) {
     #group-image {
         height: 200px;
         width: 200px;
+    }
+
+    #group-card {
+        width: 800px;
+    }
+}
+
+@media (max-width: 900px) {
+    #group-card {
+        width: 560px;
     }
 }
 

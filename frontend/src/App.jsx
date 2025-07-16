@@ -14,6 +14,7 @@ import { EventDetails } from './components/EventDetails/EventDetails';
 import { CreateGroup } from './components/CreateGroup/CreateGroup';
 import { CreateEvent } from './components/CreateEvent/CreateEvent';
 import { UpdateGroup } from './components/UpdateGroup/UpdateGroup';
+import '/App.css'
 
 
 function Layout() {

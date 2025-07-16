@@ -23,11 +23,12 @@
 
 #event-card {
     cursor: pointer;
-    
+   
 }
 
 .event-card {
     font-weight: 100;
+    
 }
 
 #events-link {
@@ -39,8 +40,12 @@
 #events-border {
     border-bottom: solid black 2px;
     padding-left: 2em;
-    padding-bottom: 3em;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
     width: 1100px;
+    background-color: #fafafa;
+    border-radius: 12px;
+    
 }
 
 #events-header {
@@ -88,8 +93,9 @@
 
 @media (max-width: 1700px) {
     .event-card-image {
-        width: 370px;
-        height: 370px;
+        width: 315px;
+        height: 315px;
+        border-radius: 12px;
 
     }
 
@@ -109,7 +115,7 @@
         flex-direction: column;
         align-items: center;
         padding: 4px;
-        width: 90%;
+        width: 320px;
     }
 
     .event-card-top-right {
