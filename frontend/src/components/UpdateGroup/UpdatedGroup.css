@@ -25,6 +25,12 @@
 .update-inputs {
     padding: 1em 2em 1em 2em;
     margin-right: 1em;
+    width: 85%;
+}
+
+.update-select-inputs {
+    width: 100%;
+    height: 48px;
 }
 
 #update-button {

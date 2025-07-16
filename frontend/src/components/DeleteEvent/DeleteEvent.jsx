@@ -47,7 +47,7 @@ export function DeleteEvent() {
                 <h2 className="delete-event-margin">Are you sure you want to remove this event?</h2>
 
                 <button 
- className="delete-event-margin"
+                className="delete-event-margin"
                 onClick={handleSubmit}
                 type="submit" id="delete-button"
                 >Yes (Delete Event)</button>

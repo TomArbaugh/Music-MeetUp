@@ -29,7 +29,7 @@ export function EventsList() {
     const today = new Date().toISOString().split('T')[0]
 
     return (
-        <>
+        <div className="whole-event-list">
             <div id="events-header">
                 <Link id="events-group-header" to="/group-list"><h1>Groups</h1></Link>
                 <Link id="events-event-header"><h1>Events</h1></Link>
@@ -88,6 +88,6 @@ export function EventsList() {
                     </div>
                 </Link>
             ))}
-        </>
+        </div>
     )
 }

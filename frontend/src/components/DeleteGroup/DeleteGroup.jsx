@@ -8,44 +8,44 @@ import './DeleteGroup.css'
 export function DeleteGroup() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const {groupId} = useParams()
+    const { groupId } = useParams()
     const { closeModal } = useModal();
-                
-                
-    function onSubmit(e){
+
+
+    function onSubmit(e) {
         e.preventDefault()
-         closeModal()
-    }  
+        closeModal()
+    }
 
     async function handleSubmit() {
 
- 
-           const deleted = await dispatch(deleteTheGroup(groupId))
+
+        const deleted = await dispatch(deleteTheGroup(groupId))
 
 
         if (deleted) navigate('/group-list')
-        
+
     }
 
     return (
-        
-            <form 
+
+        <form
             id="delete-group-form"
             onSubmit={onSubmit}>
-                <h1 className="group-delete-margin">Confirm Delete</h1>
-                <h2 className="group-delete-margin">Are you sure you want to remove this group?</h2>
+            <h1 className="group-delete-margin">Confirm Delete</h1>
+            <h2 className="group-delete-margin">Are you sure you want to remove this group?</h2>
 
-                <button 
- className="group-delete-margin"
+            <button
+                className="group-delete-margin"
                 onClick={handleSubmit}
                 type="submit" id="delete-button"
-                >Yes (Delete Group)</button>
+            >Yes (Delete Group)</button>
 
-                <button 
+            <button
                 type="submit"
-                 className="group-delete-margin"
-                >No (Keep Group)</button>
-            </form>
-         
+                className="group-delete-margin"
+            >No (Keep Group)</button>
+        </form>
+
     )
 }

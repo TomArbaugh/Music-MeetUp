@@ -2,8 +2,16 @@
 * {
     font-family: "Noto Sans", sans-serif;
 }
+
+.whole-event {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 #show-button {
     margin-right: 1em;
+   
 }
 #hide-button {
     display: none;
@@ -36,21 +44,24 @@
 }
 
 #event-detail-group-image {
-    width: 40%;
+    width: 500px;
+    height: 500px;
     padding-right: 2em;
     padding-bottom: 2em;
 }
 
 #event-details-img {
-    width: 45%;
+    width: 620px;
+    height: 620px;
     padding-right: 2em;
     padding-left: 2em;
 }
 
 #event-details-top-right {
     display: flex;
+    flex-direction: column;
     color: #330023;
-    padding-bottom: 5em;
+   
 }
 
 #event-clock {
@@ -103,9 +114,13 @@
 
 .event-details-delete-button {
     list-style-type: none;
-    padding: 1em 3em 1em 3em;
+  
     
 }
+
+/* .event-details-delete-button > li {
+    padding-left: 8px;
+} */
 
 #event-details-right {
     padding-left: 6em;
@@ -123,11 +138,26 @@
     padding: 1em 3em 1em 3em;
 }
 
+@media (max-width: 1800px) {
+    #event-detail-group-image {
+        width: 300px;
+        height: 300px;
+        padding-right: 2em;
+        padding-bottom: 2em;
+    }
+    
+    #event-details-img {
+        width: 420px;
+        height: 420px;
+        padding-right: 2em;
+        padding-left: 2em;
+    }
+}
 @media (max-width: 1000px) {
     
 
     #event-detail-group-image {
-        padding: 0px;
+        display: none;
     }
     #event-details-top {
         text-align: center;
@@ -138,6 +168,12 @@
         flex-direction: column;
         align-items: center;
         text-align: center;
+        
+    }
+
+    #event-details-bottom-right {
+        width: 420px;
+
         
     }
 
@@ -155,10 +191,33 @@
     }
 
     #event-details-section3 {
-        text-align: center;
+        display: flex;
+        flex-direction: column;
         padding: 0px;
+        width: 420px;
+        margin: auto;
     }
     #event-details-right {
         padding: 0px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
+}
+
+@media (max-width: 420px) {
+    
+
+    #event-details-bottom-right {
+        width: 320px;
+    }
+
+
+    #event-details-section3 {
+  
+        width: 320px;
+    
+    }
+
 }

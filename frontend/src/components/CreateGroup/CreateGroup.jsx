@@ -124,7 +124,7 @@ className='start-group-inputs'
         <div>
             <h3>Is this an in-person or online group?</h3>
             <select
-            className='start-group-inputs'
+            className='start-group-select-inputs'
             value={type}
             onChange={((e) => setType(e.target.value))}
             >
@@ -134,7 +134,7 @@ className='start-group-inputs'
             {errorState.type && <p className="red-errors">{errorState.type}</p>}
             <h3>Is this group private or public?</h3>
             <select
-            className='start-group-inputs'
+            className='start-group-select-inputs'
             value={isPrivate}
             onChange={((e) => setIsPrivate(e.target.value))}
             >

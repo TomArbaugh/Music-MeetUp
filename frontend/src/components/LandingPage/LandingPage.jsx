@@ -67,8 +67,8 @@ export function LandingPage() {
             </div>
             <div id="layout-section-four">
             <Link to="https://www.linkedin.com/in/tomarbaugh/"><FaLinkedin className="about-links"/></Link>
-                <button id="sign-up-button">      <OpenModalMenuItem 
-              itemText="Join MeetUp"
+                <button id={!sessionUser ? "sign-up-button" : "hidden"}>      <OpenModalMenuItem 
+              itemText="Join The Music"
               modalComponent={<SignupFormModal />}
             /></button>
                <Link to="https://github.com/TomArbaugh/"><FaGithub className="about-links"/></Link>

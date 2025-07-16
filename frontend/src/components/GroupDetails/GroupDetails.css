@@ -6,6 +6,7 @@
 #group-details-card {
     display: flex;
     flex-direction: column;
+    align-items: center;
     color: #330023;
     
 }
@@ -17,14 +18,15 @@
 }
 
 #group-details-img {
-    width: 100%;
-    padding: 2em;
+    width: 560px;
+ 
 }
 
 #group-details-top {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    width: 1200px;
 }
 
 #group-details-left {
@@ -37,7 +39,7 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 4em;
-    width: 47%
+    width: 100%
     
 }
 
@@ -63,6 +65,7 @@
 #group-details-bottom {
     display: flex;
     flex-direction: column;
+    width: 1200px;
 }
 
 #group-details-red-button {
@@ -137,7 +140,7 @@
   
   #group-details-event-card-image {
     padding-right: 4em;
-    width: 44%
+    width: 560px;
   }
   
   #event-details-date {
@@ -180,6 +183,15 @@
 }
 
 @media (max-width: 1200px) {
+    #group-details-event-private {
+        justify-content: center;
+        
+    
+    }
+
+    #group-details-left {
+        width: 800px;
+    }
     #group-details-img {
         padding: 0px;
     }
@@ -188,6 +200,7 @@
         flex-direction: column;
         align-items: center;
         text-align: center;
+        width: 800px;
     }
     #event-details-card-top {
         display: flex;
@@ -199,6 +212,7 @@
         align-items: center;
         padding: 0px;
         text-align: center;
+        width: 800px;
       }
       #group-details-left {
         padding: 0px;
@@ -222,5 +236,27 @@
       }
       #group-details-dark-grey {
         width: 80px;
+      }
+}
+
+@media (max-width: 800px) {
+    #group-details-top {
+        width: 320px;
+    }
+    #group-details-left {
+        width: 320px;
+    }
+    #group-details-bottom {
+        width: 320px;
+    }
+
+    #group-details-img {
+        width: 320px;
+     
+    }
+
+    #group-details-event-card-image {
+    
+        width: 320px;
       }
 }

@@ -72,7 +72,7 @@ export function EventDetails() {
     if (!group) return null;
  
     return (
-        <>
+        <div className="whole-event">
             <div id="event-details-top">
                 <Link to="/events-list" id="event-detail-bread">Events</Link>
 
@@ -81,8 +81,15 @@ export function EventDetails() {
             </div>
 
             <div id="event-details-second">
+                <div>
                 <img id="event-details-img" src={event.EventImages[0].url} />
 
+
+                <div id="event-details-section3">
+                <h2>Description</h2>
+                <h4>{event.description}</h4>
+            </div>
+            </div>
                 <div id="event-details-right">
                     <div id="event-details-top-right">
                         <img src={group.GroupImages[0] ? group.GroupImages[0].url : 'no image'} id="event-detail-group-image" />
@@ -115,18 +122,15 @@ export function EventDetails() {
             </div>
 
 
-            <div id="event-details-section3">
-                <h2>Description</h2>
-                <h4>{event.description}</h4>
-            </div>
+         
 
             <div id="event-details-buttons">
-                <button
+                {/* <button
                 className="event-details-update-button"
                     onClick={((e) => isLoaded && sessionUser && sessionUser.id === host.id ? null : e.preventDefault())}
                     id={isLoaded && sessionUser && sessionUser.id === host.id ? "show-button" : "hide-button"}
-                >Update</button>
-
+                >Update</button> */}
+            
                 <button
                 className="event-details-delete-button"
                     onClick={((e) => isLoaded && sessionUser && sessionUser.id === host.id ? null : e.preventDefault())}
@@ -141,6 +145,6 @@ export function EventDetails() {
 
 
 
-        </>
+        </div>
     )
 }

@@ -39,13 +39,13 @@
 }
 
 #layout-img {
-    width: 25%;
+    width: 560px;
     padding: 1em;
     height: 14em;
 }
 
 #layout-title {
-    width: 25%;
+    width: 560px;
     padding: 1em;
     
 }
@@ -118,7 +118,9 @@
     
 }
 
-
+#hidden {
+    display: none;
+}
 
 a {
     color: teal;
@@ -158,11 +160,11 @@ a {
     }
 
     #layout-title {
-        width: 95%;
+        width: 560px;
     }
 
     #layout-img {
-        width: 95%;
+        width: 560px;
     }
 
     #test {
@@ -183,4 +185,15 @@ a {
         margin-right: 20px;
         margin-left: 20px;
     }
+}
+
+@media (max-width: 570px) {
+    #layout-title {
+        width: 320px;
+    }
+
+    #layout-img {
+        width: 320px;
+    }
+    
 }
