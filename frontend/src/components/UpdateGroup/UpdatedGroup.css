@@ -10,7 +10,7 @@
 #update-group-form {
     display: flex;
     flex-direction: column;
-    width: 30%;
+    width: 800px;
     margin: auto; 
 }
 
@@ -43,4 +43,17 @@
 
 #update-button:hover {
     background: #4dd0e1;
+}
+
+@media (max-width: 1200px) {
+    #update-group-form {
+        width: 560px;
+    }
+}
+
+@media (max-width: 600px) {
+    #update-group-form {
+        width: 320px;
+    }
+
 }
