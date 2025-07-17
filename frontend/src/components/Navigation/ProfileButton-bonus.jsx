@@ -47,7 +47,7 @@ function ProfileButton({ user }) {
   return (
     <>
       <button id="user-menu-button" onClick={toggleMenu}>
-        <h4 id="user-menu">User Menu </h4>
+       User Menu
       
         
        

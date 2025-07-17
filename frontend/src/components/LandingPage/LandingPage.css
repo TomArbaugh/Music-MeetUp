@@ -198,10 +198,17 @@ a {
 @media (max-width: 570px) {
     #layout-title {
         width: 320px;
+        padding: 0px;
     }
 
     #layout-img {
         width: 320px;
+        padding: 0px;
+    }
+
+    #sign-up-button {
+        width: 150px;
+        height: 45px;
     }
     
 }
