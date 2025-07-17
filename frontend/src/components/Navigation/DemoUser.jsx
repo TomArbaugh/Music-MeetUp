@@ -20,7 +20,7 @@ export function DemoUser(){
              }  
                 
              return (
-                <form onSubmit={onSubmit}>
+                <form className="demo-form" onSubmit={onSubmit}>
                     <button id="demo-user-modal" type="submit">Log In As Jimi</button>
                 </form>
              )

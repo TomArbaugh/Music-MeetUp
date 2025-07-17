@@ -123,7 +123,13 @@
     list-style-type: none;
     margin: 0em 1em 0em 0em;
     width: 30%;
+    background: linear-gradient(to right, #26a69a, #4dd0e1);
+    border-radius: 12px;
     
+}
+
+#group-details-dark-grey:hover {
+    background: #4dd0e1;
 }
 
 #group-details-link-buttons {

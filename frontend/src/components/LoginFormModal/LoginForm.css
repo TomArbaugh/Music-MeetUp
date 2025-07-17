@@ -15,8 +15,29 @@
 
 .login-add-padding {
    margin: 1em;
+   
 }
 
 #login-title {
     padding-left: 1em;
+}
+
+#log-in-button-one {
+    border-radius: 12px;
+    padding: 4px;
+    background: linear-gradient(to right, #26a69a, #4dd0e1);
+}
+
+#log-in-button-two {
+    border-radius: 12px;
+    padding: 4px;
+    background: linear-gradient(to right, #26a69a, #4dd0e1);
+}
+
+#log-in-button-one:hover {
+    background: #4dd0e1;
+}
+
+#log-in-button-two:hover {
+    background: #4dd0e1;
 }

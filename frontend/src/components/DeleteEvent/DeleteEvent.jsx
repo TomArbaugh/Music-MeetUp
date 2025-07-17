@@ -53,6 +53,7 @@ export function DeleteEvent() {
                 >Yes (Delete Event)</button>
 
                 <button 
+                id="no-delete-event"
                  className="delete-event-margin"
                 type="submit">No (Keep Event)</button>
             </form>

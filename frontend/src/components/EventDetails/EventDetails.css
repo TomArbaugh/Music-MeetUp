@@ -116,12 +116,15 @@
 .event-details-delete-button {
     list-style-type: none;
   
-    
+    background: linear-gradient(to right, #26a69a, #4dd0e1);
+    border-radius: 12px;
+    width: 100px;
+    height: 30px;
 }
 
-/* .event-details-delete-button > li {
-    padding-left: 8px;
-} */
+.event-details-delete-button:hover {
+    background: #4dd0e1;
+}
 
 #event-details-right {
     padding-left: 6em;

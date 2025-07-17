@@ -43,6 +43,7 @@ export function DeleteGroup() {
 
             <button
                 type="submit"
+                id="no-delete-button"
                 className="group-delete-margin"
             >No (Keep Group)</button>
         </form>

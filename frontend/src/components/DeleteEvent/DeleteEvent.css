@@ -10,4 +10,16 @@
 
 .delete-event-margin {
     margin: 1em;
+    padding: 5px;
+}
+
+#no-delete-event {
+    background: linear-gradient(to right, #26a69a, #4dd0e1);
+    border-radius: 12px;
+    padding: 5px;
+    color: white;
+}
+
+#no-delete-event:hover {
+    background: #4dd0e1;
 }

@@ -29,9 +29,13 @@
     padding-bottom: 9px;
     width: 100%;
     margin-top: 2em;
-    background-color: teal;
+    background: linear-gradient(to right, #26a69a, #4dd0e1);
     color: white;
     border-radius: 12px;
+}
+
+#create-event-button:hover {
+    background: #4dd0e1;
 }
 
 @media (max-width: 1200px) {

@@ -25,3 +25,14 @@
     margin: 1em;
 }
 
+#sign-up-modal-button {
+    
+        border-radius: 12px;
+        padding: 4px;
+        background: linear-gradient(to right, #26a69a, #4dd0e1);
+    
+}
+
+#sign-up-modal-button:hover {
+    background: #4dd0e1;
+}

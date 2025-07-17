@@ -66,6 +66,7 @@ function LoginFormModal() {
         {errors.credential && <p className='error-message'>{errors.credential}</p>}
         <button 
          className='login-add-padding'
+         id="log-in-button-one"
         type="submit"
         disabled={password.length < 6 || credential.length < 4}
         >
@@ -74,6 +75,7 @@ function LoginFormModal() {
         </button>
 
         <button
+        id="log-in-button-two"
         className='login-add-padding'
         onClick={() => demoLogIn()}
         >

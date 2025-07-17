@@ -52,29 +52,29 @@ function ProfileButton({ user }) {
         
        
       </button>
-      <ul className={ulClassName} ref={ulRef}>
+      <div className={ulClassName} ref={ulRef}>
         {user ? (
-          <>
-            <li>Hello: {user.firstName}</li>
-            <li>{user.username}</li>
-            <li>{user.firstName} {user.lastName}</li>
-            <li>{user.email}</li>
-            <li>
-              <button onClick={logout}>Log Out</button>
-            </li>
-            <li>
-              <Link 
+          <div className='user-info'>
+            <div>Hello: {user.firstName}</div>
+            <div>{user.username}</div>
+            <div>{user.firstName} {user.lastName}</div>
+            <div>{user.email}</div>
+            <div>
+              <button className='log-out-button' onClick={logout}>Log Out</button>
+            </div>
+            <div>
+              {/* <Link 
               onClick={closeMenu}
               to='/group-list' >View Groups</Link>
-            </li>
-            <li>
+            </div>
+            <div>
             <Link 
             onClick={closeMenu}
-            to="/events-list">View Events</Link>
-            </li>
-          </>
+            to="/events-list">View Events</Link> */}
+            </div>
+          </div>
         ) : (
-          <>
+          <div className='new-user-tools'>
             <OpenModalMenuItem
               itemText="Log In"
               onItemClick={closeMenu}
@@ -90,27 +90,27 @@ function ProfileButton({ user }) {
               onItemClick={closeMenu}
               modalComponent={<DemoUser />}
             />
-            <li>
+            <div>
             <Link 
-            
+            className='new-user-links'
             onClick={closeMenu}
             to='/group-list' 
             >
               View Groups
               </Link>
-            </li>
-            <li>
+            </div>
+            <div>
               <Link
-              
+              className='new-user-links'
               onClick={closeMenu}
               to="/events-list"
               >
               View Events
               </Link>
-            </li>
-          </>
+            </div>
+          </div>
         )}
-      </ul>
+      </div>
     </>
   );
 }

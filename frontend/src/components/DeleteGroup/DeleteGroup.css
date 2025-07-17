@@ -7,9 +7,25 @@
 #delete-button {
     background-color: red;
     color: white;
+    border-radius: 12px;
+}
+
+#delete-button:hover {
+    background-color: rgb(255, 108, 108);
 }
 
 .group-delete-margin {
     margin: 1em;
+    padding: 5px;
    
+}
+
+#no-delete-button {
+    background: linear-gradient(to right, #26a69a, #4dd0e1);
+    border-radius: 12px;
+    color: white;
+}
+
+#no-delete-button:hover {
+    background: #4dd0e1;
 }

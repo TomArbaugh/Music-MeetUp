@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
+import './Navigation.css';
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -34,19 +35,19 @@ function ProfileButton({ user }) {
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
-    <>
+    <div>
       <button onClick={toggleMenu}>
         <i className="fas fa-user-circle" />
       </button>
-      <ul className={ulClassName} ref={ulRef}>
-        <li>{user.username}</li>
-        <li>{user.firstName} {user.lastName}</li>
-        <li>{user.email}</li>
-        <li>
+      <div className={ulClassName} ref={ulRef}>
+        <div className='no-dot' >{user.username}</div>
+        <div className='no-dot'> {user.firstName} {user.lastName}</div>
+        <div className='no-dot' >{user.email}</div>
+        <div className='no-dot' >
           <button onClick={logout}>Log Out</button>
-        </li>
-      </ul>
-    </>
+        </div>
+      </div>
+    </div>
   );
 }
 

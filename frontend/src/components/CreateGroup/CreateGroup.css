@@ -50,6 +50,10 @@
     border-radius: 12px;
 }
 
+.create-group-button:hover {
+    background: #4dd0e1;
+}
+
 @media (max-width: 1200px) {
     #start-group-form {
         width: 560px;
