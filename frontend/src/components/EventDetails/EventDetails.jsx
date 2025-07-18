@@ -36,7 +36,7 @@ export function EventDetails() {
 
     useEffect(() => {
         event && Object.values(event).length ? dispatch(getAllGroupsId(event.groupId)) : null
-    }, [dispatch])
+    }, [dispatch, event])
 
 
 
