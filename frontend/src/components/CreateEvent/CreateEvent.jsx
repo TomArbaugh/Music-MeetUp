@@ -20,7 +20,7 @@ const [startDate, setStartDate] = useState()
 const [endDate, setEndDate] = useState()
 const [description, setDescription] = useState()
 const [url, setUrl] = useState(' ')
-
+const [valUrl, setValUrl] = useState(true)
 
 const [errorState, setErrorState] = useState({})
 const [ setImageErrorState] = useState({})
@@ -30,6 +30,13 @@ const onSubmit = async (e) => {
     e.preventDefault()
 
 
+        try {
+          new URL(url);
+        } catch (err) {
+          setValUrl(false)
+          return 
+        }
+      
 
     const payload = {
         venueId: 1,
@@ -122,7 +129,7 @@ className="create-event-input"
         <h4>When does your event start?</h4>
         <input 
 className="create-event-input"
-        type="date" 
+        type="datetime-local" 
         placeholder="YYYY/MM/DD, HH/mm AM"
         value={startDate}
         onChange={((e) => setStartDate(e.target.value))}
@@ -131,7 +138,7 @@ className="create-event-input"
         <h4>When does your event end?</h4>
         <input 
 className="create-event-input"
-        type="date" 
+        type="datetime-local" 
         placeholder="YYYY/MM/DD, HH/mm PM"
         value={endDate}
         onChange={((e) => setEndDate(e.target.value))}
@@ -146,6 +153,7 @@ className="create-event-input"
             onChange={((e) => setUrl(e.target.value))}
             ></input>
             {!url && <p className="red-errors-event">URL Required</p>}
+            {!valUrl && <p className="red-errors-event">Url must be valid including beginning with https://</p>}
             <h4>Please describe your event</h4>
         <input 
         className="create-event-input"

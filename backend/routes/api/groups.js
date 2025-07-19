@@ -546,6 +546,7 @@ router.post('/:groupId/events', requireAuth, validateEvents, async (req, res) =>
             "message": "Forbidden"
         })
     }
+
     req.params.groupId = parseInt(req.params.groupId)
     const newEvent = await Event.create({
         
